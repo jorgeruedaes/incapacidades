@@ -54,7 +54,7 @@ function String_Get_Valores($solicitud){
 
 function url()
 {
-	return "/incapacidades/Admin/";
+	return "/incapacidades/Admin4/";
 }
 function base_url()
 {
@@ -66,7 +66,7 @@ function base_url_usuarios()
 {
 	//$pagina = "192.168.1.58";
 	$pagina= "localhost";
-	return "http://".$pagina."/Games/";
+	return "http://".$pagina."/incapacidades/";
 }	
 
 /*   

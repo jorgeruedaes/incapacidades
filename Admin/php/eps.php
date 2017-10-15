@@ -27,58 +27,33 @@ function Array_Get_Eps()
 	return $datos;	
 }
 /**
- * [Set_Clubs description]
- * @param [type] $nombre    [description]
- * @param [type] $categoria [description]
- * @param [type] $estado    [description]
- * @param [type] $torneo    [description]
+ * [Boolean_set_eps description]
+ * @param [type] $nombre [description]
+ * @param [type] $estado [description]
+ * @param [type] $codigo [description]
+ * @param [type] $eps    [description]
  */
-function Set_Clubs($nombre,$telefono,$direccion,$presidente,$horario,$cancha,$correo,$estado,$club)
+function Boolean_set_eps($nombre,$estado,$codigo,$eps)
 {
 
-	$campeonatos = modificar(sprintf("UPDATE `tb_colegio` SET `nombre`='%s',`direccion`='%s',`telefono`='%s',`correo`='%s',`presidente`='%s',`cancha_entrenamiento`='%s',`horario`='%s',`estado`='%s' WHERE id_colegio='%d' ",
-		escape($nombre),escape($direccion),escape($telefono),escape($correo),escape($presidente),
-		escape($cancha),escape($horario),escape($estado),escape($club)));
+	$campeonatos = modificar(sprintf("UPDATE `tb_eps` SET `id_eps`='%s',`nombre`='%s',`estado`='%s' WHERE id_eps='%d' ",
+		escape($codigo),escape($nombre),escape($estado),escape($eps)));
 	return $campeonatos;	
 }
 
-/**
- * [boolean_set_imagene_clubs description]
- * @param  [type] $reglamento [description]
- * @param  [type] $torneo     [description]
- * @return [type]             [description]
- */
-function boolean_set_imagen_clubs($imagen,$club)
-{
 
-	$campeonatos = modificar(sprintf("UPDATE `tb_colegio` SET `logo`='%s' WHERE  `id_colegio`='%d' ",
-		escape($imagen),escape($club)));
-	return $campeonatos;	
-}
 /**
- * [boolean_new_Club description]
- * @param  [type] $nombre    [description]
- * @param  [type] $categoria [description]
- * @return [type]            [description]
+ * [boolean_new_eps description]
+ * @param  [type] $nombre [description]
+ * @param  [type] $codigo [description]
+ * @param  [type] $estado [description]
+ * @return [type]         [description]
  */
-function boolean_new_Club($nombre,$telefono,$direccion,$presidente,$horario,$cancha,$correo,$estado,$url)
+function boolean_new_eps($nombre,$codigo,$estado)
 {
-	$campeonatos = insertar(sprintf("INSERT INTO `tb_colegio`(`id_colegio`, `nombre`, `direccion`, `telefono`, `correo`, `presidente`, `cancha_entrenamiento`, `horario`, `logo`, `estado`) 
-		VALUES (NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s')",
-		escape($nombre),escape($direccion),escape($telefono),escape($correo),escape($presidente),
-		escape($cancha),escape($horario),escape($url),escape($estado)));
+	$campeonatos = insertar(sprintf("INSERT INTO `tb_eps`(`id_eps`, `nombre`, `estado`) VALUES ('%d','%s','%s')",
+		escape($codigo),escape($nombre),escape($estado)));
 	return $campeonatos;	
 
 }
-/**
- * [Get_nombre_club description]
- * @param [type] $identificador [id]
- */
-function Get_nombre_club($identificador)
-{
-    $valor = mysqli_fetch_array(consultar("SELECT nombre 
-      FROM tb_colegio WHERE id_colegio=$identificador"));
-    $valor = $valor['nombre'];
-    
-    return $valor;
-}
+
