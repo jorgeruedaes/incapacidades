@@ -57,3 +57,12 @@ function boolean_new_Empresa($nombre,$acronimo,$estado)
 	return $empresa;	
 
 }
+
+function Get_nombre_empresa($empresa)
+{
+	$empresa = consultar("SELECT  `acronimo` FROM `tb_empresas` where id_empresas='$empresa'   ");	
+	$valor = mysqli_fetch_array($empresa);
+	return $valor['acronimo'];
+
+
+}

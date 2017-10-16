@@ -2,6 +2,7 @@
 $ubicacion ="../";
 include("../menuinicial.php");
 include('../../php/clientes.php');
+include('../../php/empresas.php');
 $id_modulos =Int_RutaModulo($_SERVER['REQUEST_URI']);
 
 if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
@@ -57,7 +58,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 						</ul>
 					</div>
 					<div class="body">
-						<table  id="tabla-clubs" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+						<table  id="tabla-clientes" class="table table-bordered table-striped table-hover js-basic-example dataTable">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -65,7 +66,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 									<th>Acronimo</th>
 									<th>Empresa</th>
 									<th>Estado</th>
-									<th>Opciones</th>
+									<th width="10">Opciones</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -77,16 +78,16 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 										<th scope="row"><?php echo $value['id_clientes']; ?></th>
 										<td><?php echo $value['nombre']; ?></td>
 										<td><?php echo $value['acronimo']; ?></td>
-										<td><?php echo $value['empresa']; ?></td>
+										<td> <?php echo Get_nombre_empresa($value['empresa']); ?></td>
 										<td><?php echo $value['estado']; ?></td>
 										<td>
 											<div class="btn-group btn-group-xs" role="group" aria-label="Small button group">
 												<button 
 
 												data-nombre="<?php echo $value['nombre']; ?>" 
-												data-presidente="<?php echo $value['acronimo']; ?>" 
-												data-direccion="<?php echo $value['empresa']; ?>" 
-												data-club="<?php echo $value['id_clientes']; ?>" 
+												data-acronimo="<?php echo $value['acronimo']; ?>" 
+												data-empresa="<?php echo $value['empresa']; ?>" 
+												data-clientes="<?php echo $value['id_clientes']; ?>" 
 												data-estado="<?php echo $value['estado']; ?>" 
 												type="button" class="btn btn-primary waves-effect edit-item"><i class="material-icons">edit</i></button>
 											</div>
@@ -107,64 +108,42 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
 <!-- JS ====================================================================================================================== -->
 <!--  Js-principal -->
-<script src="pages/clubs/js/nuevo.js"></script>
+<script src="pages/maestros/js/clientes.js"></script>
 
 <div class="modal fade" id="nuevoPerfil" data-perfil="" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-			<h4 class="modal-title" id="defaultModalLabel">Nuevo Cliente</h4>
+				<h4 class="modal-title" id="defaultModalLabel">Nuevo Cliente</h4>
 			</div>
 			<div class="modal-body">
 
 				<div class="body">
 					<form>
-						<label for="">Club</label>
+						<label for="">Cliente</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" class="form-control n-nombre" placeholder="Nombre campeonato" />
+								<input type="text" class="form-control n-nombre" placeholder="Nombre del cleinte" />
 							</div>
 						</div>
-						<label for="">Presidente</label>
+						<label for="">Acronimo</label>
 						<div class="form-group ">
-							<input type="text" class="form-control n-presidente" placeholder="Nombre presidente" />
+							<input type="text" class="form-control n-acronimo" placeholder="Acronimo" />
 						</div>
-						<label for="">Logotipo</label>
+						<label for="">Empresa</label>
 						<div class="form-group ">
-							<input type="text" class="form-control n-url" placeholder="Url Logo del club" />
-						</div>
-						<label for="">Email</label>
-						<div class="form-group ">
-							<input type="text" class="form-control n-email" placeholder="Email" />
-						</div>
-						<div class="row clearfix">
-							<div class="col-sm-6">
-								<label for="">Dirección</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-direccion" placeholder="Dirección " />
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<label for="">Teléfono</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-telefono" placeholder="Teléfono " />
-								</div>
-							</div>
-						</div>
-						<div class="row clearfix">
-							<div class="col-sm-6">
-								<label for="">Cancha</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-cancha" placeholder="Cancha " />
-								</div>
-							</div>
+							<select class="form-control show-tick select-n-empresa">
+								<option value="">--Selecciona una Empresa --</option>
 
-							<div class="col-sm-6">
-								<label for="">Horario</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-horario" placeholder="Horario " />
-								</div>
-							</div>
+								<?php
+								$vector = Array_Get_Empresas();
+								foreach ($vector as  $value) { 
+									?>
+									<option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>	
+									<?php
+								}
+								?>
+							</select>
 						</div>
 						<label for="">Estado</label>
 						<div class="form-group ">
@@ -189,7 +168,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
 <!-- Modal Dialogs ====================================================================================================================== -->
 <!-- Default Size -->
-<div class="modal fade" id="defaultModal" data-club="" tabindex="-1" role="dialog">
+<div class="modal fade" id="defaultModal" data-empresa="" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -207,11 +186,22 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 						</div>
 						<label for="">Acronimo</label>
 						<div class="form-group ">
-							<input type="text" class="form-control presidente" placeholder="Acronimo" />
+							<input type="text" class="form-control acronimo" placeholder="Acronimo" />
 						</div>
 						<label for="">Empresa</label>
 						<div class="form-group ">
-							<input type="text" class="form-control url" placeholder="Empresa" />
+							<select class="form-control show-tick select-empresa">
+								<option value="">--Selecciona una Empresa --</option>
+
+								<?php
+								$vector = Array_Get_Empresas();
+								foreach ($vector as  $value) { 
+									?>
+									<option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>	
+									<?php
+								}
+								?>
+							</select>
 						</div>
 						<label for="">Estado</label>
 						<div class="form-group ">

@@ -64,7 +64,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 									<th>Nombre</th>
 									<th>Acronimo</th>
 									<th>Estado</th>
-									<th>Opciones</th>
+									<th width="10">Opciones</th>
 								</tr>
 							</thead>
 							<tbody>

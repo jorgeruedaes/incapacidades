@@ -42,7 +42,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 					<div class="card">
 						<div class="header">
 							<h2>
-								GESTIÓN DE TRABAJADORES
+								GESTIÓN DE EMPLEADOS
 							</h2>
 							<ul class="header-dropdown m-r--5">
 								<li></li>
@@ -57,13 +57,13 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 						</ul>
 					</div>
 					<div class="body">
-						<table  id="tabla-clubs" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+						<table  id="tabla-trabajadores" class="table table-bordered table-striped table-hover js-basic-example dataTable">
 							<thead>
 								<tr>
 									<th>#</th>
 									<th>Nombre</th>
-									<th>Estado</th>
-									<th>Opciones</th>
+									<th>Apellido</th>
+									<th width="10%">Opciones</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -80,7 +80,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 												<button 
 
 												data-nombre="<?php echo $value['nombre']; ?>" 
-												data-club="<?php echo $value['id_trabajadores']; ?>" 
+												data-cedula="<?php echo $value['id_trabajadores']; ?>" 
 												data-apellido="<?php echo $value['apellido']; ?>" 
 												type="button" class="btn btn-primary waves-effect edit-item"><i class="material-icons">edit</i></button>
 											</div>
@@ -101,74 +101,31 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
 <!-- JS ====================================================================================================================== -->
 <!--  Js-principal -->
-<script src="pages/clubs/js/nuevo.js"></script>
+<script src="pages/maestros/js/trabajadores.js"></script>
 
 <div class="modal fade" id="nuevoPerfil" data-perfil="" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-			<h4 class="modal-title" id="defaultModalLabel">Nuevo Cliente</h4>
+				<h4 class="modal-title" id="defaultModalLabel">Nuevo Trabajador</h4>
 			</div>
 			<div class="modal-body">
 
 				<div class="body">
 					<form>
-						<label for="">Club</label>
+						<label for="">Documento</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" class="form-control n-nombre" placeholder="Nombre campeonato" />
+								<input type="text" class="form-control n-cedula" placeholder="Documento" />
 							</div>
 						</div>
-						<label for="">Presidente</label>
+						<label for="">Nombre</label>
 						<div class="form-group ">
-							<input type="text" class="form-control n-presidente" placeholder="Nombre presidente" />
+							<input type="text" class="form-control n-nombre" placeholder="Nombre" />
 						</div>
-						<label for="">Logotipo</label>
+						<label for="">Apellido</label>
 						<div class="form-group ">
-							<input type="text" class="form-control n-url" placeholder="Url Logo del club" />
-						</div>
-						<label for="">Email</label>
-						<div class="form-group ">
-							<input type="text" class="form-control n-email" placeholder="Email" />
-						</div>
-						<div class="row clearfix">
-							<div class="col-sm-6">
-								<label for="">Dirección</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-direccion" placeholder="Dirección " />
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<label for="">Teléfono</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-telefono" placeholder="Teléfono " />
-								</div>
-							</div>
-						</div>
-						<div class="row clearfix">
-							<div class="col-sm-6">
-								<label for="">Cancha</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-cancha" placeholder="Cancha " />
-								</div>
-							</div>
-
-							<div class="col-sm-6">
-								<label for="">Horario</label>
-								<div class="form-group ">
-									<input type="text" class="form-control n-horario" placeholder="Horario " />
-								</div>
-							</div>
-						</div>
-						<label for="">Estado</label>
-						<div class="form-group ">
-							<select class="form-control show-tick select-n-estado">
-								<option value="">--Selecciona un estado --</option>
-
-								<option value="activo">Activo</option>
-								<option value="inactivo">Inactivo</option>
-
-							</select>
+							<input type="text" class="form-control n-apellido" placeholder="Apellido" />
 						</div>
 					</form>
 				</div>
@@ -183,41 +140,30 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
 <!-- Modal Dialogs ====================================================================================================================== -->
 <!-- Default Size -->
-<div class="modal fade" id="defaultModal" data-club="" tabindex="-1" role="dialog">
+<div class="modal fade" id="defaultModal" data-trabajadores="" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="defaultModalLabel">Edición Clientes</h4>
+				<h4 class="modal-title" id="defaultModalLabel">Edición Trabajadores</h4>
 			</div>
 			<div class="modal-body">
 
 				<div class="body">
 					<form>
-						<label for="">Cliente</label>
+						<label for="">Documento</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" class="form-control nombre" placeholder="Nombre del cliente" />
+								<input type="text" class="form-control cedula" placeholder="Documento" />
 							</div>
 						</div>
-						<label for="">Acronimo</label>
+						<label for="">Nombre</label>
 						<div class="form-group ">
-							<input type="text" class="form-control presidente" placeholder="Acronimo" />
+							<input type="text" class="form-control nombre" placeholder="Nombre" />
 						</div>
-						<label for="">Empresa</label>
+						<label for="">Apellido</label>
 						<div class="form-group ">
-							<input type="text" class="form-control url" placeholder="Empresa" />
+							<input type="text" class="form-control apellido" placeholder="Apellido" />
 						</div>
-						<label for="">Estado</label>
-						<div class="form-group ">
-							<select class="form-control show-tick select-estado">
-								<option value="">--Selecciona un estado --</option>
-
-								<option value="activo">Activo</option>
-								<option value="inactivo">Inactivo</option>
-
-							</select>
-						</div>
-
 					</form>
 				</div>
 			</div>
@@ -228,73 +174,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 		</div>
 	</div>
 </div>
-
-<!-- Default Size -->
-<div class="modal fade" id="defaultModalReglamentos" data-perfil="" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="defaultModalLabel">Agregar logo</h4>
-			</div>
-			<div class="modal-body">
-
-				<div class="body">
-					<form action="pages/campeonatos/peticiones/peticiones.php" class="dropzone"  id="frmFileUpload"  method="post" enctype="multipart/form-data">
-						<div class="dz-message">
-							<div class="drag-icon-cph">
-								<i class="material-icons">touch_app</i>
-							</div>
-							<h3>Arrastra el archivo o Haz click para cargarlo.</h3>
-							<em>(Selecciona solamente  <strong>un (1 )</strong> Archivo.)</em>
-						</div>
-						<div class="fallback">
-							<input name="file[]" type="file" multiple />
-						</div>
-						<input name="bandera" type="hidden" value="modificar-reglamentos"/>
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-info waves-effect guardar-reglamentos">Guardar</button>
-				<button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cerrar</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="imagenesvisor" data-perfil="" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="defaultModalLabel">Logo Club</h4>
-			</div>
-			<div class="modal-body">
-
-				<div class="body">
-					<div class="row clearfix">
-						<!-- Basic Example -->
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="card">
-								<div class="header">
-									<h2></h2>
-								</div>
-
-								<img id="imagenes" src="" />
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cerrar</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
 <?php
 }else
 {

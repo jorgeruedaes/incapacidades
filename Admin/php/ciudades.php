@@ -28,59 +28,20 @@ function Array_Get_Ciudades()
 
 	return $datos;	
 }
-/**
- * [Set_Clubs description]
- * @param [type] $nombre    [description]
- * @param [type] $categoria [description]
- * @param [type] $estado    [description]
- * @param [type] $torneo    [description]
- */
-function Set_Clubs($nombre,$telefono,$direccion,$presidente,$horario,$cancha,$correo,$estado,$club)
+
+function Boolean_Set_ciudades($nombre,$acronimo,$estado,$ciudad)
 {
 
-	$campeonatos = modificar(sprintf("UPDATE `tb_colegio` SET `nombre`='%s',`direccion`='%s',`telefono`='%s',`correo`='%s',`presidente`='%s',`cancha_entrenamiento`='%s',`horario`='%s',`estado`='%s' WHERE id_colegio='%d' ",
-		escape($nombre),escape($direccion),escape($telefono),escape($correo),escape($presidente),
-		escape($cancha),escape($horario),escape($estado),escape($club)));
+	$campeonatos = modificar(sprintf("UPDATE `tb_ciudades` SET `nombre`='%s',`estado`='%s',`acronimo`='%s' WHERE id_ciudades='%d' ",
+		escape($nombre),escape($estado),escape($acronimo),escape($ciudad)));
 	return $campeonatos;	
 }
 
-/**
- * [boolean_set_imagene_clubs description]
- * @param  [type] $reglamento [description]
- * @param  [type] $torneo     [description]
- * @return [type]             [description]
- */
-function boolean_set_imagen_clubs($imagen,$club)
+function Boolean_new_ciudades($nombre,$acronimo,$estado)
 {
-
-	$campeonatos = modificar(sprintf("UPDATE `tb_colegio` SET `logo`='%s' WHERE  `id_colegio`='%d' ",
-		escape($imagen),escape($club)));
-	return $campeonatos;	
-}
-/**
- * [boolean_new_Club description]
- * @param  [type] $nombre    [description]
- * @param  [type] $categoria [description]
- * @return [type]            [description]
- */
-function boolean_new_Club($nombre,$telefono,$direccion,$presidente,$horario,$cancha,$correo,$estado,$url)
-{
-	$campeonatos = insertar(sprintf("INSERT INTO `tb_colegio`(`id_colegio`, `nombre`, `direccion`, `telefono`, `correo`, `presidente`, `cancha_entrenamiento`, `horario`, `logo`, `estado`) 
-		VALUES (NULL,'%s','%s','%s','%s','%s','%s','%s','%s','%s')",
-		escape($nombre),escape($direccion),escape($telefono),escape($correo),escape($presidente),
-		escape($cancha),escape($horario),escape($url),escape($estado)));
+	$campeonatos = insertar(sprintf("INSERT INTO `tb_ciudades`(`id_ciudades`, `nombre`, `estado`, `acronimo`)
+		VALUES (NULL,'%s','%s','%s')",
+		escape($nombre),escape($estado),escape($acronimo)));
 	return $campeonatos;	
 
-}
-/**
- * [Get_nombre_club description]
- * @param [type] $identificador [id]
- */
-function Get_nombre_club($identificador)
-{
-    $valor = mysqli_fetch_array(consultar("SELECT nombre 
-      FROM tb_colegio WHERE id_colegio=$identificador"));
-    $valor = $valor['nombre'];
-    
-    return $valor;
 }
