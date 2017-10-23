@@ -107,10 +107,32 @@ function Cargar_Partidos($FileName,$torneo)
 	$boolean = false;
 	$resultado ='';
 
-	list($boolean,$resultado) =Validate_All_Partidos($FileName,$torneo);
+	list($boolean,$resultado) =validate_All_Partidos($FileName,$torneo);
 	if($boolean)
 	{
 		list($boolean,$resultado) =  Load_Partidos($FileName,$torneo);
+	}
+	else
+	{
+
+	}
+
+	return array($boolean,$resultado);
+
+}
+/**
+ * [Cargar_Incapacidades description]
+ * @param [type] $FileName [description]
+ */
+function Cargar_Incapacidades($FileName)
+{
+	$boolean = false;
+	$resultado ='';
+
+	list($boolean,$resultado) =validate_All_Incapacidades($FileName);
+	if($boolean)
+	{
+		list($boolean,$resultado) =  Load_Incapacidades($FileName);
 	}
 	else
 	{
@@ -126,7 +148,7 @@ function Cargar_Resultados($FileName,$torneo)
 	$boolean = false;
 	$resultado ='';
 
-	list($boolean,$resultado) =Validate_All_Partidos_Resultados($FileName,$torneo);
+	list($boolean,$resultado) =validate_All_Partidos_Resultados($FileName,$torneo);
 	if($boolean)
 	{
 		list($boolean,$resultado) =  Set_Partidos($FileName,$torneo);
@@ -163,6 +185,47 @@ function Insertar_Partido($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero_Fe
 
 	return insertar("INSERT INTO `tb_partidos`(`id_partido`, `equipo1`, `equipo2`, `resultado1`, `resultado2`, `fecha`, `hora`, `numero_fecha`, `Lugar`, `Estado`) VALUES (NULL,$equipo1,$equipo2,0,0,'$Fecha','$Hora',$Numero_Fecha,$lugar,1)");
 }
+
+function Insertar_Incapacidad(
+	$eps,
+	$cliente,
+	$ciudad,
+	$fechacorte,
+	$valor,
+	$cedula,
+	$nombre,
+	$apellido,
+	$tipo,
+	$incapacidad,
+	$fechainicial,
+	$fechafinal,$cantiad)
+{
+
+$eps=	Codigo_Eps($eps)[1];
+$cliente = Codigo_Cliente($cliente)[1];
+$ciudad  = Codigo_Ciudad($ciudad)[1];
+$incapacidad = substr($incapacidad,4);
+
+$tipo =  (int )$tipo;
+
+if ($tipo==1151)
+{
+return true;
+}
+{
+		return insertar("INSERT INTO `tb_incapacidades`
+		(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,
+		 `fecha_creacion`, `fecha_corte`, `cantidad`, `valor`, `eps`, `usuario`)
+		  VALUES ('$incapacidad','$ciudad','$cedula','$tipo','2','$fechainicial',
+		  	'$fechafinal','$fechacorte','$cantidad',$valor,'$eps','1',
+		  	[value-13],[value-14])");
+
+} 
+
+
+
+}
+
 /**
  * [Codigo_Equipo description]
  * @param [type] $NombreEquipo [description]
@@ -177,6 +240,34 @@ function Codigo_Equipo($NombreEquipo,$torneo)
 	return array(!empty($valor),$valor['id_equipo']);
 }
 
+function Codigo_Cliente($cliente)
+{
+	$cliente =  utf8_encode($cliente);
+	$cliente =  str_replace(' ','',$cliente); 
+	$valor = mysqli_fetch_array(consultar("SELECT id_clientes FROM tb_clientes WHERE ( REPLACE(nombre,' ','')='$cliente' or REPLACE(nombre,' ','') like '%$cliente%')  and estado='activo' "));
+
+	return array(!empty($valor),$valor['id_clientes']);
+}
+
+function Codigo_Ciudad($ciudad)
+{
+	$ciudad =  utf8_encode($ciudad);
+	$ciudad =  str_replace(' ','',$ciudad); 
+	$ciudad =  (int) $ciudad; 
+	$valor = mysqli_fetch_array(consultar("SELECT id_ciudades  FROM tb_ciudades  where id_ciudades='$ciudad'    and estado='activo' "));
+
+	return array(!empty($valor),$valor['id_ciudades']);
+}
+
+function Codigo_Eps($eps)
+{
+	$eps =  utf8_encode($eps);
+	$eps =  str_replace(' ','',$eps); 
+	$valor = mysqli_fetch_array(consultar("SELECT id_eps FROM tb_eps WHERE ( REPLACE(nombre,' ','')='$eps' or REPLACE(nombre,' ','') like '%$eps%')  and estado='activo' "));
+
+	return array(!empty($valor),$valor['id_eps']);
+}
+
 function Codigo_Torneo($torneo)
 {
 	$torneo = utf8_encode($torneo);
@@ -184,7 +275,7 @@ function Codigo_Torneo($torneo)
 
 	return array(!empty($valor),$valor['id_torneo']);
 }
-function ValidarTorneo($torneo)
+function validaTorneo($torneo)
 {
 	$resultado ="";
 	$valor =false;
@@ -196,7 +287,7 @@ function ValidarTorneo($torneo)
 	}
 	else
 	{
-		$resultado= "El torneo no es valido : ".$torneo." ".", Intenta nuevamente";
+		$resultado= "El torneo no es válido : ".$torneo." ".", Intenta nuevamente";
 		$valor =false;
 
 	}
@@ -211,7 +302,7 @@ function Codigo_Club($club)
 
 	return array(!empty($valor),$valor['id_colegio']);
 }
-function ValidarClub($club)
+function validaClub($club)
 {
 	$resultado ="";
 	$valor =false;
@@ -223,7 +314,7 @@ function ValidarClub($club)
 	}
 	else
 	{
-		$resultado= "El club no  valido : ".$club." ".", Intenta nuevamente";
+		$resultado= "El club no  válido : ".$club." ".", Intenta nuevamente";
 		$valor =false;
 
 	}
@@ -243,11 +334,11 @@ function Codigo_Lugar($NombreLugar)
 	return array(empty($valor),$valor['id_lugar']);
 }
 /**
- * [ValidarEquipos description]
+ * [validaEquipos description]
  * @param [type] $NombreEquipo [description]
  * @param [type] $torneo       [description]
  */
-function ValidarEquipos($NombreEquipo,$torneo)
+function validaEquipos($NombreEquipo,$torneo)
 {
 	$resultado ="";
 	$valor =false;
@@ -259,18 +350,80 @@ function ValidarEquipos($NombreEquipo,$torneo)
 	}
 	else
 	{
-		$resultado= "Uno de los nombres  de equipo  no es valido : ".$NombreEquipo." ".", Intenta nuevamente";
+		$resultado= "Uno de los nombres  de equipo  no es válido : ".$NombreEquipo." ".", Intenta nuevamente";
 		$valor =false;
 
 	}
 
 	return array($valor,$resultado);
 }
+
+function validaCliente($cliente)
+{
+	$resultado ="";
+	$valor =false;
+
+	if(Codigo_Cliente($cliente)[0])
+	{
+		$resultado ="";
+		$valor =true;
+	}
+	else
+	{
+		$resultado= "El Convenio no es válido  o no existe : ".$cliente." ".", Intenta nuevamente";
+		$valor =false;
+
+	}
+
+	return array($valor,$resultado);
+}
+
+function validaCiudad($ciudad)
+{
+	$resultado ="";
+	$valor =false;
+
+	if(Codigo_Ciudad($ciudad)[0])
+	{
+		$resultado ="";
+		$valor =true;
+	}
+	else
+	{
+		$resultado= "La ciudad no es valida  o no existe : ".$ciudad." ".", Intenta nuevamente";
+		$valor =false;
+
+	}
+
+	return array($valor,$resultado);
+}
+
+function validaEps($eps)
+{
+	$resultado ="";
+	$valor =false;
+
+	if(Codigo_Eps($eps)[0])
+	{
+		$resultado ="";
+		$valor =true;
+	}
+	else
+	{
+		$resultado= "La EPS no es válida  o no existe : ".$ciudad." ".", Intenta nuevamente";
+		$valor =false;
+
+	}
+
+	return array($valor,$resultado);
+}
+
+
 /**
- * [Validar_Lugar description]
+ * [valida_Lugar description]
  * @param [type] $Lugar [description]
  */
-function Validar_Lugar($Lugar)
+function valida_Lugar($Lugar)
 {
 	$resultado ="";
 	$valor =false;
@@ -282,7 +435,7 @@ function Validar_Lugar($Lugar)
 	}
 	else
 	{
-		$resultado= "El lugar no es valido : ".$Lugar." ".", Intenta nuevamente";
+		$resultado= "El lugar no es válido : ".$Lugar." ".", Intenta nuevamente";
 		$valor =false;
 
 	}
@@ -298,12 +451,12 @@ function check_date($str){
 
 	try {
 		trim($str);
-		$trozos = explode ("-", $str);
-		$dia=$trozos[2];
+		$trozos = explode ("/", $str);
+		$dia=$trozos[0];
 
 		$mes=$trozos[1];
 
-		$año=$trozos[0];
+		$año=$trozos[2];
 
 
 		if(checkdate ($mes,$dia,$año)){
@@ -322,10 +475,10 @@ function check_date($str){
 }
 
 /**
- * [Validar_Fecha description]
+ * [valida_Fecha description]
  * @param [type] $fecha [description]
  */
-function Validar_Fecha($fecha)
+function valida_Fecha($fecha)
 {
 	$resultado ="";
 	$valor =false;
@@ -358,10 +511,10 @@ function validateTime($time)
 	return false;
 }
 /**
- * [Validar_Hora description]
+ * [valida_Hora description]
  * @param [type] $Hora [description]
  */
-function Validar_Hora($Hora)
+function valida_Hora($Hora)
 {
 	$resultado = "";
 	$valor =false;
@@ -381,11 +534,11 @@ function Validar_Hora($Hora)
 	return array($valor,$resultado);
 }
 /**
- * [Validar_Numero_DatosFila Valida la cantidad de datos en las filas.]
+ * [valida_Numero_DatosFila valida la cantidad de datos en las filas.]
  * @param [type] $datos    [description]
  * @param [type] $cantidad [description]
  */
-function Validar_Numero_DatosFila($datos,$cantidad)
+function valida_Numero_DatosFila($datos,$cantidad)
 {
 	$resultado = "";
 	$valor =false;
@@ -435,12 +588,60 @@ function Load_Partidos($FileName,$torneo)
 	}
 	return array($bandera,$mensaje);
 }
+
+
+function Load_Incapacidades($FileName)
+{
+	$bandera = true;
+	if (($gestor = fopen($FileName, "r")) !== FALSE) {
+		while (($datos = fgetcsv($gestor,100, ",")) !== FALSE) {
+
+			$eps= $datos[0];
+			$cliente= $datos[1];
+			$ciudad= $datos[2];
+			$fechacorte= $datos[3];
+			$valor= $datos[4];
+			$cedula= $datos[5];
+			$nombre= $datos[6];
+			$apellido= $datos[7];
+			$tipo= $datos[8];
+			$incapacidad=$datos[9];
+			$fechainicial=$datos[10];
+			$fechafinal=$datos[11];
+			$cantidad=$datos[12];
+
+			if(Insertar_Incapacidad(
+				$eps,
+				$cliente,
+				$ciudad,
+				$fechacorte,
+				$valor,
+				$cedula,
+				$nombre,
+				$apellido,
+				$tipo,
+				$incapacidad,
+				$fechainicial,
+				$fechafinal,$cantidad))
+			{
+				$mensaje = 'true';
+			}
+			else
+			{
+				$bandera=false;
+				$mensaje = $NombreEquipo1.$Fecha.$NombreEquipo2.$Lugar.$Numero_Fecha.$Hora.$torneo;
+			}
+		}
+		fclose($gestor);
+	}
+	return array($bandera,$mensaje);
+}
 /**
- * [Validate_All_Partidos Valida lque los datos a cargar del archivo.]
+ * [validate_All_Partidos valida lque los datos a cargar del archivo.]
  * @param [type] $FileName [El archivo]
  * @param [type] $torneo   [Torneo]
  */
-function Validate_All_Partidos($FileName,$torneo)
+function validate_All_Partidos($FileName,$torneo)
 {
 	$resultado = '';
 	$boolean = true;
@@ -448,7 +649,7 @@ function Validate_All_Partidos($FileName,$torneo)
 	if (($gestor = fopen($FileName, "r")) !== FALSE) {
 		while (($datos = fgetcsv($gestor,100, ",")) !== FALSE) {
 
-			list($valorbolean,$resultado2) = Validar_Numero_DatosFila($datos,'7');
+			list($valorbolean,$resultado2) = valida_Numero_DatosFila($datos,'7');
 			if($valorbolean)
 			{
 				$Lugar= $datos[0];
@@ -458,7 +659,7 @@ function Validate_All_Partidos($FileName,$torneo)
 				$NombreEquipo2= $datos[5];
 				$Numero_Fecha= $datos[6];
 
-				list($valor,$resultado1) = Validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero_Fecha,$Hora,$torneo);
+				list($valor,$resultado1) = validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero_Fecha,$Hora,$torneo);
 				if($valor)
 				{
 
@@ -481,13 +682,78 @@ function Validate_All_Partidos($FileName,$torneo)
 	}
 	return array($boolean,$resultado);
 }
+
+function validate_All_Incapacidades($FileName)
+{
+	$resultado = '';
+	$boolean = true;
+	$numero =1;
+	if (($gestor = fopen($FileName, "r")) !== FALSE) {
+		while (($datos = fgetcsv($gestor,1000, ",")) !== FALSE) {
+
+			list($valorbolean,$resultado2) = valida_Numero_DatosFila($datos,'13');
+			if($valorbolean)
+			{
+				$eps= $datos[0];
+				$cliente= $datos[1];
+				$ciudad= $datos[2];
+				$fechacorte= $datos[3];
+				$valor= $datos[4];
+				$cedula= $datos[5];
+				$nombre= $datos[6];
+				$apellido= $datos[7];
+				$tipo= $datos[8];
+				$incapacidad=$datos[9];
+				$fechainicial=$datos[10];
+				$fechafinal=$datos[11];
+				$cantidad=$datos[12];
+
+
+
+				list($valor,$resultado1) = validate_A_Incapacidad(
+					$eps,
+					$cliente,
+					$ciudad,
+					$fechacorte,
+					$valor,
+					$cedula,
+					$nombre,
+					$apellido,
+					$tipo,
+					$incapacidad,
+					$fechainicial,
+					$fechafinal,$cantidad);
+				if($valor)
+				{
+
+				}
+				else
+				{
+					$boolean = false;
+					$resultado =$resultado.'<h3>En el registro '.$numero.'</h3> <br>'.$resultado1;
+				}
+			}
+			else
+			{
+				$boolean = false;
+				$resultado =$resultado.'<br><h3>En el registro  '.$numero.'</h3> <br>'.$resultado2;
+			}
+
+			$numero=$numero+1;
+		}
+		fclose($gestor);
+	}
+	return array($boolean,$resultado);
+}
+
+
 /**
- * [Validar_Existencia Valida la existeencia de un partido para la respetiva fecha.]
+ * [valida_Existencia valida la existeencia de un partido para la respetiva fecha.]
  * @param [type] $NombreEquipo1 [description]
  * @param [type] $NombreEquipo2 [description]
  * @param [type] $Numero_Fecha  [description]
  */
-function Validar_Existencia($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
+function valida_Existencia($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
 {
 	global $conexion;
 	$query = "SELECT * FROM `tb_partidos` WHERE equipo1='$NombreEquipo1'
@@ -495,14 +761,43 @@ function Validar_Existencia($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 }
-function Validar_Existencia_Equipo($nombre,$torneo,$club)
+function valida_Existencia_Incapacidad($incapacidad)
+{
+
+	$incapacidad = substr($incapacidad,4);
+	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'";
+	$valor = consultar($query);
+	return mysqli_num_rows($valor)>0;
+
+}
+
+function valida_Existencia_Trabajador($cedula,$nombre,$apellido)
+{
+
+	$query = " SELECT * FROM tb_trabajadores where id_trabajadores='$cedula'";
+	$valor = consultar($query);
+	if (mysqli_num_rows($valor)>0)
+	{
+		return true;
+	}
+	else
+	{
+		$query = insertar(sprintf("INSERT INTO `tb_trabajadores`(`id_trabajadores`, `nombre`, `apellido`)
+			VALUES ('%d','%s','%s')",
+			escape($cedula),escape($nombre),escape($apellido)));
+		return $query;	
+	}
+
+}
+
+function valida_Existencia_Equipo($nombre,$torneo,$club)
 {
 	$query = " SELECT * FROM tb_equipos where torneo='$torneo' and colegio='$club' and nombre_equipo='$nombre'  ";
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 }
 
-function Validar_Existencia_Terminado($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
+function valida_Existencia_Terminado($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
 {
 	global $conexion;
 	$query = "SELECT * FROM `tb_partidos` WHERE equipo1='$NombreEquipo1'
@@ -511,7 +806,7 @@ function Validar_Existencia_Terminado($NombreEquipo1,$NombreEquipo2,$Numero_Fech
 	return mysqli_num_rows($valor)>0;
 }
 /**
- * [Validate_A_Partidos Valida que un partido sea valido para la inserción.]
+ * [validate_A_Partidos valida que un partido sea válido para la inserción.]
  * @param [type] $NombreEquipo1 [description]
  * @param [type] $Fecha         [description]
  * @param [type] $NombreEquipo2 [description]
@@ -520,7 +815,7 @@ function Validar_Existencia_Terminado($NombreEquipo1,$NombreEquipo2,$Numero_Fech
  * @param [type] $Hora          [description]
  * @param [type] $torneo        [description]
  */
-function Validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero_Fecha,$Hora,$torneo)
+function validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero_Fecha,$Hora,$torneo)
 {
 	$resultado="";
 	$valor = true;
@@ -530,7 +825,7 @@ function Validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero
 	}
 	else
 	{
-		$resultado.='El numero de la fecha ( Ronda ) no es valido. <br>';
+		$resultado.='El numero de la fecha ( Ronda ) no es válido. <br>';
 		$valor=false;
 	}
 
@@ -544,53 +839,53 @@ function Validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero
 		$valor=false;
 	}
 
-	if(ValidarEquipos($NombreEquipo1,$torneo)[0])
+	if(validaEquipos($NombreEquipo1,$torneo)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarEquipos($NombreEquipo1,$torneo)[1].'<br>';
+		$resultado.=validaEquipos($NombreEquipo1,$torneo)[1].'<br>';
 		$valor=false;
 	}
-	if(ValidarEquipos($NombreEquipo2,$torneo)[0])
+	if(validaEquipos($NombreEquipo2,$torneo)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarEquipos($NombreEquipo2,$torneo)[1].'<br>';
+		$resultado.=validaEquipos($NombreEquipo2,$torneo)[1].'<br>';
 		$valor=false;
 	}
-	if(Validar_Lugar($Lugar)[0])
+	if(valida_Lugar($Lugar)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=Validar_Lugar($Lugar)[1].'<br>';
+		$resultado.=valida_Lugar($Lugar)[1].'<br>';
 		$valor=false;
 	}
-	if(Validar_Fecha($Fecha)[0])
+	if(valida_Fecha($Fecha)[0])
 	{
 		
 	}
 	else
 	{
-		$resultado.=Validar_Fecha($Fecha)[1].'<br>';
+		$resultado.=valida_Fecha($Fecha)[1].'<br>';
 		$valor=false;
 	}
-	if(Validar_Hora($Hora)[0])
+	if(valida_Hora($Hora)[0])
 	{
 		
 	}
 	else
 	{
-		$resultado.=Validar_Hora($Hora)[1].'<br>';
+		$resultado.=valida_Hora($Hora)[1].'<br>';
 		$valor=false;
 	}
 
-	if(Validar_Existencia(Codigo_Equipo($NombreEquipo1,$torneo)[1],Codigo_Equipo($NombreEquipo2,$torneo)[1],$Numero_Fecha))
+	if(valida_Existencia(Codigo_Equipo($NombreEquipo1,$torneo)[1],Codigo_Equipo($NombreEquipo2,$torneo)[1],$Numero_Fecha))
 	{
 		$resultado.='Ya Existe!. <br>';
 		$valor=false;
@@ -605,8 +900,164 @@ function Validate_A_Partidos($NombreEquipo1,$Fecha,$NombreEquipo2,$Lugar,$Numero
 
 }
 
+function validate_A_Incapacidad($eps,//Listo
+	$cliente,//Listo
+	$ciudad,//Listo
+	$fechacorte,//Listo
+	$precio,//Listo
+	$cedula,//Listo
+	$nombre,//List
+	$apellido,//Listo
+	$tipo,//Listo
+	$incapacidad,//Listo
+	$fechainicial,//Listo
+	$fechafinal,$cantidad)//Listo
+{
 
-function Validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$marcador1,$marcador2,$Numero_Fecha)
+
+
+	$resultado="";
+	$valor = true;
+
+	if(validaEps($eps)[0])
+	{
+
+	}
+	else
+	{
+		$resultado.=validaEps($eps)[1].'<br>';
+		$valor=false;
+	}
+
+
+	if(valida_Fecha($fechafinal)[0])
+	{
+
+	}
+	else
+	{
+		$resultado.=valida_Fecha($fechafinal)[1].'<br>';
+	}
+	if(valida_Fecha($fechainicial)[0])
+	{
+
+	}
+	else
+	{
+		$resultado.=valida_Fecha($fechainicial)[1].'<br>';
+		$valor=false;
+	}
+	if(valida_Fecha($fechacorte)[0])
+	{
+
+	}
+	else
+	{
+		$resultado.=valida_Fecha($fechacorte)[1].'<br>';
+		$valor=false;
+	}
+	if(is_numeric($precio))
+	{
+
+	}
+	else
+	{
+		$resultado.='El valor  ( Incapacidad ) no es válido. <br>';
+		$valor=false;
+	}
+	if(is_numeric($cedula))
+	{
+
+	}
+	else
+	{
+		$resultado.='La cedula del trabajador no es valida. <br>';
+		$valor=false;
+	}
+	if(is_numeric($cantidad))
+	{
+
+	}
+	else
+	{
+		$resultado.='La cantidad de dias de incapacidad es valida. <br>';
+		$valor=false;
+	}
+	if(is_numeric($tipo))
+	{
+
+	}
+	else
+	{
+		$resultado.='El Concepto o Tipo  de  Incapacidad  no es válido. <br>';
+		$valor=false;
+	}
+
+	if(validaCliente($cliente)[0])
+	{
+
+	}
+	else
+	{
+		$resultado.=validaCliente($cliente)[1].'<br>';
+		$valor=false;
+	}
+
+	if(validaCiudad($ciudad)[0])
+	{
+
+	}
+	else
+	{
+		$resultado.=validaCiudad($ciudad)[1].'<br>';
+		$valor=false;
+	}
+
+	if(valida_Existencia_Incapacidad($incapacidad))
+	{
+		$resultado.='Ya Existe!. <br>';
+		$valor=false;
+	}
+
+	else
+	{
+
+	}
+
+	if(valida_Existencia_Trabajador($cedula,$nombre,$apellido))
+	{
+		
+		
+	}
+
+	else
+	{
+		$resultado.='No fue posible crear al trabajador!. <br>';
+		$valor=false;
+
+	}
+
+	$tipo = (int) $tipo;
+
+	if($tipo==11151)
+	{
+		$valor=true;
+		$resultado='No se tendra en cuenta por ser de ese tipo. <br>';
+	}
+
+	else
+	{
+
+	}
+
+
+	return array($valor,$resultado);
+
+}
+
+
+
+function validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$marcador1,$marcador2,$Numero_Fecha)
 {
 	$resultado="";
 	$valor = true;
@@ -616,7 +1067,7 @@ function Validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$m
 	}
 	else
 	{
-		$resultado.='El marcador numero 2 no es valido. <br>';
+		$resultado.='El marcador numero 2 no es válido. <br>';
 		$valor=false;
 
 	}
@@ -626,7 +1077,7 @@ function Validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$m
 	}
 	else
 	{
-		$resultado.='El marcador numero 1 no es valido. <br>';
+		$resultado.='El marcador numero 1 no es válido. <br>';
 		$valor=false;
 
 	}
@@ -641,48 +1092,48 @@ function Validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$m
 		$valor=false;
 	}
 
-	if(ValidarEquipos($NombreEquipo1,$torneo)[0])
+	if(validaEquipos($NombreEquipo1,$torneo)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarEquipos($NombreEquipo1,$torneo)[1].'<br>';
+		$resultado.=validaEquipos($NombreEquipo1,$torneo)[1].'<br>';
 		$valor=false;
 	}
-	if(ValidarEquipos($NombreEquipo2,$torneo)[0])
+	if(validaEquipos($NombreEquipo2,$torneo)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarEquipos($NombreEquipo2,$torneo)[1].'<br>';
+		$resultado.=validaEquipos($NombreEquipo2,$torneo)[1].'<br>';
 		$valor=false;
 	}
 
 
-	if(Validar_Existencia(Codigo_Equipo($NombreEquipo1,$torneo)[1],Codigo_Equipo($NombreEquipo2,$torneo)[1],$Numero_Fecha))
+	if(valida_Existencia(Codigo_Equipo($NombreEquipo1,$torneo)[1],Codigo_Equipo($NombreEquipo2,$torneo)[1],$Numero_Fecha))
 	{
 
 
 	}
-	
+
 	else
 	{
 		$resultado.=' No Existe!. <br>';	
 		$valor=false;
 	}
-	
-	if(Validar_Existencia_Terminado(Codigo_Equipo($NombreEquipo1,$torneo)[1],Codigo_Equipo($NombreEquipo2,$torneo)[1],$Numero_Fecha))
+
+	if(valida_Existencia_Terminado(Codigo_Equipo($NombreEquipo1,$torneo)[1],Codigo_Equipo($NombreEquipo2,$torneo)[1],$Numero_Fecha))
 	{
 		$resultado.='Ya tiene resultados!. <br>';	
 		$valor=false;
 
 	}
-	
+
 	else
 	{
-		
+
 	}
 
 
@@ -690,7 +1141,7 @@ function Validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$m
 
 }
 
-function Validate_All_Partidos_Resultados($FileName,$torneo)
+function validate_All_Partidos_Resultados($FileName,$torneo)
 {
 	$resultado = '';
 	$boolean = true;
@@ -698,7 +1149,7 @@ function Validate_All_Partidos_Resultados($FileName,$torneo)
 	if (($gestor = fopen($FileName, "r")) !== FALSE) {
 		while (($datos = fgetcsv($gestor,100, ",")) !== FALSE) {
 
-			list($valorbolean,$resultado2) = Validar_Numero_DatosFila($datos,'5');
+			list($valorbolean,$resultado2) = valida_Numero_DatosFila($datos,'5');
 			if($valorbolean)
 			{
 
@@ -708,7 +1159,7 @@ function Validate_All_Partidos_Resultados($FileName,$torneo)
 				$marcador2= $datos[3];
 				$Numero_Fecha =$datos[4];
 
-				list($valor,$resultado1) = Validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$marcador1,$marcador2,$Numero_Fecha);
+				list($valor,$resultado1) = validate_A_Partidos_Resultados($NombreEquipo1,$NombreEquipo2,$torneo,$marcador1,$marcador2,$Numero_Fecha);
 				if($valor)
 				{
 
@@ -789,7 +1240,7 @@ function Cargar_Jugadores($FileName,$torneo)
 	$boolean = false;
 	$resultado ='';
 
-	list($boolean,$resultado) =Validate_All_Jugadores($FileName,$torneo);
+	list($boolean,$resultado) =validate_All_Jugadores($FileName,$torneo);
 	if($boolean)
 	{
 		list($boolean,$resultado) =  Load_Jugadores($FileName,$torneo);
@@ -802,7 +1253,7 @@ function Cargar_Jugadores($FileName,$torneo)
 	return array($boolean,$resultado);
 
 }
-function Validate_All_Jugadores($FileName,$torneo)
+function validate_All_Jugadores($FileName,$torneo)
 {
 	$resultado = '';
 	$boolean = true;
@@ -810,7 +1261,7 @@ function Validate_All_Jugadores($FileName,$torneo)
 	if (($gestor = fopen($FileName, "r")) !== FALSE) {
 		while (($datos = fgetcsv($gestor,100, ",")) !== FALSE) {
 
-			list($valorbolean,$resultado2) = Validar_Numero_DatosFila($datos,'7');
+			list($valorbolean,$resultado2) = valida_Numero_DatosFila($datos,'7');
 			if($valorbolean)
 			{
 
@@ -821,7 +1272,7 @@ function Validate_All_Jugadores($FileName,$torneo)
 				$Apellido1 =$datos[4];
 				$Apellido2 =$datos[5];
 				$Equipo =$datos[6];
-				list($valor,$resultado1) = Validate_A_Jugadores($Documento,$Fecha_nacimiento,$Nombre1,$Nombre2,$Apellido1,$Apellido2,$Equipo,$torneo);
+				list($valor,$resultado1) = validate_A_Jugadores($Documento,$Fecha_nacimiento,$Nombre1,$Nombre2,$Apellido1,$Apellido2,$Equipo,$torneo);
 				if($valor)
 				{
 
@@ -845,7 +1296,7 @@ function Validate_All_Jugadores($FileName,$torneo)
 	return array($boolean,$resultado);
 }
 
-function Validar_Existencia_Jugador($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Apellido2,$equipo,$torneo)
+function valida_Existencia_Jugador($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Apellido2,$equipo,$torneo)
 {
 
 	$Nombre1= utf8_encode($Nombre1);
@@ -857,7 +1308,7 @@ function Validar_Existencia_Jugador($Documento,$Fecha,$Nombre1,$Nombre2,$Apellid
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 }
-function Validate_A_Jugadores($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Apellido2,$NombreEquipo1,$torneo)
+function validate_A_Jugadores($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Apellido2,$NombreEquipo1,$torneo)
 {
 	$resultado="";
 	$valor = true;
@@ -881,31 +1332,31 @@ function Validate_A_Jugadores($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Ap
 		$valor=false;	
 	}
 
-	if(ValidarEquipos($NombreEquipo1,$torneo)[0])
+	if(validaEquipos($NombreEquipo1,$torneo)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarEquipos($NombreEquipo1,$torneo)[1].'<br>';
+		$resultado.=validaEquipos($NombreEquipo1,$torneo)[1].'<br>';
 		$valor=false;
 	}
-	if(Validar_Fecha($Fecha)[0])
+	if(valida_Fecha($Fecha)[0])
 	{
-		
+
 	}
 	else
 	{
-		$resultado.=Validar_Fecha($Fecha)[1].'<br>';
+		$resultado.=valida_Fecha($Fecha)[1].'<br>';
 		$valor=false;
 	}
-	if(Validar_Existencia_Jugador($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Apellido2,
+	if(valida_Existencia_Jugador($Documento,$Fecha,$Nombre1,$Nombre2,$Apellido1,$Apellido2,
 		Codigo_Equipo($NombreEquipo1,$torneo)[1],$torneo))
 	{
 		$resultado.='Ya Existe!. <br>';
 		$valor=false;
 	}
-	
+
 	else
 	{
 	}
@@ -964,8 +1415,8 @@ function boolean_new_jugador($documento,$NombreEquipo1,$nombre1,$nombre2,$apelli
 
 	$partido = insertar(sprintf("INSERT INTO `tb_jugadores`(`id_jugadores`, `documento`, `nombre1`, `nombre2`, `apellido1`, `apellido2`, 
 		`fecha_nacimiento`, `email`, `equipo`, `foto_jugador`, `fecha_ingreso`, `estado_jugador`, `telefono`, `profesion`, `tipo_jugador`)
-		VALUES (NULL,'%d','%s','%s','%s','%s','%s','','%d','',NOW(),'%d','','','')"
-		,escape($documento),escape(strtoupper($nombre1)),escape(strtoupper($nombre2)),escape(strtoupper($apellido1)),escape(strtoupper($apellido2)),escape($fecha),escape($equipo),escape($estado)));
+	VALUES (NULL,'%d','%s','%s','%s','%s','%s','','%d','',NOW(),'%d','','','')"
+	,escape($documento),escape(strtoupper($nombre1)),escape(strtoupper($nombre2)),escape(strtoupper($apellido1)),escape(strtoupper($apellido2)),escape($fecha),escape($equipo),escape($estado)));
 	return $partido;    
 }
 
@@ -974,7 +1425,7 @@ function Cargar_Equipos($FileName)
 	$boolean = false;
 	$resultado ='';
 
-	list($boolean,$resultado) =Validate_All_Equipos($FileName);
+	list($boolean,$resultado) =validate_All_Equipos($FileName);
 	if($boolean)
 	{
 		list($boolean,$resultado) =  Load_Equipos($FileName);
@@ -1027,7 +1478,7 @@ function boolean_new_equipo($nombre,$tecnico,$grupo,$torneo,$club,$estado)
 
 }
 
-function Validate_All_Equipos($FileName)
+function validate_All_Equipos($FileName)
 {
 	$resultado = '';
 	$boolean = true;
@@ -1035,7 +1486,7 @@ function Validate_All_Equipos($FileName)
 	if (($gestor = fopen($FileName, "r")) !== FALSE) {
 		while (($datos = fgetcsv($gestor,100, ",")) !== FALSE) {
 
-			list($valorbolean,$resultado2) = Validar_Numero_DatosFila($datos,'4');
+			list($valorbolean,$resultado2) = valida_Numero_DatosFila($datos,'4');
 			if($valorbolean)
 			{
 
@@ -1044,7 +1495,7 @@ function Validate_All_Equipos($FileName)
 				$torneo = $datos[2];
 				$club = $datos[0];
 
-				list($valor,$resultado1) = Validate_A_Equipos($nombre,$grupo,$torneo,$club);
+				list($valor,$resultado1) = validate_A_Equipos($nombre,$grupo,$torneo,$club);
 				if($valor)
 				{
 
@@ -1068,7 +1519,7 @@ function Validate_All_Equipos($FileName)
 	return array($boolean,$resultado);
 }
 
-function Validate_A_Equipos($nombre,$grupo,$torneo,$club)
+function validate_A_Equipos($nombre,$grupo,$torneo,$club)
 {
 	$resultado="";
 	$valor = true;
@@ -1110,33 +1561,33 @@ function Validate_A_Equipos($nombre,$grupo,$torneo,$club)
 		$valor=false;	
 	}
 
-	if(ValidarTorneo($torneo)[0])
+	if(validaTorneo($torneo)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarTorneo($torneo)[1].'<br>';
+		$resultado.=validaTorneo($torneo)[1].'<br>';
 		$valor=false;
 
 	}
-	if(ValidarClub($club)[0])
+	if(validaClub($club)[0])
 	{
 
 	}
 	else
 	{
-		$resultado.=ValidarClub($club)[1].'<br>';
+		$resultado.=validaClub($club)[1].'<br>';
 		$valor=false;
 
 	}
 
-	if(ValidarClub($club)[0])
+	if(validaClub($club)[0])
 	{
-		if(ValidarTorneo($club)[0])
+		if(validaTorneo($club)[0])
 		{
 
-			if(Validar_Existencia_Equipo($nombre,Codigo_Torneo($torneo),Codigo_Club($club)))
+			if(valida_Existencia_Equipo($nombre,Codigo_Torneo($torneo),Codigo_Club($club)))
 			{
 				$resultado.='Ya Existe!. <br>';
 				$valor=false;
