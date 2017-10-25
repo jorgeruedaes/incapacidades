@@ -30,8 +30,7 @@ if(isset($_SESSION['id_usuarios']))
 				list($boolean,$resultados) = Cargar_Incapacidades('../../../../Archivos/'.$carpeta.'/'.$name);
 				if($boolean)
 				{
-					$resultado.='"mensaje":true,';
-					$resultado.='"datos":'.json_encode($resultados).'';
+					$resultado.='"mensaje":true';
 				}
 				else
 				{

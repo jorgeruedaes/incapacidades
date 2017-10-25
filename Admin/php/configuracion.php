@@ -19,7 +19,7 @@ function String_Get_Valores($solicitud){
 	}else if ($solicitud == "server") {
 		//return "eliseo.colombiahosting.com.co";
 	return "www.torneosyopal.com";
-	//return "localhost";
+	return "localhost";
 	}else if ($solicitud == "username") {
 		return "torneosy_user";
     //   return  "root";
@@ -54,18 +54,18 @@ function String_Get_Valores($solicitud){
 
 function url()
 {
-	return "/incapacidades/Admin/";
+	return "/Admin/";
 }
 function base_url()
 {
-	//$pagina = "192.168.1.58";
-	$pagina= "localhost";
+	$pagina = "torneosyopal.com";
+	//$pagina= "localhost";
 	return "http://".$pagina.url();
 }
 function base_url_usuarios()
 {
-	//$pagina = "192.168.1.58";
-	$pagina= "localhost";
+	$pagina = "torneosyopal.com";
+	//$pagina= "localhost";
 	return "http://".$pagina."/Games/";
 }	
 

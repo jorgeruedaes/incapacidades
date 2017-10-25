@@ -198,27 +198,44 @@ function Insertar_Incapacidad(
 	$tipo,
 	$incapacidad,
 	$fechainicial,
-	$fechafinal,$cantiad)
+	$fechafinal,$cantidad)
 {
 
 $eps=	Codigo_Eps($eps)[1];
 $cliente = Codigo_Cliente($cliente)[1];
 $ciudad  = Codigo_Ciudad($ciudad)[1];
-$incapacidad = substr($incapacidad,4);
+$incapacidad = substr($incapacidad,5);
+
+$fechacorte = explode ("/",$fechacorte);
+
+$date1 = date_create($fechacorte[2].'-'.$fechacorte[1].'-'.$fechacorte[0]);
+$fechacorte = date_format($date1, 'Y-m-d');
+
+$fechainicial = explode ("/",$fechainicial);
+$date2 = date_create($fechainicial[2].'-'.$fechainicial[1].'-'.$fechainicial[0]);
+$fechainicial = date_format($date2, 'Y-m-d');
+
+$fechafinal = explode ("/",$fechafinal);
+$date3 = date_create($fechafinal[2].'-'.$fechafinal[1].'-'.$fechafinal[0]);
+$fechafinal = date_format($date3, 'Y-m-d');
+
 
 $tipo =  (int )$tipo;
+$usuario = $_SESSION['id_usuarios'];
 
-if ($tipo==1151)
 {
-return true;
-}
-{
-		return insertar("INSERT INTO `tb_incapacidades`
+    if(insertar("INSERT INTO `tb_incapacidades`
 		(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,
 		 `fecha_creacion`, `fecha_corte`, `cantidad`, `valor`, `eps`, `usuario`)
-		  VALUES ('$incapacidad','$ciudad','$cedula','$tipo','2','$fechainicial',
-		  	'$fechafinal','$fechacorte','$cantidad',$valor,'$eps','1',
-		  	[value-13],[value-14])");
+		  VALUES ('$incapacidad','$ciudad','$cedula','$cliente','$tipo','2', DATE_FORMAT('$fechainicial','%Y-%m-%d'),DATE_FORMAT('$fechafinal','%Y-%m-%d'),NOW(),DATE_FORMAT('$fechacorte','%Y-%m-%d'),'$cantidad','$valor','$eps','$usuario')"))
+		  {
+		return true;  
+		  }
+		  else
+		  {
+		      return false;
+		      error_log($incapacidad);
+		  }
 
 } 
 
@@ -242,7 +259,7 @@ function Codigo_Equipo($NombreEquipo,$torneo)
 
 function Codigo_Cliente($cliente)
 {
-	$cliente =  utf8_encode($cliente);
+//	$cliente =  utf8_encode($cliente);
 	$cliente =  str_replace(' ','',$cliente); 
 	$valor = mysqli_fetch_array(consultar("SELECT id_clientes FROM tb_clientes WHERE ( REPLACE(nombre,' ','')='$cliente' or REPLACE(nombre,' ','') like '%$cliente%')  and estado='activo' "));
 
@@ -593,8 +610,9 @@ function Load_Partidos($FileName,$torneo)
 function Load_Incapacidades($FileName)
 {
 	$bandera = true;
+	$mensaje = 'Se han cargado la mayoria de los datos pero algunos se repiten   <br><h3> Las Incapacidades con problemas son :</h3>'.'<br>';
 	if (($gestor = fopen($FileName, "r")) !== FALSE) {
-		while (($datos = fgetcsv($gestor,100, ",")) !== FALSE) {
+		while (($datos = fgetcsv($gestor,1000, ",")) !== FALSE) {
 
 			$eps= $datos[0];
 			$cliente= $datos[1];
@@ -624,12 +642,12 @@ function Load_Incapacidades($FileName)
 				$fechainicial,
 				$fechafinal,$cantidad))
 			{
-				$mensaje = 'true';
+
 			}
 			else
 			{
 				$bandera=false;
-				$mensaje = $NombreEquipo1.$Fecha.$NombreEquipo2.$Lugar.$Numero_Fecha.$Hora.$torneo;
+				$mensaje.=$incapacidad.'<br>';
 			}
 		}
 		fclose($gestor);
@@ -730,7 +748,7 @@ function validate_All_Incapacidades($FileName)
 				else
 				{
 					$boolean = false;
-					$resultado =$resultado.'<h3>En el registro '.$numero.'</h3> <br>'.$resultado1;
+					$resultado =$resultado.'<h3>En el registro '.$numero.' la incapacidad  '.$incapacidad.'</h3> <br>'.$resultado1;
 				}
 			}
 			else
@@ -761,11 +779,12 @@ function valida_Existencia($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 }
-function valida_Existencia_Incapacidad($incapacidad)
+function valida_Existencia_Incapacidad($incapacidad,$tipo)
 {
 
-	$incapacidad = substr($incapacidad,4);
-	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'";
+	$incapacidad = substr($incapacidad,5);
+	$tipo = (int) $tipo;
+	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'   and  tipo='$tipo' ";
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 
@@ -956,13 +975,13 @@ function validate_A_Incapacidad($eps,//Listo
 		$resultado.=valida_Fecha($fechacorte)[1].'<br>';
 		$valor=false;
 	}
-	if(is_numeric($precio))
+	if(is_numeric($precio) and $precio>1000)
 	{
 
 	}
 	else
 	{
-		$resultado.='El valor  ( Incapacidad ) no es válido. <br>';
+		$resultado.='El valor  ( Incapacidad ) no es válido o es menor a 1000 pesos. <br>';
 		$valor=false;
 	}
 	if(is_numeric($cedula))
@@ -974,13 +993,13 @@ function validate_A_Incapacidad($eps,//Listo
 		$resultado.='La cedula del trabajador no es valida. <br>';
 		$valor=false;
 	}
-	if(is_numeric($cantidad))
+	if(is_numeric($cantidad)  and $cantidad>0)
 	{
 
 	}
 	else
 	{
-		$resultado.='La cantidad de dias de incapacidad es valida. <br>';
+		$resultado.='La cantidad de dias de incapacidad no es valida. <br>';
 		$valor=false;
 	}
 	if(is_numeric($tipo))
@@ -1013,7 +1032,7 @@ function validate_A_Incapacidad($eps,//Listo
 		$valor=false;
 	}
 
-	if(valida_Existencia_Incapacidad($incapacidad))
+	if(valida_Existencia_Incapacidad($incapacidad,$tipo))
 	{
 		$resultado.='Ya Existe!. <br>';
 		$valor=false;
@@ -1037,18 +1056,6 @@ function validate_A_Incapacidad($eps,//Listo
 
 	}
 
-	$tipo = (int) $tipo;
-
-	if($tipo==11151)
-	{
-		$valor=true;
-		$resultado='No se tendra en cuenta por ser de ese tipo. <br>';
-	}
-
-	else
-	{
-
-	}
 
 
 	return array($valor,$resultado);
