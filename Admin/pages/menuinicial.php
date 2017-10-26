@@ -896,6 +896,8 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
 <!-- SweetAlert Plugin Js -->
 <script src="plugins/sweetalert/sweetalert.min.js"></script>
 
+<!-- Input Mask Plugin Js -->
+<script src="plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
 
 
 <!-- Autosize Plugin Js -->

@@ -16,153 +16,161 @@ $(function() {
 			jugadores.cargarModalNuevo();
 			jugadores.SeleccionEquipo();
 
-		},ValidarEditar : function()
+		},Cargar : function()
 		{
-			if (/\w/gi.test($('.nombre1').val())) 
-			{
-				if (/\w/gi.test($('.apellido1').val())) 
-				{
-						if (/\w/gi.test($('.select-estado option:selected').val())) 
-						{
-							return true;
-						}
-						else
-						{
-							$('.select-estado').focus();
-							swal("Error", "Debes seleccionar un estado.", "error");
-							return false;
-						}
+			var $demoMaskedInput = $('.demo-masked-input');
 
+    //Date
+    $demoMaskedInput.find('.date').inputmask('dd/mm/yyyy', { placeholder: '__/__/____' });
+
+}
+,ValidarEditar : function()
+{
+	if (/\w/gi.test($('.nombre1').val())) 
+	{
+		if (/\w/gi.test($('.apellido1').val())) 
+		{
+			if (/\w/gi.test($('.select-estado option:selected').val())) 
+			{
+				return true;
+			}
+			else
+			{
+				$('.select-estado').focus();
+				swal("Error", "Debes seleccionar un estado.", "error");
+				return false;
+			}
+
+		}
+		else
+		{
+			$('.apellido1').focus();
+			swal("Error", "Debes escribir al menos 1 apellido.", "error");
+			return false;
+		}
+
+	}
+	else
+	{
+		$('.nombre1').focus();
+		swal("Error", "Debes escribir al menos 1 nombre.", "error");
+		return false;
+
+	}
+
+
+},
+ValidarNuevo : function()
+{
+	if (/\w/gi.test($('.n-nombre1').val())) 
+	{
+		if (/\w/gi.test($('.n-apellido1').val())) 
+		{
+			if (/\w/gi.test($('.select-n-equipos option:selected').val())) 
+			{
+				if (/\w/gi.test($('.select-n-estado option:selected').val())) 
+				{
+					return true;
 				}
 				else
 				{
-					$('.apellido1').focus();
-					swal("Error", "Debes escribir al menos 1 apellido.", "error");
+					$('.select-n-estado').focus();
+					swal("Error", "Debes seleccionar un estado.", "error");
 					return false;
 				}
 
 			}
 			else
 			{
-				$('.nombre1').focus();
-				swal("Error", "Debes escribir al menos 1 nombre.", "error");
+				$('.select-n-equipos').focus();
+				swal("Error", "Debes seleccionar un equipo.", "error");
 				return false;
 
 			}
 
-
-		},
-		ValidarNuevo : function()
+		}
+		else
 		{
-			if (/\w/gi.test($('.n-nombre1').val())) 
-			{
-				if (/\w/gi.test($('.n-apellido1').val())) 
-				{
-					if (/\w/gi.test($('.select-n-equipos option:selected').val())) 
-					{
-						if (/\w/gi.test($('.select-n-estado option:selected').val())) 
-						{
-							return true;
-						}
-						else
-						{
-							$('.select-n-estado').focus();
-							swal("Error", "Debes seleccionar un estado.", "error");
-							return false;
-						}
+			$('.n-apellido1').focus();
+			swal("Error", "Debes escribir al menos 1 apellido.", "error");
+			return false;
+		}
+
+
+	}
+	else
+	{
+		$('.n-nombre1').focus();
+		swal("Error", "Debes escribir al menos 1 nombre.", "error");
+		return false;
+
+	}
+
+
+},
+SeleccionEquipo : function()
+{
+	$('.selector-campeonato').on('change', function () {
+		$.ajax({
+			url: 'pages/jugadores/peticiones/peticiones.php',
+			type: 'POST',
+			data: {
+				bandera: "getequipos",
+				campeonato:  $('.selector-campeonato option:selected').val()
+
+			},
+			success: function (resp) {
+
+
+				var resp = $.parseJSON(resp);
+				if (resp.salida === true && resp.mensaje === true) {
+					$('#select-n-equipos').html('').selectpicker('refresh');
+					$('#select-n-equipos').append('<option value="">--Selecciona un Equipo --</option>').selectpicker('refresh');
+					for (var i = 0; i < resp.datos.length; i++) {
+						$('#select-n-equipos').append('<option value='+resp.datos[i].id_equipo+'>'+resp.datos[i].nombre_equipo+'</option>').selectpicker('refresh');
 
 					}
-					else
-					{
-						$('.select-n-equipos').focus();
-						swal("Error", "Debes seleccionar un equipo.", "error");
-						return false;
-
-					}
+				} else {
+					$('#select-n-equipos').html('').selectpicker('refresh');
+					$('#select-n-equipos').append('<option value="">--Selecciona un Equipo --</option>').selectpicker('refresh');
 
 				}
-				else
-				{
-					$('.n-apellido1').focus();
-					swal("Error", "Debes escribir al menos 1 apellido.", "error");
-					return false;
-				}
-
-
 			}
-			else
-			{
-				$('.n-nombre1').focus();
-				swal("Error", "Debes escribir al menos 1 nombre.", "error");
-				return false;
-
-			}
+		});
 
 
-		},
-		SeleccionEquipo : function()
-		{
-			$('.selector-campeonato').on('change', function () {
-				$.ajax({
-					url: 'pages/jugadores/peticiones/peticiones.php',
-					type: 'POST',
-					data: {
-						bandera: "getequipos",
-						campeonato:  $('.selector-campeonato option:selected').val()
+	});
 
-					},
-					success: function (resp) {
+},
+SeleccionCampeonato: function()
+{
+	$('.selector-campeonato').on('change', function () {
+		$.ajax({
+			url: 'pages/jugadores/peticiones/peticiones.php',
+			type: 'POST',
+			data: {
+				bandera: "get_jugadores",
+				campeonato:  $('.selector-campeonato option:selected').val()
+
+			},
+			success: function (resp) {
+
+				var resp = $.parseJSON(resp);
+				if (resp.salida === true && resp.mensaje === true) {
+					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
+					for (var i = 0; i < resp.datos.length; i++) {
+						t.row.add( [ 
+							resp.datos[i].id_jugador,
+							resp.datos[i].documento,
+							resp.datos[i].nombre,	
+							resp.datos[i].nombre_equipo,
+							resp.datos[i].nombre_estado,
+							'<div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-id_jugador='+resp.datos[i].id_jugador+' data-nombre1="'+resp.datos[i].nombre1+'" data-nombre2="'+resp.datos[i].nombre2+'" data-apellido1="'+resp.datos[i].apellido1+'" data-apellido2="'+resp.datos[i].apellido2+'" data-fechanacimiento="'+resp.datos[i].fecha_nacimiento+'" data-estado='+resp.datos[i].estado_jugador+'  type="button" class="btn btn-primary waves-effect edit-item"><i class="material-icons">edit</i></button><button data-id_jugador='+resp.datos[i].id_jugador+'  type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
+							] ).draw( false );
 
 
-						var resp = $.parseJSON(resp);
-						if (resp.salida === true && resp.mensaje === true) {
-							$('#select-n-equipos').html('').selectpicker('refresh');
-							$('#select-n-equipos').append('<option value="">--Selecciona un Equipo --</option>').selectpicker('refresh');
-							for (var i = 0; i < resp.datos.length; i++) {
-								$('#select-n-equipos').append('<option value='+resp.datos[i].id_equipo+'>'+resp.datos[i].nombre_equipo+'</option>').selectpicker('refresh');
-
-							}
-						} else {
-							$('#select-n-equipos').html('').selectpicker('refresh');
-							$('#select-n-equipos').append('<option value="">--Selecciona un Equipo --</option>').selectpicker('refresh');
-
-						}
 					}
-				});
-
-
-			});
-
-		},
-		SeleccionCampeonato: function()
-		{
-			$('.selector-campeonato').on('change', function () {
-				$.ajax({
-					url: 'pages/jugadores/peticiones/peticiones.php',
-					type: 'POST',
-					data: {
-						bandera: "get_jugadores",
-						campeonato:  $('.selector-campeonato option:selected').val()
-
-					},
-					success: function (resp) {
-
-						var resp = $.parseJSON(resp);
-						if (resp.salida === true && resp.mensaje === true) {
-							t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
-							for (var i = 0; i < resp.datos.length; i++) {
-								t.row.add( [ 
-									resp.datos[i].id_jugador,
-									resp.datos[i].documento,
-									resp.datos[i].nombre,	
-									resp.datos[i].nombre_equipo,
-									resp.datos[i].nombre_estado,
-									'<div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-id_jugador='+resp.datos[i].id_jugador+' data-nombre1="'+resp.datos[i].nombre1+'" data-nombre2="'+resp.datos[i].nombre2+'" data-apellido1="'+resp.datos[i].apellido1+'" data-apellido2="'+resp.datos[i].apellido2+'" data-fechanacimiento="'+resp.datos[i].fecha_nacimiento+'" data-estado='+resp.datos[i].estado_jugador+'  type="button" class="btn btn-primary waves-effect edit-item"><i class="material-icons">edit</i></button><button data-id_jugador='+resp.datos[i].id_jugador+'  type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
-									] ).draw( false );
-								
-
-							}
-							jugadores.Modal_Editar();
+					jugadores.Modal_Editar();
 						//	$('.page-loader-wrapper').css('display','none');
 					} else {
 						t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
@@ -316,8 +324,9 @@ cargarModal: function(id_jugador,nombre1,nombre2,apellido1,apellido2,estado,fech
 },
 cargarModalNuevo: function()
 {
-	$('.add-jugador').on("click", function(){
+	$('.filtro').on("click", function(){
 		$('#Modalnuevo').modal('show'); 
+		jugadores.Cargar();
 	});
 
 

@@ -51,113 +51,183 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                     waves-effect filtro">
                                     <i class="material-icons">filter_list</i>
                                 </button></li>
-                            <li></li>
-                        </ul>
-                    </div>
-                    <div class="body">
-                        <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Eps</th>
-                                    <th>Fecha Inicial</th>
-                                    <th>Fecha Final</th>
-                                    <th>Estado</th>
-                                    <th widht="10%">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                <li></li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Eps</th>
+                                        <th>Fecha Inicial</th>
+                                        <th>Fecha Final</th>
+                                        <th>Estado</th>
+                                        <th widht="10%">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- JS ====================================================================================================================== -->
-<!--  Js-principal -->
-<script src="pages/incapacidades/js/gestionar.js"></script>
-
-<!-- Modal Dialogs ====================================================================================================================== -->
-<!-- Default Size -->
-<div class="modal fade" id="Modalnuevo" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Edición de jugador</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="body">
-                    <form>
-                        <label for="">Primer nombre</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control n-nombre1" placeholder="Primer nombre" />
-                            </div>
-                        </div>
-                        <label for="">Segundo nombre</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control n-nombre2" placeholder="Primer nombre" />
-                            </div>
-                        </div>
-                        <label for="">Primer apellido</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control n-apellido1" placeholder="Segundo apellido" />
-                            </div>
-                        </div>
-                        <label for="">Segundo apellido</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control n-apellido2" placeholder="Segundo apellido" />
-                            </div>
-                        </div>
-                        <label for="">Documento de indentidad</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control n-documento" placeholder="Documento" />
-                            </div>
-                        </div>
-                        <label for="">Fecha de nacimiento</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="datepicker form-control n-fechanacimiento" placeholder="Seleccina una fecha...">
-                            </div>
-                        </div>
-                        <label for="">Equipos</label>
-                        <div class="form-group">
-                            <select id="select-n-equipos" class="form-control show-tick select-n-equipos">
-                                <option value="">--Selecciona un equipo --</option>
-
-                            </select>
-                        </div>
-                        <label for="">Estado</label>
-                        <div class="form-group">
-                            <select class="form-control show-tick select-n-estado">
-                                <option value="">--Selecciona un estado --</option>
-
-                                <option value="1">Activo</option>
-                                <option value="2">Inactivo</option>
-
-                            </select>
-                        </div>
-
-                    </form>
+    <!-- JS ====================================================================================================================== -->
+    <!-- Modal Dialogs ====================================================================================================================== -->
+    <!-- Default Size -->
+    <div class="modal fade" id="Modalnuevo" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">Filtro de Incapacidades</h4>
                 </div>
+                <div class="modal-body">
 
-                <div class="modal-footer">
-                    <button type="button"  data-idjugador="" class="btn btn-info waves-effect guardar-nuevo">Guardar</button>
-                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cerrar</button>
+                    <div class="body">
+                        <form>
+                            <div class="col-md-3">
+                                <label for="">Codigo </label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control f-codigo" placeholder="Codigo" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Rango de Codigos</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control  f-codigodesde" placeholder="Codigo Desde" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">.</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control f-codigohasta" placeholder="Codigo Hasta" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Cedula</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control f-cedula" placeholder="Documento" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>Fecha de Corte</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechacortedesde" placeholder="Desde Ej: 30/07/2016">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>.</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechacortehasta" placeholder="Hasta Ej: 30/07/2016">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>Fecha inicial</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechainicialdesde" placeholder="Desde Ej: 30/07/2016">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>.</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechainicialhasta" placeholder="Hasta Ej: 30/07/2016">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Estado</label>
+                                <div class="form-group">
+                                    <select class="form-control show-tick select-estado">
+                                        <option value="">--Selecciona un Estado --</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Tipo</label>
+                                <div class="form-group">
+                                    <select class="form-control show-tick select-tipo">
+                                        <option value="">--Selecciona un Tipo --</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="">Eps</label>
+                                <div class="form-group">
+                                    <select class="form-control show-tick select-eps">
+                                        <option value="">--Selecciona una Eps --</option>
+                                        <option value="1">Activo</option>
+                                        <option value="2">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3"> 
+                                <label for="">Cliente</label>
+                                <div class="form-group"> 
+                                   <select class="form-control show-tick select-cliente"> 
+                                       <option value="">--Selecciona un Cliente --</option> 
+                                       <option value="1">Activo</option> 
+                                       <option value="2">Inactivo</option> </select> 
+                                   </div> 
+                               </div>
+                               <div class="col-md-3"> 
+                                <label for="">Ciudad</label> 
+                                <div class="form-group">
+                                 <select class="form-control show-tick select-ciudad"> 
+                                     <option value="">--Selecciona una Ciudad --</option>
+                                     <option value="1">Activo</option>
+                                     <option value="2">Inactivo</option> 
+                                 </select> 
+                             </div> 
+                         </div>
+                     </form>
+                 </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-info waves-effect filtrar">Filtrar</button>
+                    <button type="button" class="btn btn-link  waves-effect" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!--  Js-principal -->
+<script src="pages/incapacidades/js/gestionar.js"></script>
 
 
 <!-- Modal Dialogs ====================================================================================================================== -->
