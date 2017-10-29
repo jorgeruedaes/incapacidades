@@ -2,10 +2,18 @@
 /**
  * [Array_Get_Clientes Retorna los clientes de incapacidades]
  */
-function Array_Get_Ciudades()
+function Array_Get_Ciudades($estado)
 {
+	if($estado)
+	{
+	$clubs = consultar("SELECT `id_ciudades`, `nombre`, `estado`, `acronimo` FROM `tb_ciudades` where estado='activo'  order by nombre ");	
 
+	}
+	else
+	{
+		
 	$clubs = consultar("SELECT `id_ciudades`, `nombre`, `estado`, `acronimo` FROM `tb_ciudades`  order by nombre ");	
+	}
 
 
 	$datos = array();

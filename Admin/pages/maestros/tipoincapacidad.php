@@ -68,7 +68,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 							</thead>
 							<tbody>
 								<?php
-								$vector = Array_Get_TiposIncapacidad();
+								$vector = Array_Get_TiposIncapacidad(false);
 								foreach ($vector as  $value) {
 									?>
 									<tr>

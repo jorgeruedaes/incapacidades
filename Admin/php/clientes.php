@@ -31,6 +31,35 @@ function Array_Get_Clientes()
 	return $datos;	
 }
 
+function Array_Get_ClientesxEmpresa($empresa)
+{
+
+	$clubs = consultar("SELECT `id_clientes`, `nombre`, `empresa`, `estado`, `acronimo` FROM `tb_clientes` WHERE empresa='$empresa' order by nombre asc  ");	
+
+
+	$datos = array();
+	while ($valor = mysqli_fetch_array($clubs)) {
+		$id_clientes = $valor['id_clientes'];
+		$nombre = $valor['nombre'];
+		$empresa = $valor['empresa'];
+		$acronimo = $valor['acronimo'];
+		$estado = $valor['estado'];
+
+
+		$vector = array(
+			'id_clientes'=>"$id_clientes",
+			'nombre'=>"$nombre",
+			'empresa'=>"$empresa",
+			'acronimo'=>"$acronimo",
+			'estado'=>"$estado"
+
+			);
+		array_push($datos, $vector);
+	}
+
+	return $datos;	
+}
+
 function Boolean_Set_cliente($nombre,$acronimo,$estado,$empresa,$cliente)
 {
 

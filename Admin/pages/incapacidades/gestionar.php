@@ -1,10 +1,10 @@
 <?php  
 $ubicacion ="../";
 include("../menuinicial.php");
-include('../../php/equipo.php');
-include('../../php/clubs.php');
-include('../../php/campeonatos.php');
-include('../../php/jugador.php');
+include('../../php/incapacidad.php');
+include('../../php/eps.php');
+include('../../php/ciudades.php');
+include('../../php/empresas.php');
 $id_modulos =Int_RutaModulo($_SERVER['REQUEST_URI']);
 
 if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
@@ -59,11 +59,15 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Cedula</th>
                                         <th>Eps</th>
+                                        <th>Tipo</th>
                                         <th>Fecha Inicial</th>
                                         <th>Fecha Final</th>
+                                        <th>Fecha Corte</th>
+                                        <th>Diás</th>
+                                        <th>Valor</th>
                                         <th>Estado</th>
-                                        <th widht="10%">Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,11 +94,12 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
                     <div class="body">
                         <form>
+
                             <div class="col-md-3">
                                 <label for="">Codigo </label>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" class="form-control f-codigo" placeholder="Codigo" />
+                                        <input type="number" min="0" step="200" class="form-control f-codigo" placeholder="Codigo" />
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +107,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                 <label for="">Rango de Codigos</label>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" class="form-control  f-codigodesde" placeholder="Codigo Desde" />
+                                        <input type="number" min="0" step="200" class="form-control  f-codigodesde" placeholder="Codigo Desde" />
                                     </div>
                                 </div>
                             </div>
@@ -110,59 +115,62 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                 <label for="">.</label>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" class="form-control f-codigohasta" placeholder="Codigo Hasta" />
+                                        <input type="number" min="0" step="200" class="form-control f-codigohasta" placeholder="Codigo Hasta" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <label for="">Cedula</label>
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control f-cedula" placeholder="Documento" />
+                            <div class="demo-masked-input">
+                                <div class="col-md-3">
+                                    <label for="">Cedula</label>
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="number" min="0" step="200" class="form-control  f-cedula" placeholder="Documento" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <b>Fecha de Corte</b>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons">date_range</i>
-                                    </span>
-                                    <div class="form-line">
-                                        <input type="text" class="form-control date f-fechacortedesde" placeholder="Desde Ej: 30/07/2016">
+
+                                <div class="col-md-3">
+                                    <b>Fecha de Corte</b>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control date f-fechacortedesde" placeholder="Desde Ej: 2017-07-30">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <b>.</b>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons">date_range</i>
-                                    </span>
-                                    <div class="form-line">
-                                        <input type="text" class="form-control date f-fechacortehasta" placeholder="Hasta Ej: 30/07/2016">
+                                <div class="col-md-3">
+                                    <b>.</b>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control date f-fechacortehasta" placeholder="Hasta Ej: 2017-07-30">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <b>Fecha inicial</b>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons">date_range</i>
-                                    </span>
-                                    <div class="form-line">
-                                        <input type="text" class="form-control date f-fechainicialdesde" placeholder="Desde Ej: 30/07/2016">
+                                <div class="col-md-3">
+                                    <b>Fecha inicial</b>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control date f-fechainicialdesde" placeholder="Desde Ej: 2017-07-30">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <b>.</b>
-                                <div class="input-group">
-                                    <span class="input-group-addon">
-                                        <i class="material-icons">date_range</i>
-                                    </span>
-                                    <div class="form-line">
-                                        <input type="text" class="form-control date f-fechainicialhasta" placeholder="Hasta Ej: 30/07/2016">
+                                <div class="col-md-3">
+                                    <b>.</b>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control date f-fechainicialhasta" placeholder="Hasta Ej: 2017-07-30">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -170,130 +178,127 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                 <label for="">Estado</label>
                                 <div class="form-group">
                                     <select class="form-control show-tick select-estado">
-                                        <option value="">--Selecciona un Estado --</option>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="">Tipo</label>
-                                <div class="form-group">
-                                    <select class="form-control show-tick select-tipo">
-                                        <option value="">--Selecciona un Tipo --</option>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="">Eps</label>
-                                <div class="form-group">
-                                    <select class="form-control show-tick select-eps">
-                                        <option value="">--Selecciona una Eps --</option>
-                                        <option value="1">Activo</option>
-                                        <option value="2">Inactivo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3"> 
-                                <label for="">Cliente</label>
-                                <div class="form-group"> 
-                                   <select class="form-control show-tick select-cliente"> 
-                                       <option value="">--Selecciona un Cliente --</option> 
-                                       <option value="1">Activo</option> 
-                                       <option value="2">Inactivo</option> </select> 
-                                   </div> 
-                               </div>
-                               <div class="col-md-3"> 
-                                <label for="">Ciudad</label> 
-                                <div class="form-group">
-                                 <select class="form-control show-tick select-ciudad"> 
-                                     <option value="">--Selecciona una Ciudad --</option>
-                                     <option value="1">Activo</option>
-                                     <option value="2">Inactivo</option> 
-                                 </select> 
-                             </div> 
-                         </div>
-                     </form>
-                 </div>
-                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info waves-effect filtrar">Filtrar</button>
-                    <button type="button" class="btn btn-link  waves-effect" data-dismiss="modal">Cerrar</button>
-                </div>
+                                        <option value="">--Selecciona Estado --</option>
+                                        <?php
+                                        $vector = Array_Get_EstadosIncapacidad(true);
+                                        foreach ($vector as $value)
+                                        {
+
+                                           ?>
+                                       }
+                                       <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
+                                       <?php
+                                   }
+                                   ?>
+
+                               </select>
+                           </div>
+                       </div>
+                       <div class="col-md-3">
+                        <label for="">Tipo</label>
+                        <div class="form-group">
+                            <select class="form-control show-tick select-tipo">
+                                <option value="">--Selecciona Tipo --</option>
+                                <?php
+                                $vector = Array_Get_TiposIncapacidad(true);
+                                foreach ($vector as $value)
+                                {
+
+                                   ?>
+                               }
+                               <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
+                               <?php
+                           }
+                           ?>
+                       </select>
+                   </div>
+               </div>
+               <div class="col-md-3">
+                <label for="">Eps</label>
+                <div class="form-group">
+                    <select class="form-control show-tick select-eps">
+                        <option value="">--Selecciona Eps --</option>
+                        <?php
+                        $vector = Array_Get_Eps(true);
+                        foreach ($vector as $value)
+                        {
+
+                            ?>
+                        }
+                        <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
             </div>
+        </div>
+        <div class="col-md-3"> 
+            <label for="">Ciudad</label> 
+            <div class="form-group">
+               <select class="form-control show-tick select-ciudad"> 
+                   <option value="">--Selecciona Ciudad --</option>
+                   <?php
+                   $vector = Array_Get_Ciudades(true);
+                   foreach ($vector as $value)
+                   {
+
+                       ?>
+                   }
+                   <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
+                   <?php
+               }
+               ?>
+           </select> 
+       </div> 
+   </div>
+   <div class="col-md-3"> 
+    <label for="">Empresa</label> 
+    <div class="form-group">
+       <select  class="form-control show-tick select-empresa"> 
+           <option value="">--Selecciona Empresa --</option>
+           <?php
+           $vector = Array_Get_Empresas(true);
+           foreach ($vector as $value)
+           {
+
+               ?>
+           }
+           <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
+           <?php
+       }
+       ?>
+   </select> 
+</div> 
+</div>
+<div class="col-md-5">
+    <label for="">Acronimo Cliente </label>
+    <div class="form-group">
+        <div class="form-line">
+            <input type="text" class="form-control f-acronimo" placeholder="Acronimo" />
         </div>
     </div>
 </div>
-
+<div class="col-md-3"> 
+    <label for="">Cliente</label>
+    <div class="form-group"> 
+     <select id="select-cliente" class="form-control show-tick select-cliente"> 
+         <option value="">--Selecciona Cliente --</option> 
+     </select> 
+ </div> 
+</div>
+</form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-info waves-effect filtrar-boton">Filtrar</button>
+    <button type="button" class="btn btn-link  waves-effect" data-dismiss="modal">Cerrar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
 <!--  Js-principal -->
 <script src="pages/incapacidades/js/gestionar.js"></script>
 
-
-<!-- Modal Dialogs ====================================================================================================================== -->
-<!-- Default Size -->
-<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="defaultModalLabel">Edición de jugador</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="body">
-                    <form>
-                        <label for="">Primer nombre</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control nombre1" placeholder="Primer nombre" />
-                            </div>
-                        </div>
-                        <label for="">Segundo nombre</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control nombre2" placeholder="Primer nombre" />
-                            </div>
-                        </div>
-                        <label for="">Primer apellido</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control apellido1" placeholder="Segundo apellido" />
-                            </div>
-                        </div>
-                        <label for="">Segundo apellido</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="form-control apellido2" placeholder="Segundo apellido" />
-                            </div>
-                        </div>
-                        <label for="">Fecha de nacimiento</label>
-                        <div class="form-group">
-                            <div class="form-line">
-                                <input type="text" class="datepicker form-control fechanacimiento" placeholder="Seleccina una fecha...">
-                            </div>
-                        </div>
-                        <label for="">Estado</label>
-                        <div class="form-group">
-                            <select class="form-control show-tick select-estado">
-                                <option value="">--Selecciona un estado --</option>
-
-                                <option value="1">Activo</option>
-                                <option value="2">Inactivo</option>
-
-                            </select>
-                        </div>
-
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button"  data-idjugador="" class="btn btn-info waves-effect guardar">Guardar cambios</button>
-                    <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php
 }else

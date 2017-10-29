@@ -2,11 +2,18 @@
 /**
  * [Array_Get_Clientes Retorna los clientes de incapacidades]
  */
-function Array_Get_Empresas()
+function Array_Get_Empresas($estado)
 {
 
-	$empresas = consultar("SELECT `id_empresas`, `nombre`, `estado`, `acronimo` FROM `tb_empresas` order by nombre asc  ");	
+	if ($estado)
+	{
 
+	$empresas = consultar("SELECT `id_empresas`, `nombre`, `estado`, `acronimo` FROM `tb_empresas` where estado='activo' order by nombre asc  ");	
+	}
+	else
+	{
+	$empresas = consultar("SELECT `id_empresas`, `nombre`, `estado`, `acronimo` FROM `tb_empresas` order by nombre asc  ");	
+	}
 
 	$datos = array();
 	while ($valor = mysqli_fetch_array($empresas)) {

@@ -2,10 +2,16 @@
 /**
  * [Array_Get_Clientes Retorna los clientes de incapacidades]
  */
-function Array_Get_TiposIncapacidad()
+function Array_Get_TiposIncapacidad($estado)
 {
-
-	$clubs = consultar("SELECT `id_tipos`, `nombre`, `estado` FROM `tb_tipos_incapacidad`  order by nombre ");	
+	if ($estado)
+	{
+		$clubs = consultar("SELECT `id_tipos`, `nombre`, `estado` FROM `tb_tipos_incapacidad`   order by nombre ");
+	}
+	else
+	{
+		$clubs = consultar("SELECT `id_tipos`, `nombre`, `estado` FROM `tb_tipos_incapacidad`  where estado='activo' order by nombre ");
+	}
 
 
 	$datos = array();
@@ -43,3 +49,81 @@ function boolean_new_tipo($nombre,$codigo,$estado)
 	return $campeonatos;	
 
 }
+
+function Array_Get_EstadosIncapacidad($estado)
+{
+	if ($estado)
+	{
+		$clubs = consultar("SELECT `id_estados`, `nombre`, `estado` FROM `tb_estados_incapacidad`   order by nombre ");
+	}
+	else
+	{
+		$clubs = consultar("SELECT `id_estados`, `nombre`, `estado` FROM `tb_estados_incapacidad` where estado='activo' order by nombre ");
+	}
+
+
+	$datos = array();
+	while ($valor = mysqli_fetch_array($clubs)) {
+		$id_estados = $valor['id_estados'];
+		$nombre = $valor['nombre'];
+		$estado = $valor['estado'];
+
+
+		$vector = array(
+			'id_estados'=>"$id_estados",
+			'nombre'=>"$nombre",
+			'estado'=>"$estado"
+
+			);
+		array_push($datos, $vector);
+	}
+
+	return $datos;	
+}
+
+function Array_Get_IncapcidadesxFiltro($consulta)
+{
+	$clubs = consultar("SELECT * FROM tb_incapacidades ".$consulta.' ORDER BY fecha_corte ');	
+
+	$datos = array();
+	while ($data = mysqli_fetch_array($clubs)) {
+		$id_incapacidad = $data['id_incapacidad'];
+		$ciudad = $data['ciudad'];
+		$trabajador = $data['trabajador'];
+		$cliente = $data['cliente'];
+		$tipo = $data['tipo'];
+		$estado = $data['estado'];
+		$fecha_inicial = $data['fecha_inicial'];
+		$fecha_final = $data['fecha_final'];
+		$fecha_creacion = $data['fecha_creacion'];
+		$fecha_corte = $data['fecha_corte'];
+		$cantidad = $data['cantidad'];
+		$valor = $data['valor'];
+		$eps = $data['eps'];
+
+
+
+		$vector = array(
+			'id_incapacidad'=>"$id_incapacidad",
+			'ciudad'=>"$ciudad",
+			'trabajador'=>"$trabajador",
+			'cliente'=>"$cliente",
+			'tipo'=>"$tipo",
+			'estado'=>"$estado",
+			'fecha_inicial'=>"$fecha_inicial",
+			'fecha_final'=>"$fecha_final",
+			'fecha_creacion'=>"$fecha_creacion",
+			'fecha_corte'=>"$fecha_corte",
+			'cantidad'=>"$cantidad",
+			'valor'=>"$valor",
+			'eps'=>"$eps",
+
+
+			);
+		array_push($datos, $vector);
+	}
+
+	return $datos;	
+
+}
+

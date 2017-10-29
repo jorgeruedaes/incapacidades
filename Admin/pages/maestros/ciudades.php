@@ -69,7 +69,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 							</thead>
 							<tbody>
 								<?php
-								$vector = Array_Get_Ciudades();
+								$vector = Array_Get_Ciudades(false);
 								foreach ($vector as  $value) {
 									?>
 									<tr>

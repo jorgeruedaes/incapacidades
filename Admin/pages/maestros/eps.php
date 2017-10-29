@@ -68,7 +68,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 							</thead>
 							<tbody>
 								<?php
-								$vector = Array_Get_Eps();
+								$vector = Array_Get_Eps(false);
 								foreach ($vector as  $value) {
 									?>
 									<tr>
@@ -107,7 +107,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-			<h4 class="modal-title" id="defaultModalLabel">Nueva EPS</h4>
+				<h4 class="modal-title" id="defaultModalLabel">Nueva EPS</h4>
 			</div>
 			<div class="modal-body">
 

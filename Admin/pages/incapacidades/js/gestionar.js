@@ -1,122 +1,116 @@
-//	var Creador = '<?php echo $usuario['id_jugadores']; ?>'
+//	var Creador = '<?php echo $usuario['id_incapacidades']; ?>'
 $(function() {
 	var t ='';
-	var jugadores = {
+	var incapacidades = {
 		inicio: function () {
-			jugadores.recargar();
-			jugadores.Cargar();
+			incapacidades.recargar();
+			incapacidades.Cargar();
 		},
 		recargar: function () {
-			jugadores.enviarDatos();
-			jugadores.Nuevo();
-			jugadores.evento_cambiosclub();
-			jugadores.Modal_Editar();
-			jugadores.Tabla();
-			jugadores.SeleccionCampeonato();
-			jugadores.cargarModalNuevo();
-			jugadores.SeleccionEquipo();
+			incapacidades.enviarDatos();
+			incapacidades.Tabla();
+			incapacidades.SeleccionEmpresa();
+			incapacidades.BuscarCliente();
+			incapacidades.cargarModal();
 
-		},Cargar : function()
+
+		},
+		Filtrar : function()
+		{
+			var where="WHERE 1=1 ";
+
+			if ($('.f-codigo').val().length>0)
+			{
+				where+= ' AND id_incapacidad='+$('.f-codigo').val()+' '; 
+			}
+			if ($('.f-codigodesde').val().length>0 && $('.f-codigohasta').val().length>0 )
+			{
+				where+= ' AND id_incapacidad BETWEEN '+$('.f-codigodesde').val()+' AND '+$('.f-codigohasta').val()+'  '; 
+			}
+			if ($('.f-fechacortedesde').val().length>0 && $('.f-fechacortehasta').val().length>0 )
+			{
+				where+= ' AND fecha_corte BETWEEN "'+$('.f-fechacortedesde').val()+'" AND "'+$('.f-fechacortehasta').val()+'"  '; 
+			}
+			if ($('.f-fechainicialdesde').val().length>0 && $('.f-fechainicialhasta').val().length>0 )
+			{
+				where+= ' AND fecha_inicial BETWEEN "'+('.f-fechainicialdesde').val()+'" AND "'+$('.f-fechainicialhasta').val()+'"  '; 
+			}
+			if ($('.select-estado option:selected').val().length>0)
+			{
+				where+= ' AND estado='+$('.select-estado option:selected').val()+' '; 
+			}
+			if ($('.select-tipo option:selected').val().length>0)
+			{
+				where+= ' AND tipo='+$('.select-tipo option:selected').val()+' '; 
+			}
+			if ($('.select-eps option:selected').val().length>0)
+			{
+				where+= ' AND eps='+$('.select-eps option:selected').val()+' '; 
+			}
+			if ($('.select-ciudad option:selected').val().length>0)
+			{
+				where+= ' AND ciudad='+$('.select-ciudad option:selected').val()+' '; 
+			}
+			if ($('.select-empresa option:selected').val().length>0)
+			{
+				where+= ' AND empresa='+$('.select-empresa option:selected').val()+' '; 
+			}
+			if ($('.select-cliente option:selected').val().length>0)
+			{
+				where+= ' AND cliente='+$('.select-cliente option:selected').val()+' '; 
+			}
+			if ($('.f-cedula').val().length>0)
+			{
+				where+= ' AND trabajador='+$('.f-cedula').val()+' '; 
+			}
+
+			return where;
+		},
+		Cargar : function()
 		{
 			var $demoMaskedInput = $('.demo-masked-input');
 
     //Date
-    $demoMaskedInput.find('.date').inputmask('dd/mm/yyyy', { placeholder: '__/__/____' });
+    $demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
 
-}
-,ValidarEditar : function()
+},
+
+BuscarCliente : function()
 {
-	if (/\w/gi.test($('.nombre1').val())) 
-	{
-		if (/\w/gi.test($('.apellido1').val())) 
+	$( ".f-acronimo" ).blur(function() {
+		var acronimo;
+		var numero="";
+		for (var i = 1; i <$('#select-cliente').children().size(); i++) 
 		{
-			if (/\w/gi.test($('.select-estado option:selected').val())) 
-			{
-				return true;
-			}
-			else
-			{
-				$('.select-estado').focus();
-				swal("Error", "Debes seleccionar un estado.", "error");
-				return false;
-			}
+			acronimo = $('#select-cliente').find('option')[i].dataset.acronimo;
 
+			if(acronimo == $('.f-acronimo').val().toUpperCase())
+			{
+				numero = $('#select-cliente').find('option')[i].value;
+			}
 		}
-		else
+		if(numero.length < 1)
 		{
-			$('.apellido1').focus();
-			swal("Error", "Debes escribir al menos 1 apellido.", "error");
-			return false;
+			swal("Importante", "No hay ningun Cliente que tenga ese Acronimo", "info");
 		}
 
-	}
-	else
-	{
-		$('.nombre1').focus();
-		swal("Error", "Debes escribir al menos 1 nombre.", "error");
-		return false;
 
-	}
+		$('.select-cliente').val(numero);
+		$('.select-cliente').change();
+		incapacidades.BuscarCliente();
+	});
 
 
 },
-ValidarNuevo : function()
+SeleccionEmpresa : function()
 {
-	if (/\w/gi.test($('.n-nombre1').val())) 
-	{
-		if (/\w/gi.test($('.n-apellido1').val())) 
-		{
-			if (/\w/gi.test($('.select-n-equipos option:selected').val())) 
-			{
-				if (/\w/gi.test($('.select-n-estado option:selected').val())) 
-				{
-					return true;
-				}
-				else
-				{
-					$('.select-n-estado').focus();
-					swal("Error", "Debes seleccionar un estado.", "error");
-					return false;
-				}
-
-			}
-			else
-			{
-				$('.select-n-equipos').focus();
-				swal("Error", "Debes seleccionar un equipo.", "error");
-				return false;
-
-			}
-
-		}
-		else
-		{
-			$('.n-apellido1').focus();
-			swal("Error", "Debes escribir al menos 1 apellido.", "error");
-			return false;
-		}
-
-
-	}
-	else
-	{
-		$('.n-nombre1').focus();
-		swal("Error", "Debes escribir al menos 1 nombre.", "error");
-		return false;
-
-	}
-
-
-},
-SeleccionEquipo : function()
-{
-	$('.selector-campeonato').on('change', function () {
+	$('.select-empresa').on('change', function () {
 		$.ajax({
-			url: 'pages/jugadores/peticiones/peticiones.php',
+			url: 'pages/incapacidades/peticiones/peticiones.php',
 			type: 'POST',
 			data: {
-				bandera: "getequipos",
-				campeonato:  $('.selector-campeonato option:selected').val()
+				bandera: "getclientes",
+				empresa:  $('.select-empresa option:selected').val()
 
 			},
 			success: function (resp) {
@@ -124,15 +118,16 @@ SeleccionEquipo : function()
 
 				var resp = $.parseJSON(resp);
 				if (resp.salida === true && resp.mensaje === true) {
-					$('#select-n-equipos').html('').selectpicker('refresh');
-					$('#select-n-equipos').append('<option value="">--Selecciona un Equipo --</option>').selectpicker('refresh');
+					$('#select-cliente').html('').selectpicker('refresh');
+					$('.f-acronimo').val('');
+					$('#select-cliente').append('<option value="">--Selecciona Cliente --</option>').selectpicker('refresh');
 					for (var i = 0; i < resp.datos.length; i++) {
-						$('#select-n-equipos').append('<option value='+resp.datos[i].id_equipo+'>'+resp.datos[i].nombre_equipo+'</option>').selectpicker('refresh');
+						$('#select-cliente').append('<option value='+resp.datos[i].id_clientes+'  data-acronimo='+resp.datos[i].acronimo+'   >'+resp.datos[i].nombre+'</option>').selectpicker('refresh');
 
 					}
 				} else {
-					$('#select-n-equipos').html('').selectpicker('refresh');
-					$('#select-n-equipos').append('<option value="">--Selecciona un Equipo --</option>').selectpicker('refresh');
+					$('#select-cliente').html('').selectpicker('refresh');
+					$('#select-cliente').append('<option value="">--Selecciona Cliente --</option>').selectpicker('refresh');
 
 				}
 			}
@@ -141,16 +136,27 @@ SeleccionEquipo : function()
 
 	});
 
+
 },
-SeleccionCampeonato: function()
+Tabla : function()
 {
-	$('.selector-campeonato').on('change', function () {
+	t = $('#tabla-incapacidades').DataTable({
+		dom: 'Bfrtip',
+		buttons: [
+		'csv', 'excel', 'pdf', 'print'
+		]
+	});
+
+},
+enviarDatos: function () {
+	$('.filtrar-boton').off('click').on('click', function () {
+		
 		$.ajax({
-			url: 'pages/jugadores/peticiones/peticiones.php',
+			url: 'pages/incapacidades/peticiones/peticiones.php',
 			type: 'POST',
 			data: {
-				bandera: "get_jugadores",
-				campeonato:  $('.selector-campeonato option:selected').val()
+				bandera: "filtrar",
+				where: incapacidades.Filtrar()
 
 			},
 			success: function (resp) {
@@ -160,244 +166,45 @@ SeleccionCampeonato: function()
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
 					for (var i = 0; i < resp.datos.length; i++) {
 						t.row.add( [ 
-							resp.datos[i].id_jugador,
-							resp.datos[i].documento,
-							resp.datos[i].nombre,	
-							resp.datos[i].nombre_equipo,
-							resp.datos[i].nombre_estado,
-							'<div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-id_jugador='+resp.datos[i].id_jugador+' data-nombre1="'+resp.datos[i].nombre1+'" data-nombre2="'+resp.datos[i].nombre2+'" data-apellido1="'+resp.datos[i].apellido1+'" data-apellido2="'+resp.datos[i].apellido2+'" data-fechanacimiento="'+resp.datos[i].fecha_nacimiento+'" data-estado='+resp.datos[i].estado_jugador+'  type="button" class="btn btn-primary waves-effect edit-item"><i class="material-icons">edit</i></button><button data-id_jugador='+resp.datos[i].id_jugador+'  type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
-							] ).draw( false );
+							resp.datos[i].id_incapacidad,
+							resp.datos[i].trabajador,
+							resp.datos[i].eps,
+							resp.datos[i].tipo,
+							resp.datos[i].fecha_inicial,
+							resp.datos[i].fecha_final,
+							resp.datos[i].fecha_corte,
+							resp.datos[i].cantidad,
+							resp.datos[i].valor,
+							resp.datos[i].estado 
 
-
+							]).draw( false );
 					}
-					jugadores.Modal_Editar();
-						//	$('.page-loader-wrapper').css('display','none');
-					} else {
-						t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
-						swal("Importante", "No hay INCAPACIDADES  para este filtro.", "info");
-					}
-				}
-			});
-
-
-});
-},
-Tabla : function()
-{
-	t = $('#tabla-incapacidades').DataTable();
-
-},
-evento_cambiosclub : function ()
-{
-	$('.select-n-club').on('change', function() {
-
-		$.ajax({
-			url: 'pages/jugadores/peticiones/peticiones.php',
-			type: 'POST',
-			data: {
-				bandera: "equiposxclub",
-				club :$('.select-n-club option:selected').val()
-
-
-			},
-			success: function (resp) {
-
-				var resp = $.parseJSON(resp);
-				if (resp.salida === true && resp.mensaje === true) {
-					for (var i = 0; i<= resp.datos.length; i++) {
-						$('.select-n-equipos').first().append('<option value="'+resp.datos[i].id_equipo+'">"'+resp.datos[i].nombre_equipo+'"</option>')
-
-					};
-
-
+					$('#Modalnuevo').modal('hide');
 				} else {
-					swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
+					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
+					swal("Importante!", "No se han encontrado registros para ese filtro, intenta nuevamente.", "info");
 				}
 			}
 		});
-
-	});
-},
-Nuevo : function ()
-{
-	$('.guardar-nuevo').off('click').on('click', function () {	
-		if(jugadores.ValidarNuevo())
-		{
-			$.ajax({
-				url: 'pages/jugadores/peticiones/peticiones.php',
-				type: 'POST',
-				data: {
-					bandera: "nuevo",
-					nombre1 : $('.n-nombre1').val(),
-					nombre2 :$('.n-nombre2').val(),
-					apellido1 :$('.n-apellido1').val(),
-					apellido2 : $('.n-apellido2').val(),
-					fecha :$('.n-fechanacimiento').val(),
-					documento :$('.n-documento').val(),
-					estado :$('.select-n-estado option:selected').val(),
-					equipo :$('.select-n-equipos option:selected').val(),
-
-
-				},
-				success: function (resp) {
-
-					var resp = $.parseJSON(resp);
-					if (resp.salida === true && resp.mensaje === true) {
-						swal({title: "Información",
-							text: "El jugador se ha creado exitosamente!.",
-							type: "success",
-							showCancelButton: false,
-							confirmButtonColor: "rgb(174, 222, 244)",
-							confirmButtonText: "Aceptar",
-							closeOnConfirm: false
-						}, function (isConfirm) {
-							if (isConfirm) {
-								window.location.reload();
-							}
-						});
-					} else {
-						swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
-					}
-				}
-			});
-
-}
-});
-},
-
-enviarDatos: function () {
-	$('.guardar').off('click').on('click', function () {
-		if(jugadores.ValidarEditar())
-		{
-			$.ajax({
-				url: 'pages/jugadores/peticiones/peticiones.php',
-				type: 'POST',
-				data: {
-					bandera: "modificar",
-					id_jugador : $('.guardar').data('idjugador'),
-					nombre1 : $('.nombre1').val(),
-					nombre2 :$('.nombre2').val(),
-					apellido1 :$('.apellido1').val(),
-					apellido2 : $('.apellido2').val(),
-					fecha :$('.fechanacimiento').val(),
-					estado :$('.select-estado option:selected').val(),
-
-
-				},
-				success: function (resp) {
-
-					var resp = $.parseJSON(resp);
-					if (resp.salida === true && resp.mensaje === true) {
-						swal({title: "Importante",
-							text: "El jugador se ha modificado exitosamente!",
-							type: "success",
-							showCancelButton: false,
-							confirmButtonColor: "rgb(174, 222, 244)",
-							confirmButtonText: "Aceptar",
-							closeOnConfirm: false
-						}, function (isConfirm) {
-							if (isConfirm) {
-								window.location.reload();
-							}
-						});
-					} else {
-						swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
-					}
-				}
-			});
-}
 });
 
 
 },
-cargarModal: function(id_jugador,nombre1,nombre2,apellido1,apellido2,estado,fechanacimiento)
-{
-	$('.guardar').data('idjugador',id_jugador)
-	$('.nombre1').val(nombre1);
-	$('.nombre2').val(nombre2);
-	$('.apellido1').val(apellido1);
-	$('.apellido2').val(apellido2);
-	$('.fechanacimiento').val(fechanacimiento);
-	$('.select-estado').val(estado);
-	$('.select-estado').change();
-	$('#defaultModal').modal('show'); 
-},
-cargarModalNuevo: function()
+cargarModal: function()
 {
 	$('.filtro').on("click", function(){
 		$('#Modalnuevo').modal('show'); 
-		jugadores.Cargar();
+		incapacidades.Cargar();
+		incapacidades.enviarDatos();
 	});
 
-
-},
-
-Modal_Editar :function()
-{
-
-	$('#tabla-jugadores').on("click", ".edit-item", function(){
-		var id_jugador = $(this).data('id_jugador');
-		var nombre1 = $(this).data('nombre1');
-		var nombre2 = $(this).data('nombre2');
-		var apellido1 = $(this).data('apellido1');
-		var apellido2 = $(this).data('apellido2');
-		var estado = $(this).data('estado');
-		var fechanacimiento = $(this).data('fechanacimiento');
-		jugadores.cargarModal(id_jugador,nombre1,nombre2,apellido1,apellido2,estado,fechanacimiento);
-	});
-
-	$('#tabla-jugadores').on("click", ".delete-item", function(){
-		var jugador = $(this).data('id_jugador');
-
-		swal({title: "¿Esta Seguro?",
-			text: "Desea Eliminar a el Jugador",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "rgb(174, 222, 244)",
-			confirmButtonText: "Aceptar",
-			closeOnConfirm: false
-		}, function (isConfirm) {
-			if (isConfirm) {
-				
-				$.ajax({
-					url: 'pages/jugadores/peticiones/peticiones.php',
-					type: 'POST',
-					data: {
-						bandera: "eliminar",
-						jugador : jugador
-					},
-					success: function (resp) {
-
-						var resp = $.parseJSON(resp);
-						if (resp.salida === true && resp.mensaje === true) {
-							swal({title: "Importante",
-								text: "El jugador se ha Eliminado exitosamente!",
-								type: "success",
-								showCancelButton: false,
-								confirmButtonColor: "rgb(174, 222, 244)",
-								confirmButtonText: "Aceptar",
-								closeOnConfirm: false
-							}, function (isConfirm) {
-								if (isConfirm) {
-									window.location.reload();
-								}
-							});
-						} else {
-							swal("", "Ha ocurrido un error, '"+resp.datos+"' ", "error");
-						}
-					}
-				});
-
-			}
-		});
-});
 
 
 }
 };
 $(document).ready(function () {
 
-	jugadores.inicio();
+	incapacidades.inicio();
 
 });
 

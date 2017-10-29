@@ -2,10 +2,17 @@
 /**
  * [Array_Get_Clientes Retorna los clientes de incapacidades]
  */
-function Array_Get_Eps()
+function Array_Get_Eps($estado)
 {
-
+	if($estado)
+	{
+	$clubs = consultar("SELECT `id_eps`, `nombre`, `estado` FROM `tb_eps` where estado='activo' order by nombre asc  ");	
+	}
+	else
+	{
+		
 	$clubs = consultar("SELECT `id_eps`, `nombre`, `estado` FROM `tb_eps` order by nombre asc  ");	
+	}
 
 
 	$datos = array();
