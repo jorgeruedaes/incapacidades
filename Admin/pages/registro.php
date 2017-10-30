@@ -3,7 +3,7 @@
 require('../php/principal.php');
 ?>
 <!DOCTYPE html>
-<html>
+<html> 
 
 <head>
     <meta charset="UTF-8">

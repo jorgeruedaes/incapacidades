@@ -11,7 +11,7 @@ if(isset($_SESSION['id_usuarios']))
 <html>
 
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"> 
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<title>Inicio de sesión Administración |<?php echo String_Get_Valores('titulo') ?></title>
 	<!-- Favicon-->
