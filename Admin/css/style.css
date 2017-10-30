@@ -7263,7 +7263,7 @@ fieldset[disabled] .form-control {
       .sidebar .menu .list li.active > :first-child span {
         font-weight: bold; }
       .sidebar .menu .list .header {
-        background: #eee;
+        background: none;
         font-size: 12px;
         font-weight: 600;
         padding: 8px 16px; }
@@ -7714,3 +7714,10 @@ html.ie11 .dropdown-menu ul.menu li a {
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
 
+.menu-item-active {
+  background-color: #DADFE1 !important;
+}
+
+.menu-item-inactive {
+  background-color: white;
+}

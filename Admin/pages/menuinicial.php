@@ -86,7 +86,8 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="pages/administracion.php">Administración <?php echo String_Get_Valores("titulo"); ?></a>
+                <a class="navbar-brand" href="pages/administracion.php"> Módulo <b>Administrador</b> Incapacidades</a>
+                <!--<a class="navbar-brand" href="pages/administracion.php"> <?php echo String_Get_Valores("titulo"); ?></a>-->
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -95,7 +96,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                     </li> 
                     <!-- #END# Call Search -->
                     <!-- Notifications --> 
-                    <li class="dropdown">
+              <!--       <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">notifications</i>
                             <span class="label-count"><?php echo Int_Get_nuevosUsuarios(); ?></span>
@@ -116,8 +117,8 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                                                     Se han registrado</p>
                                                 </div>
                                             </a>
-                                        </li>
-                                       <!--  <li>
+                                        </li> 
+                                         <li>
                                             <a href="javascript:void(0);">
                                                 <div class="icon-circle bg-cyan">
                                                     <i class="material-icons">add_shopping_cart</i>
@@ -194,21 +195,21 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                                                     </p>
                                                 </div>
                                             </a>
-                                        </li>--> 
+                                        </li> 
                                     </ul>
                                 </li>
-                          <!--  <li class="footer">
+                            <li class="footer">
                                 <a href="javascript:void(0);">View All Notifications</a>
-                            </li>-->
+                            </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <!--  #END# Notifications -->
                     <!-- Tasks -->
-                    <li class="dropdown">
+                   <!--  <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">flag</i>
                             <span class="label-count">9</span>
-                        </a>
+                        </a> -->
                        <!--  <ul class="dropdown-menu">
                             <li class="header">TASKS</li>
                             <li class="body">
@@ -279,10 +280,10 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                                 <a href="javascript:void(0);">View All Tasks</a>
                             </li>
                         </ul> -->
-                    </li>
+                    <!--</li>-->
                     <!--    #END# Tasks --> 
-                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a>
-                    </li>
+                    <!-- <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -305,7 +306,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                             <li><a href="pages/usuarios/perfil.php"><i class="material-icons">person</i>Perfil</a>
                             </li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="pages/cerrarsesion.php"><i class="material-icons">input</i>Cerrar Sesión</a>
+                            <li><a href="pages/cerrarsesion.php"><i class="material-icons">input</i>Cerrar sesión</a>
                             </li>
                         </ul>
                     </div>
@@ -315,7 +316,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-                    <li class="header">MENU PRINCIPAL</li>
+                    <li class="header">MENÚ PRINCIPAL</li>
                     <?php 
                     $vector = Array_Get_MenuPrincipal(0,'principal',$_SESSION['perfil']);
                     foreach ($vector as $value)
@@ -325,7 +326,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                         {
                             ?>
                             <li>
-                                <a href="javascript:void(0);" class="menu-toggle">
+                                <a href="javascript:void(0);" class="menu-toggle menu-item">
                                     <i class="material-icons"><?php echo $value['icono']; ?></i>
                                     <span><?php echo $value['nombre']; ?></span>
                                 </a>
@@ -336,7 +337,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                                     {
                                         ?>
                                         <li>
-                                            <a href="<?php echo $values['ruta']; ?>">
+                                            <a class="menu-item" href="<?php echo $values['ruta']; ?>">
                                                 <i class="material-icons"><?php echo $values['icono']; ?></i>
                                                 <span><?php echo $values['nombre']; ?></span>
 
@@ -930,6 +931,16 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
 
 <!-- Demo Js -->
 <script src="js/demo.js"></script>
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+       $( ".menu-item" ).click(function() {
+
+        $('.menu-item').removeClass("menu-item-active");
+        $(this).addClass("menu-item-active");
+        });
+    });
+</script>
 </body>
 
 </html>

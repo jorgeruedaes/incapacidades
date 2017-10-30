@@ -13,7 +13,7 @@ if(isset($_SESSION['id_usuarios']))
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<title>Inicio de sesion Administración |<?php echo String_Get_Valores('titulo') ?></title>
+	<title>Inicio de sesión Administración |<?php echo String_Get_Valores('titulo') ?></title>
 	<!-- Favicon-->
 	<link rel="icon" href="../../webs/images/<?php echo String_Get_Valores('favicon') ?>" type="image/x-icon">
 
@@ -35,13 +35,13 @@ if(isset($_SESSION['id_usuarios']))
 <body class="login-page">
 	<div class="login-box">
 		<div class="logo">
-			<a href="javascript:void(0);">Admin<b>TEAM</b></a>
-			<small><?php echo String_Get_Valores('titulo') ?>  - Material Design</small>
+			<a href="javascript:void(0);">Módulo<b>Administrador</b></a>
+			<small style="font-size: 1.1em"><?php echo String_Get_Valores('titulo') ?></small>
 		</div>
 		<div class="card">
 			<div class="body">
 				<form id="sign_in" action="../php/peticiones.php" method="POST">
-					<div class="msg">Inicia sesion para entrar al sistema.</div>
+					<div class="msg">Digita tus datos para ingresar al sistema.</div>
 					<div class="input-group">
 						<span class="input-group-addon">
 							<i class="material-icons">person</i>
@@ -59,19 +59,19 @@ if(isset($_SESSION['id_usuarios']))
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-8 p-t-5">
+						<div class="col-xs-7 p-t-5">
 						</div>
-						<div class="col-xs-4">
+						<div class="col-xs-5">
 							<input type="hidden" value="conectar" name="bandera" />
-							<button class="btn btn-block bg-pink waves-effect" type="submit">Entrar</button>
+							<button class="btn btn-block bg-pink waves-effect" type="submit">Iniciar sesión</button>
 						</div>
 					</div>
 					<div class="row m-t-15 m-b--20">
-						<div class="col-xs-6">
-							<a href="registro.php">Registrate </a> 
+						<div class="col-xs-5">
+							<a href="registro.php">Regístrate </a> 
 						</div>
-						<div class="col-xs-6 align-right">
-							<a href="olvidastecontrasena.php">¿ Olvidaste la contraseña ?</a>
+						<div class="col-xs-7 align-right">
+							<a href="olvidastecontrasena.php">¿Olvidaste tu contraseña?</a>
 						</div>
 					</div>
 				</form>

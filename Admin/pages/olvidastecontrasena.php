@@ -31,14 +31,14 @@ require('../php/configuracion.php');
 <body class="fp-page">
     <div class="fp-box">
         <div class="logo">
-            <a href="javascript:void(0);">Admin<b>TEAM</b></a>
-            <small><?php echo String_Get_Valores('titulo') ?>  - Material Design</small>
+            <a href="javascript:void(0);">Módulo<b>Administrador</b></a>
+            <small style="font-size: 1.1em"><?php echo String_Get_Valores('titulo') ?></small>
         </div>
         <div class="card">
             <div class="body">
                 <form action="../php/peticiones.php" id="forgot_password" method="POST">
                 	<div class="msg">
-                        Ingrese el email con el cual se registro.
+                        Ingresa el email con el cuál te registraste.
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
@@ -52,7 +52,7 @@ require('../php/configuracion.php');
                     <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">Enviar</button>
 
                     <div class="row m-t-20 m-b--5 align-center">
-                    <a href="inicio.php">Volver!</a>
+                    <a href="inicio.php">Volver</a>
                     </div>
                 </form>
             </div>

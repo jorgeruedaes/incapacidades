@@ -30,19 +30,19 @@ require('../php/principal.php');
 <body class="login-page">
     <div class="login-box">
         <div class="logo">
-            <a href="javascript:void(0);">Admin<b>TEAM</b></a>
-            <small><?php echo String_Get_Valores('titulo') ?>  - Material Design</small>
+            <a href="javascript:void(0);">Módulo<b>Administrador</b></a>
+            <small style="font-size: 1.1em"><?php echo String_Get_Valores('titulo') ?></small>
         </div>
         <div class="card">
             <div class="body">
                 <form id="sign_in" action="../php/peticiones.php" method="POST">
-                    <div class="msg">Recuerda que para poder ingresar el usuario debe ser autorizado por un administrador.</div>
+                    <div class="msg">Tu registro deberá ser autorizado por un administrador del sistema.</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                         <div class="form-line">
-                            <input type="text" id="name" class="form-control" name="name" placeholder="Nombre" required autofocus>
+                            <input type="text" id="name" class="form-control" name="name" placeholder="Nombres" required autofocus>
                         </div>
                     </div>
                     <div class="input-group">
@@ -50,7 +50,7 @@ require('../php/principal.php');
                             <i class="material-icons">person</i>
                         </span>
                         <div class="form-line">
-                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellido" required autofocus>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellidos" required autofocus>
                         </div>
                     </div>
 
@@ -114,11 +114,10 @@ require('../php/principal.php');
          </div>
          <div class="form-group">
             <input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
-            <label for="terms">Ya he leido, acepto los <a href="javascript:void(0);">terminos de uso</a>.</label>
+            <label for="terms">He leído, comprendido y acepto los <a href="javascript:void(0);">términos de uso</a>.</label>
         </div>
         <div class="row">
-            <div class="col-xs-8 p-t-5">
-            </div>
+           
             <div class="col-xs-12">
                 <input type="hidden" value="guardar" name="bandera" />
                 <button class="btn btn-block bg-pink waves-effect registro" type="submit">Registrarse</button>
@@ -126,7 +125,7 @@ require('../php/principal.php');
         </div>
     </form>
     <div class="m-t-25 m-b--5 align-center">
-    <a href="inicio.php">¿ Ya estas registrado ?</a>
+    <a href="inicio.php">¿Ya estás registrado?</a>
 </div>
 </div>
 </div>
