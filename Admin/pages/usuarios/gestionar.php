@@ -139,3 +139,4 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 	require("../sinpermiso.php");
 }
 ?>
+

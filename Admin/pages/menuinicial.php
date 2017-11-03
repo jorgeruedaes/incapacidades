@@ -8,6 +8,7 @@ if(!isset($_SESSION['id_usuarios']))
     $ruta = $ubicacion.'error.php';
     header("location:$ruta");
 }
+
 $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
 ?>
 <!DOCTYPE html>
@@ -316,7 +317,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-                    <li class="header">MENÚ PRINCIPAL</li>
+                    <li class="header">MENÚ PRINCIPAL <?php echo $_SESSION["sort"]; ?></li>
                     <?php 
                     $vector = Array_Get_MenuPrincipal(0,'principal',$_SESSION['perfil']);
                     foreach ($vector as $value)
@@ -326,7 +327,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                         {
                             ?>
                             <li>
-                                <a href="javascript:void(0);" class="menu-toggle menu-item">
+                                <a href="javascript:void(0);" class="menu-toggle menu-item" data-padre="<?php echo $value['id_modulos'] ?>">
                                     <i class="material-icons"><?php echo $value['icono']; ?></i>
                                     <span><?php echo $value['nombre']; ?></span>
                                 </a>
@@ -337,7 +338,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                                     {
                                         ?>
                                         <li>
-                                            <a class="menu-item" href="<?php echo $values['ruta']; ?>">
+                                            <a href="<?php echo $values['ruta']; ?>" class="submenu-item" data-hijo="<?php echo $values['id_modulos'] ?>" data-padre="<?php echo $values['padre'] ?>">
                                                 <i class="material-icons"><?php echo $values['icono']; ?></i>
                                                 <span><?php echo $values['nombre']; ?></span>
 
@@ -354,7 +355,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                         {
                             ?>
                             <li>
-                                <a href="pages/<?php echo $value['ruta']; ?>">
+                                <a href="pages/<?php echo $value['ruta']; ?>" class="menu-item">
                                     <i class="material-icons"><?php echo $value['icono']; ?></i>
                                     <span><?php echo $value['nombre']; ?></span>
                                 </a>
@@ -933,11 +934,17 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
 <script src="js/demo.js"></script>
 
 <script type="text/javascript">
-    $( document ).ready(function() {
-       $( ".menu-item" ).click(function() {
-
-        $('.menu-item').removeClass("menu-item-active");
-        $(this).addClass("menu-item-active");
+    $( document ).ready(function() {        
+    //click en los menú padre     
+        $( ".menu-item" ).click(function() {
+                $('.menu-item').removeClass("menu-item-active");
+                $(this).addClass("menu-item-active");             
+        });
+    //click en los submenús
+        $( ".submenu-item" ).click(function() {
+            //$hijo = $(this).data('hijo');
+            //$padre = $(this).data('padre');
+            });
         });
     });
 </script>

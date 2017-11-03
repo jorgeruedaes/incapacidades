@@ -7717,7 +7717,6 @@ html.ie11 .bs-searchbox .form-control {
 .menu-item-active {
   background-color: #DADFE1 !important;
 }
-
-.menu-item-inactive {
-  background-color: white;
-} 
+.submenu-item-active {
+  background-color: #DADFE1 !important;
+}
