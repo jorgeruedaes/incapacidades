@@ -20,15 +20,15 @@ if ($bandera === "guardar") {
 	list ($query,$mensaje) = Boolean_Insertar_Usuario($nombre,$apellido,$username,$password,$pregunta,$respuesta,$email);	
 
 	if ($query)
-   {
-      $resultado.='"mensaje":true';
-      $resultado.=',"comentario":'.$mensaje.'';
-      header("location:../pages/usuariocreado.php");
-  } else {
-      $resultado.='"mensaje":false';
-      $resultado.=',"comentario":'.$mensaje.'';
-      header("location:../pages/registro.php");
-  }
+ {
+  $resultado.='"mensaje":true';
+  $resultado.=',"comentario":'.$mensaje.'';
+  header("location:../pages/usuariocreado.php");
+} else {
+  $resultado.='"mensaje":false';
+  $resultado.=',"comentario":'.$mensaje.'';
+  header("location:../pages/registro.php");
+}
 }
 // Permite saber si se puede o no registrar el nuevo usuario con ese nombre y email.
 else if($bandera === "validar-usuario") {
@@ -42,21 +42,44 @@ else if($bandera === "validar-usuario") {
 		$resultado.='"mensaje":true';
 	}
 	// Permite recuperar la contraseña
+}else if($bandera === "get_menu") {
+    if (isset($_SESSION['padre']) and isset($_SESSION['hijo']) )
+    {
+        $resultado.='"mensaje":true';
+        $resultado.=',"padre":'.$_SESSION['padre'].'';
+        $resultado.=',"hijo":'.$_SESSION['hijo'].'';
+    }
+    else
+    {
+       $resultado.='"mensaje":false';   
+   }
+}else if($bandera === "delete_menu") {
+
+    $resultado.='"mensaje":true';
+    $_SESSION['padre']='';
+    $_SESSION['hijo']='';
+}else if($bandera === "set_menu") {
+
+    $resultado.='"mensaje":true';
+    $_SESSION['padre'] = $_POST['padre'];
+    $_SESSION['hijo'] = $_POST['hijo'];
+
+    // Permite recuperar la contraseña
 }else if($bandera === "recuperar") {
 	$email = $_POST['email'];
 	$query = consultar(sprintf("SELECT  id_usuario,pregunta_usuario,email_usuario FROM `tb_usuarios` WHERE email_usuario='%s'",escape($email)));
 	$values = mysqli_fetch_array($query);
 	if (Int_consultaVacia($query)>0) {
-       session_start();   
+     session_start();   
 
-       $_SESSION['usuario']=$values['id_usuario'];
-        $_SESSION['email']=$values['email_usuario'];
-       $_SESSION['pregunta']=$values['pregunta_usuario'];
-       header("location:../pages/preguntas.php");
-   } else {
-      session_destroy();
-      header("location:../pages/error.php");
-  }
+     $_SESSION['usuario']=$values['id_usuario'];
+     $_SESSION['email']=$values['email_usuario'];
+     $_SESSION['pregunta']=$values['pregunta_usuario'];
+     header("location:../pages/preguntas.php");
+ } else {
+  session_destroy();
+  header("location:../pages/error.php");
+}
 	// Valida la respuesta del usuario.
 }else if($bandera === "validar-respuesta") {
 	$respuesta = $_POST['respuesta'];
@@ -65,25 +88,25 @@ else if($bandera === "validar-usuario") {
 	if (Int_consultaVacia($query)>0) {
 		$_SESSION['valido']=$_SESSION['usuario'];
         $email = $_SESSION['email'];
-       $codigo = generarCodigo(10);
-       if(new_verificacion($_SESSION['usuario'],$codigo))
-       {
-        if(enviar_correo($email,$codigo))
+        $codigo = generarCodigo(10);
+        if(new_verificacion($_SESSION['usuario'],$codigo))
         {
+            if(enviar_correo($email,$codigo))
+            {
 
-        header("location:../pages/cambiarcontrasena.php");
+                header("location:../pages/cambiarcontrasena.php");
+            }
+            else
+            {
+                session_destroy();
+                header("location:../pages/error.php");
+            }
+
         }
-        else
-        {
-        session_destroy();
-        header("location:../pages/error.php");
-       }
-
-       }
-	} else {
-		session_destroy();
-		header("location:../pages/error.php");
-	}
+    } else {
+      session_destroy();
+      header("location:../pages/error.php");
+  }
 }
 // Permite verificar codigo para crear nueva contraseña.
 else if($bandera === "enviar-codigo") {
@@ -105,11 +128,11 @@ else if($bandera === "nueva") {
 	if ($query) {
 		$_SESSION['recuperada']='Si';
         delete_verificacion($_SESSION['valido']);
-		header("location:../pages/recuperada.php");
-	} else {
-		session_destroy();
-		header("location:../pages/error.php");
-	}
+        header("location:../pages/recuperada.php");
+    } else {
+      session_destroy();
+      header("location:../pages/error.php");
+  }
 }
 // Permite el inicio de sesión.
 else if($bandera === "conectar") {
@@ -386,120 +409,120 @@ $contenido = '
 </script>
 </head>
 <body style="background-color: #ECF0F1;">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-<tr>
-<td>
-<table style="font-family:helvetica, sans-serif; margin: 30px auto; border-radius: 5px; -webkit-border-radius: 5px;" class="MainContainer" align="center" width="500" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
-<tbody>
-<tr>
-<td>
-<table style="border-color: #dddddd;border-width: 1px;border-style: solid;" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-<tr>
-<td width="20" valign="top">&nbsp;</td>
-<td>
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-<tr>
-<td class="movableContentContainer">
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-<tr>
-<td height="15"></td>
-</tr>
-<tr style="text-align: center;align-content: center;">
-<td style="align-content: center;">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-    <tbody>
-        <tr>
-            <td style="/*! background-color: black; */background-color: #019875;padding: 15px;/*! text-align: center; */" valign="top">
-                <div style="/*! text-align: center; */"><img src="http://ligasantandereanadefutbol.co/images/logo.png" alt="Logo" title="Logo" data-max-width="100" style="/*! text-align: center; */width: 50%;height: 30%;" height="60" width="60"></div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-</td>
-</tr>
-<tr>
-<td height="15"> </td>
-</tr>
-<tr>
-<td><hr style="height:1px;background:#DDDDDD;border:none;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-<tr>
-<td height="20"></td>
-</tr>
-<tr>
-<td style="border: 1px solid #EEEEEE; border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px"><table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-    <tr>
-        <td width="40" valign="top">&nbsp;</td>
-        <td><table align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="contentEditableContainer contentTextEditable">
-                            <div class="contentEditable">
-                                <h3 style="color: #BC191A;text-align:center;font-size:20px">Tienes un nuevo mensaje!</h3>
-                                <br>
-                                <br>
-                                <br>
-                                <table id="tableRequest">
-                                  <tbody>
-                                      <tr>
-                                        <td class="req">De:</td>
-                                        <td class="req">'.$de.'</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="req">Email:</td>
-                                        <td class="req">'.$email.'</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="req">Asunto:</td>
-                                                <td class="req">'.$asunto.'</td>
-                                            </tr>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+            <tr>
+                <td>
+                    <table style="font-family:helvetica, sans-serif; margin: 30px auto; border-radius: 5px; -webkit-border-radius: 5px;" class="MainContainer" align="center" width="500" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table style="border-color: #dddddd;border-width: 1px;border-style: solid;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
                                             <tr>
-                                                <td class="req">Mensaje:</td>
-                                                <td class="req">'.$mensaje.'</td>
-                                            </tr>
-                                        </tbody></table>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody></table></td>
-                        <td width="40" valign="top">&nbsp;</td>
-                    </tr>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-</tbody>
-</table>
-</div>
-<div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-    <tr>
-        <td height="40"></td>
-    </tr>
-</tbody>
-</table>
-</div>
-<div class="movableContent" style="border: 0px; padding: 10px 0; position: relative; background: #019875; color:#FFFFFF; /*! border-radius: 5px; */ /*! -webkit-border-radius: 5px; */">
+                                                <td width="20" valign="top">&nbsp;</td>
+                                                <td>
+                                                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="movableContentContainer">
+                                                                    <div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td height="15"></td>
+                                                                                </tr>
+                                                                                <tr style="text-align: center;align-content: center;">
+                                                                                    <td style="align-content: center;">
+                                                                                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td style="/*! background-color: black; */background-color: #019875;padding: 15px;/*! text-align: center; */" valign="top">
+                                                                                                        <div style="/*! text-align: center; */"><img src="http://ligasantandereanadefutbol.co/images/logo.png" alt="Logo" title="Logo" data-max-width="100" style="/*! text-align: center; */width: 50%;height: 30%;" height="60" width="60"></div>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td height="15"> </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><hr style="height:1px;background:#DDDDDD;border:none;"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
+                                                                    </div>
+                                                                    <div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td height="20"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="border: 1px solid #EEEEEE; border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px"><table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td width="40" valign="top">&nbsp;</td>
+                                                                                                <td><table align="center" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                                                    <tbody>
+                                                                                                        <tr>
+                                                                                                            <td>
+                                                                                                                <div class="contentEditableContainer contentTextEditable">
+                                                                                                                    <div class="contentEditable">
+                                                                                                                        <h3 style="color: #BC191A;text-align:center;font-size:20px">Tienes un nuevo mensaje!</h3>
+                                                                                                                        <br>
+                                                                                                                        <br>
+                                                                                                                        <br>
+                                                                                                                        <table id="tableRequest">
+                                                                                                                          <tbody>
+                                                                                                                              <tr>
+                                                                                                                                <td class="req">De:</td>
+                                                                                                                                <td class="req">'.$de.'</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td class="req">Email:</td>
+                                                                                                                                <td class="req">'.$email.'</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td class="req">Asunto:</td>
+                                                                                                                                <td class="req">'.$asunto.'</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td class="req">Mensaje:</td>
+                                                                                                                                <td class="req">'.$mensaje.'</td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody></table>
+                                                                                                                        <br>
+                                                                                                                        <br>
+                                                                                                                        <br>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </tbody></table></td>
+                                                                                                    <td width="40" valign="top">&nbsp;</td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="movableContent" style="border: 0px; padding-top: 0px; position: relative;">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td height="40"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="movableContent" style="border: 0px; padding: 10px 0; position: relative; background: #019875; color:#FFFFFF; /*! border-radius: 5px; */ /*! -webkit-border-radius: 5px; */">
                                                                         <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                                                             <tbody>
                                                                                 <tr>

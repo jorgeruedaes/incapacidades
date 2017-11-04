@@ -117,8 +117,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 		<!-- Dropzone Css -->
 		<link href="plugins/dropzone/dropzone.css" rel="stylesheet">
 		<script src="pages/incapacidades/js/cargarincapacidades.js"></script>
-		<script src="pages/incapacidades/js/incapacidades
-		.js"></script>
+	<!--	<script src="pages/incapacidades/js/incapacidades.js"></script>  -->
 
 
 

@@ -87,13 +87,13 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="pages/administracion.php"> Módulo <b>Administrador</b> Incapacidades</a>
+                <a class="navbar-brand" class="init-item" href="pages/administracion.php"> Módulo <b>Administrador</b> Incapacidades</a>
                 <!--<a class="navbar-brand" href="pages/administracion.php"> <?php echo String_Get_Valores("titulo"); ?></a>-->
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Call Search -->
-                    <li><a href="pages/administracion.php"  data-close="true"><i class="material-icons">home</i></a>
+                    <li><a class="init-item" href="pages/administracion.php"  data-close="true"><i class="material-icons">home</i></a>
                     </li> 
                     <!-- #END# Call Search -->
                     <!-- Notifications --> 
@@ -281,90 +281,90 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                                 <a href="javascript:void(0);">View All Tasks</a>
                             </li>
                         </ul> -->
-                    <!--</li>-->
-                    <!--    #END# Tasks --> 
+                        <!--</li>-->
+                        <!--    #END# Tasks --> 
                     <!-- <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a>
-                    </li> -->
-                </ul>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- #Top Bar -->
+<section>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="image">
+                <img src="images/user.png" width="48" height="48" alt="User" />
+            </div>
+            <div class="info-container">
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo String_Get_Nombre($usuario['id_usuarios']);?></div>
+                <div class="email"><?php echo $usuario['email'];?></div>
+                <div class="btn-group user-helper-dropdown">
+                    <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="pages/usuarios/perfil.php"><i class="material-icons">person</i>Perfil</a>
+                        </li>
+                        <li role="seperator" class="divider"></li>
+                        <li><a href="pages/cerrarsesion.php"><i class="material-icons">input</i>Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </nav>
-    <!-- #Top Bar -->
-    <section>
-        <!-- Left Sidebar -->
-        <aside id="leftsidebar" class="sidebar">
-            <!-- User Info -->
-            <div class="user-info">
-                <div class="image">
-                    <img src="images/user.png" width="48" height="48" alt="User" />
-                </div>
-                <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo String_Get_Nombre($usuario['id_usuarios']);?></div>
-                    <div class="email"><?php echo $usuario['email'];?></div>
-                    <div class="btn-group user-helper-dropdown">
-                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="pages/usuarios/perfil.php"><i class="material-icons">person</i>Perfil</a>
-                            </li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="pages/cerrarsesion.php"><i class="material-icons">input</i>Cerrar sesión</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #User Info -->
-            <!-- Menu -->
-            <div class="menu">
-                <ul class="list">
-                    <li class="header">MENÚ PRINCIPAL</li>
-                    <?php 
-                    $vector = Array_Get_MenuPrincipal(0,'principal',$_SESSION['perfil']);
-                    foreach ($vector as $value)
+        <!-- #User Info -->
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="header">MENÚ PRINCIPAL</li>
+                <?php 
+                $vector = Array_Get_MenuPrincipal(0,'principal',$_SESSION['perfil']);
+                foreach ($vector as $value)
+                {
+
+                    if ($value['submenu']=='1')
                     {
-
-                        if ($value['submenu']=='1')
-                        {
-                            ?>
-                            <li>
-                                <a href="javascript:void(0);" class="menu-toggle menu-item" data-padre="<?php echo $value['id_modulos'] ?>">
-                                    <i class="material-icons"><?php echo $value['icono']; ?></i>
-                                    <span><?php echo $value['nombre']; ?></span>
-                                </a>
-                                <ul class="ml-menu">
-                                    <?php
-                                    $vectores = Array_Get_MenuPrincipal($value['id_modulos'],'hijos',$_SESSION['perfil']);
-                                    foreach ($vectores as $values)
-                                    {
-                                        ?>
-                                        <li>
-                                            <a href="<?php echo $values['ruta']; ?>" class="submenu-item" data-hijo="<?php echo $values['id_modulos'] ?>" data-padre="<?php echo $values['padre'] ?>">
-                                                <i class="material-icons"><?php echo $values['icono']; ?></i>
-                                                <span><?php echo $values['nombre']; ?></span>
-
-                                            </a>
-                                        </li>
-                                        <?php
-                                    }
+                        ?>
+                        <li>
+                            <a href="javascript:void(0);" class="menu-toggle menu-item" data-padre="<?php echo $value['id_modulos'] ?>">
+                                <i class="material-icons"><?php echo $value['icono']; ?></i>
+                                <span><?php echo $value['nombre']; ?></span>
+                            </a>
+                            <ul class="ml-menu">
+                                <?php
+                                $vectores = Array_Get_MenuPrincipal($value['id_modulos'],'hijos',$_SESSION['perfil']);
+                                foreach ($vectores as $values)
+                                {
                                     ?>
-                                </ul>
-                            </li>
-                            <?php
-                        }
-                        else
-                        {
-                            ?>
-                            <li>
-                                <a href="pages/<?php echo $value['ruta']; ?>" class="menu-item">
-                                    <i class="material-icons"><?php echo $value['icono']; ?></i>
-                                    <span><?php echo $value['nombre']; ?></span>
-                                </a>
-                            </li>
-                            <?php
-                        }   
+                                    <li>
+                                        <a href="<?php echo $values['ruta']; ?>" class="submenu-item" data-hijo="<?php echo $values['id_modulos'] ?>" data-padre="<?php echo $values['padre'] ?>">
+                                            <i class="material-icons"><?php echo $values['icono']; ?></i>
+                                            <span><?php echo $values['nombre']; ?></span>
 
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </li>
+                        <?php
                     }
-                    ?>
+                    else
+                    {
+                        ?>
+                        <li>
+                            <a href="pages/<?php echo $value['ruta']; ?>" class="menu-item">
+                                <i class="material-icons"><?php echo $value['icono']; ?></i>
+                                <span><?php echo $value['nombre']; ?></span>
+                            </a>
+                        </li>
+                        <?php
+                    }   
+
+                }
+                ?>
 
           <!--      <li>
                     <a href="../index.html">
@@ -932,21 +932,10 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
 
 <!-- Demo Js -->
 <script src="js/demo.js"></script>
+<script src="js/menuinicial.js"></script>
 
 <script type="text/javascript">
-    $( document ).ready(function() {        
-    //click en los menú padre     
-        $( ".menu-item" ).click(function() {
-                $('.menu-item').removeClass("menu-item-active");
-                $(this).addClass("menu-item-active");             
-        });
-    //click en los submenús
-        $( ".submenu-item" ).click(function() {
-            //$hijo = $(this).data('hijo');
-            //$padre = $(this).data('padre');
-            });
-        });
-    });
+
 </script>
 </body>
 
