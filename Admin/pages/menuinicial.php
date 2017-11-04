@@ -317,7 +317,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
             <!-- Menu -->
             <div class="menu">
                 <ul class="list">
-                    <li class="header">MENÚ PRINCIPAL <?php echo $_SESSION["sort"]; ?></li>
+                    <li class="header">MENÚ PRINCIPAL</li>
                     <?php 
                     $vector = Array_Get_MenuPrincipal(0,'principal',$_SESSION['perfil']);
                     foreach ($vector as $value)
