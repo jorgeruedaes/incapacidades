@@ -209,11 +209,11 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
        <div class="col-md-12">
          <br>
        </div>
-<div class="col-md-12 no-padding-left">
+<div class="col-md-12">
   <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover">
     <thead> 
       <tr>
-        <th>No. Incapacidad</th>
+        <th>No.</th>
         <th>Cédula</th>
         <th>Empleado</th>
         <th>Días</th>
@@ -222,7 +222,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
       </tr>
     </thead>
     <tbody>
-      <tr>
+     <!--  <tr>
         <td>001</td>
         <td>1102372558</td>
         <td>Lizeth Rodríguez</td>
@@ -233,7 +233,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
           <button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i class="material-icons">add</i></button>
         </div>
       </td>
-    </tr>
+    </tr> -->
   </tbody>
 </table>
 </div>

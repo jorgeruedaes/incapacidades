@@ -83,7 +83,11 @@ function Array_Get_EstadosIncapacidad($estado)
 
 function Array_Get_IncapcidadesxFiltro($consulta)
 {
-	$clubs = consultar("SELECT * FROM tb_incapacidades ".$consulta.' ORDER BY fecha_corte ');	
+	//$clubs = consultar("SELECT * FROM tb_incapacidades ".$consulta.' ORDER BY fecha_corte ');	
+
+
+	$clubs = consultar("SELECT inc.*,  concat(tr.nombre, ' ', tr.apellido) as fullname FROM tb_incapacidades inc INNER JOIN tb_trabajadores tr ON tr.id_trabajadores = inc.trabajador ".$consulta." ORDER BY fecha_corte");
+
 
 	$datos = array();
 	while ($data = mysqli_fetch_array($clubs)) {
@@ -100,7 +104,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 		$cantidad = $data['cantidad'];
 		$valor = $data['valor'];
 		$eps = $data['eps'];
-
+		$nombretrabajador = $data['fullname'];
 
 
 		$vector = array(
@@ -117,7 +121,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 			'cantidad'=>"$cantidad",
 			'valor'=>"$valor",
 			'eps'=>"$eps",
-
+			'nombretrabajador'=>"$nombretrabajador",
 
 			);
 		array_push($datos, $vector);
