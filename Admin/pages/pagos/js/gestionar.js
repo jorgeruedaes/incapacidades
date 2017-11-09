@@ -63,6 +63,25 @@ $(function() {
 				var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
 				$('.payment-difference').text(difference);
 			});
+
+			$('#tabla-detalle-pago tbody').off('click').on('click', '.delete-item', function () {
+
+				var total = 0;
+				var row = $(this).parents('tr').remove();
+				//$('#tabla-detalle-pago tbody').append(row);
+
+				//$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+				//$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
+				$('#tabla-detalle-pago tbody tr').each(function(fila) {
+					$this = $(this);
+					total += parseFloat($this.find("td:nth-child(5)").text()); //$this.find("td:nth-child(5)").text();
+				});
+
+				$('.payment-total-value').text("");
+				$('.payment-total-value').text(total);
+				var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
+				$('.payment-difference').text(difference);
+			});
 			
 		},
 		Cargar : function()
