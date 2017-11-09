@@ -5,7 +5,7 @@ $(function() {
 		inicio: function () {
 			pagos.AddClicks();
 			pagos.Cargar();
-
+			pagos.cargarModal();
 		},		
 		AddClicks: function()
 		{
@@ -42,6 +42,14 @@ $(function() {
 			var $demoMaskedInput = $('.demo-masked-input');
 		    //Date
     		$demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
+		},
+		cargarModal: function()
+		{
+			$('#open-filter').on("click", function(){
+				$('#Modalnuevo').modal('show'); 
+				//incapacidades.Cargar();
+				//incapacidades.enviarDatos();
+			});
 		}
 };
 $(document).ready(function () {
