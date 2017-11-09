@@ -1,0 +1,27 @@
+#caja-izq
+{
+	background-color:#FFF;
+	height: 800px;
+	border-right: 1px solid #DADFE1;
+}
+.grey-text
+{
+ 	color:#6C7A89;
+}
+.italic-letter
+{
+	font-style: italic;
+}
+#caja-der
+{
+	background-color:#FFF;
+	height: 800px;
+}
+.no-padding-left
+{
+	padding-left: 0px;
+}
+.caja-der-padding
+{
+	padding-left: 8px;
+}

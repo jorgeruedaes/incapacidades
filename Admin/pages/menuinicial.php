@@ -87,7 +87,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" class="init-item" href="pages/administracion.php"> Módulo <b>Administrador</b> Incapacidades</a>
+                <a class="navbar-brand init-item" href="pages/administracion.php"> Módulo <b>Administrador</b> Incapacidades</a>
                 <!--<a class="navbar-brand" href="pages/administracion.php"> <?php echo String_Get_Valores("titulo"); ?></a>-->
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
