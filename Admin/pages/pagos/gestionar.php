@@ -211,7 +211,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
        </div>
 <div class="col-md-12 no-padding-left">
   <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover">
-    <thead>
+    <thead> 
       <tr>
         <th>No. Incapacidad</th>
         <th>Cédula</th>

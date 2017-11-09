@@ -26,7 +26,7 @@ $(function() {
 				
 				window.location.reload();
 				
-			});
+			}); 
 
 			$('.payment-value').on("change", function(){
 				
