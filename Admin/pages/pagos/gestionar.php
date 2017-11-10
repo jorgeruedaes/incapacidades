@@ -47,10 +47,10 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                 LISTADO DE PAGOS  
               </h2>
               <ul class="header-dropdown m-r--5">
-                <li><button type="button" class="btn bg-red
+               <!--  <li><button type="button" class="btn bg-red
                   waves-effect nuevo-pago">
                   <i class="material-icons">add</i>
-                </button></li>
+                </button></li> -->
                 <li></li>
               </ul>
             </div>
