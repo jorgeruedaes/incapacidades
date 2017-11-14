@@ -34,6 +34,16 @@ function Array_Get_Pagos()
 
 	return $datos;	
 }
+
+function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario)
+{
+
+	global $conexion;
+	$query = mysqli_query($conexion,sprintf("INSERT INTO `tb_pagos`(`id_pagos`, `valor`, `descripcion`, `fecha_pago`, `fecha_creacion`, `estado`, `usuario`, `id_eps`)
+     VALUES (NULL,'%d','','%s',NOW(),'%s','%d','%d') ",escape($valorpago),escape($fechapago),escape($estadopago),escape($usuario),escape($epspago)));
+	return mysqli_insert_id($conexion);	
+}
+
 /**
  * [Set_Clubs description]
  * @param [type] $nombre    [description]

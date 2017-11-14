@@ -33,6 +33,67 @@ $(function() {
 				
 			}); 
 
+			$('.boton-pendiente').on("click", function(){
+			 
+				if(pagos.ValidarPendiente())
+				{
+
+				swal({title: "¿Está seguro que desea GUARDAR el pago como PENDIENTE?",
+						text: "",
+						type: "warning",
+						confirmButtonText: "Aceptar",
+						showCancelButton: true,
+						confirmButtonColor: "rgb(174, 222, 244)",
+
+						closeOnConfirm: false
+					}, function (isConfirm) {
+						if (isConfirm) {
+
+							$.ajax({
+								url: 'pages/pagos/peticiones/peticiones.php',
+								type: 'POST',
+								data: {
+									bandera: "guardar-pendiente",
+									valor: $(".payment-full-value").val(),
+									fecha: $(".payment-date").val(),
+									estado : "pendiente",
+									eps : $(".payment-eps option:selected").val()
+									//aqui deben viajar las incapacidades agregadas
+								},
+								success: function (resp) {
+
+									 var resp = $.parseJSON(resp);
+									if (resp.salida === true && resp.mensaje === true) {
+										swal({title: "Información",
+											text: "Se ha creado el pago No. " + resp.idpago + "  de manera exitosa!",
+											type: "success",
+											confirmButtonText: "Aceptar",
+											showCancelButton: false,
+											confirmButtonColor: "rgb(174, 222, 244)",
+											closeOnConfirm: false
+										}, function (isConfirm) {
+											if (isConfirm) {
+												window.location.reload();
+											}
+										});
+
+									} else {
+										swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
+									}
+								}
+							});
+						}
+						});
+				}
+
+			}); 
+
+			$('.boton-finalizar').on("click", function(){
+				
+				alert('finalizó');
+				
+			}); 
+
 			$('.payment-value').on("change", function(){
 				
 				 var value = $(this).val();
@@ -41,6 +102,31 @@ $(function() {
 				 $('.payment-difference').text(difference);
 				
 			});
+		},
+		ValidarPendiente : function()
+		{
+				if($('.payment-full-value').val() == "")
+				{
+					$('.payment-full-value').focus();
+					swal("Error", "Debe ingresar el valor del pago.", "error");
+					return false;
+
+				} else if ($('.payment-date').val() == "")
+				{
+
+					$('.payment-date').focus();
+					swal("Error", "Debe ingresar la fecha del pago.", "error");
+					return false;
+
+				} else if ($( ".payment-eps option:selected" ).val() == ""){
+
+						$('.payment-eps').focus();
+						swal("Error", "Debe seleccionar la EPS del pago.", "error");	
+						return false;
+				}else {
+					return true;
+				}
+			 
 		},
 		AgregarItem: function()
 		{

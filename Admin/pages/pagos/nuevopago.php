@@ -79,7 +79,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
           <label for="">Valor pago</label>
           <div class="form-group">
             <div class="form-line">
-              <input type="number" min="0" class="form-control payment-value" placeholder="$" />
+              <input type="number" min="0" class="form-control payment-full-value" placeholder="$" />
             </div>
           </div>
         </div>
@@ -90,14 +90,14 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
               <i class="material-icons">date_range</i>
             </span>
             <div class="form-line">
-              <input type="text" class="form-control date" placeholder="Ej: 2017-07-30">
+              <input type="text" class="form-control date payment-date" placeholder="Ej: 2017-07-30">
             </div>
           </div>
         </div>
          <div class="col-md-12">
                   <label for="">Eps</label>
                   <div class="form-group">
-                    <select class="form-control show-tick select-tipo">
+                    <select class="form-control show-tick select-tipo payment-eps">
                       <option value="">--Selecciona eps --</option>
                       <?php
                       $vector = Array_Get_Eps(true);
