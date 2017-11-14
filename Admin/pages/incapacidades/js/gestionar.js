@@ -53,7 +53,7 @@ $(function() {
 			}
 			if ($('.select-empresa option:selected').val().length>0)
 			{
-				where+= ' AND empresa='+$('.select-empresa option:selected').val()+' '; 
+				where+= ' AND cliente in (select id_clientes from tb_clientes where empresa='+$('.select-empresa option:selected').val()+') '; 
 			}
 			if ($('.select-cliente option:selected').val().length>0)
 			{
@@ -142,6 +142,10 @@ Tabla : function()
 {
 	t = $('#tabla-incapacidades').DataTable({
 		dom: 'Bfrtip',
+		searching: true,
+		paging: false,
+		ordering: true,
+		info:     true,
 		buttons: [
 		'csv', 'excel', 'pdf', 'print'
 		]
@@ -151,6 +155,7 @@ Tabla : function()
 enviarDatos: function () {
 	$('.filtrar-boton').off('click').on('click', function () {
 		
+		var total =0;
 		$.ajax({
 			url: 'pages/incapacidades/peticiones/peticiones.php',
 			type: 'POST',
@@ -164,10 +169,12 @@ enviarDatos: function () {
 				var resp = $.parseJSON(resp);
 				if (resp.salida === true && resp.mensaje === true) {
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
+
 					for (var i = 0; i < resp.datos.length; i++) {
 						t.row.add( [ 
 							resp.datos[i].id_incapacidad,
 							resp.datos[i].trabajador,
+							resp.datos[i].nombretrabajador,
 							resp.datos[i].eps,
 							resp.datos[i].tipo,
 							resp.datos[i].fecha_inicial,
@@ -179,6 +186,7 @@ enviarDatos: function () {
 
 							]).draw( false );
 					}
+
 					$('#Modalnuevo').modal('hide');
 				} else {
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
@@ -187,8 +195,6 @@ enviarDatos: function () {
 			}
 		});
 });
-
-
 },
 cargarModal: function()
 {

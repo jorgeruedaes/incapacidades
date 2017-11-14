@@ -55,11 +55,12 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                             </ul>
                         </div>
                         <div class="body">
-                            <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover">
+                            <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover ">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Cedula</th>
+                                        <th>Nombre</th>
                                         <th>Eps</th>
                                         <th>Tipo</th>
                                         <th>Fecha Inicial</th>

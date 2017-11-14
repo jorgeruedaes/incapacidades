@@ -80,6 +80,24 @@ function Array_Get_EstadosIncapacidad($estado)
 
 	return $datos;	
 }
+/**
+ * [get_name_tipo description]
+ * @param  [type] $tipo [description]
+ * @return [type]       [description]
+ */
+function get_name_tipo($tipo)
+{
+
+	$campeonatos = mysqli_fetch_array(consultar("SELECT nombre FROM  `tb_tipos_incapacidad`  WHERE id_tipos =$tipo "));
+	return $campeonatos['nombre'];	
+}
+
+function get_name_eps($eps)
+{
+
+	$campeonatos = mysqli_fetch_array(consultar("SELECT nombre FROM  `tb_eps`  WHERE id_eps =$eps "));
+	return $campeonatos['nombre'];	
+}
 
 function Array_Get_IncapcidadesxFiltro($consulta)
 {
@@ -95,7 +113,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 		$ciudad = $data['ciudad'];
 		$trabajador = $data['trabajador'];
 		$cliente = $data['cliente'];
-		$tipo = $data['tipo'];
+		$tipo = get_name_tipo($data['tipo']);
 		$estado = $data['estado'];
 		$fecha_inicial = $data['fecha_inicial'];
 		$fecha_final = $data['fecha_final'];
@@ -103,7 +121,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 		$fecha_corte = $data['fecha_corte'];
 		$cantidad = $data['cantidad'];
 		$valor = $data['valor'];
-		$eps = $data['eps'];
+		$eps = get_name_eps($data['eps']);
 		$nombretrabajador = $data['fullname'];
 
 
@@ -130,4 +148,6 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 	return $datos;	
 
 }
+
+
 
