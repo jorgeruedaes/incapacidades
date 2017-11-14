@@ -99,6 +99,13 @@ function get_name_eps($eps)
 	return $campeonatos['nombre'];	
 }
 
+function get_name_estado($estado)
+{
+
+	$campeonatos = mysqli_fetch_array(consultar("SELECT nombre FROM  `tb_estados_incapacidad`  WHERE id_estados =$estado "));
+	return $campeonatos['nombre'];	
+}
+
 function Array_Get_IncapcidadesxFiltro($consulta)
 {
 	//$clubs = consultar("SELECT * FROM tb_incapacidades ".$consulta.' ORDER BY fecha_corte ');	
@@ -114,7 +121,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 		$trabajador = $data['trabajador'];
 		$cliente = $data['cliente'];
 		$tipo = get_name_tipo($data['tipo']);
-		$estado = $data['estado'];
+		$estado =get_name_estado($data['estado']);
 		$fecha_inicial = $data['fecha_inicial'];
 		$fecha_final = $data['fecha_final'];
 		$fecha_creacion = $data['fecha_creacion'];

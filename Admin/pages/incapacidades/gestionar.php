@@ -66,7 +66,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                         <th>Fecha Inicial</th>
                                         <th>Fecha Final</th>
                                         <th>Fecha Corte</th>
-                                        <th>Diás</th>
+                                        <th>Días</th>
                                         <th>Valor</th>
                                         <th>Estado</th>
                                     </tr>
@@ -185,109 +185,104 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                         foreach ($vector as $value)
                                         {
 
-                                           ?>
-                                       }
-                                       <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
-                                       <?php
-                                   }
-                                   ?>
+                                         ?>
+                                     }
+                                     <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
+                                     <?php
+                                 }
+                                 ?>
 
-                               </select>
-                           </div>
-                       </div>
-                       <div class="col-md-3">
+                             </select>
+                         </div>
+                     </div>
+                     <div class="col-md-3">
                         <label for="">Tipo</label>
                         <div class="form-group">
-                            <select class="form-control show-tick select-tipo">
-                                <option value="">--Selecciona Tipo --</option>
+                            <select class="form-control show-tick select-tipo" multiple>
+                                <option selected="selected" value="">--Selecciona Tipo --</option>
                                 <?php
                                 $vector = Array_Get_TiposIncapacidad(true);
                                 foreach ($vector as $value)
                                 {
+                                 ?>
+                                 <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
+                                 <?php
+                             }
+                             ?>
+                         </select>
+                     </div>
+                 </div>
+                 <div class="col-md-3">
+                    <label for="">Eps</label>
+                    <div class="form-group">
+                        <select class="form-control show-tick select-eps">
+                            <option value="">--Selecciona Eps --</option>
+                            <?php
+                            $vector = Array_Get_Eps(true);
+                            foreach ($vector as $value)
+                            {
 
-                                   ?>
-                               }
-                               <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
-                               <?php
-                           }
-                           ?>
-                       </select>
-                   </div>
-               </div>
-               <div class="col-md-3">
-                <label for="">Eps</label>
-                <div class="form-group">
-                    <select class="form-control show-tick select-eps">
-                        <option value="">--Selecciona Eps --</option>
-                        <?php
-                        $vector = Array_Get_Eps(true);
-                        foreach ($vector as $value)
-                        {
-
+                                ?>
+                                <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
+                                <?php
+                            }
                             ?>
-                        }
-                        <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php
-                    }
-                    ?>
-                </select>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3"> 
+                    <label for="">Ciudad</label> 
+                    <div class="form-group">
+                     <select class="form-control show-tick select-ciudad"> 
+                         <option value="">--Selecciona Ciudad --</option>
+                         <?php
+                         $vector = Array_Get_Ciudades(true);
+                         foreach ($vector as $value)
+                         {
+
+                             ?>
+                             <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
+                             <?php
+                         }
+                         ?>
+                     </select> 
+                 </div> 
+             </div>
+             <div class="col-md-3"> 
+                <label for="">Empresa</label> 
+                <div class="form-group">
+                    <select  class="form-control show-tick select-empresa"  data-live-search="true"> 
+                     <option value="">--Selecciona Empresa --</option>
+                     <?php
+                     $vector = Array_Get_Empresas(true);
+                     foreach ($vector as $value)
+                     {
+
+                         ?>
+                         <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
+                         <?php
+                     }
+                     ?>
+                 </select> 
+             </div> 
+         </div>
+         <div class="col-md-5">
+            <label for="">Acronimo Cliente </label>
+            <div class="form-group">
+                <div class="form-line">
+                    <input type="text" class="form-control f-acronimo" placeholder="Acronimo" />
+                </div>
             </div>
         </div>
         <div class="col-md-3"> 
-            <label for="">Ciudad</label> 
-            <div class="form-group">
-               <select class="form-control show-tick select-ciudad"> 
-                   <option value="">--Selecciona Ciudad --</option>
-                   <?php
-                   $vector = Array_Get_Ciudades(true);
-                   foreach ($vector as $value)
-                   {
-
-                       ?>
-                   }
-                   <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
-                   <?php
-               }
-               ?>
-           </select> 
-       </div> 
-   </div>
-   <div class="col-md-3"> 
-    <label for="">Empresa</label> 
-    <div class="form-group">
-       <select  class="form-control show-tick select-empresa"> 
-           <option value="">--Selecciona Empresa --</option>
-           <?php
-           $vector = Array_Get_Empresas(true);
-           foreach ($vector as $value)
-           {
-
-               ?>
-           }
-           <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
-           <?php
-       }
-       ?>
-   </select> 
-</div> 
-</div>
-<div class="col-md-5">
-    <label for="">Acronimo Cliente </label>
-    <div class="form-group">
-        <div class="form-line">
-            <input type="text" class="form-control f-acronimo" placeholder="Acronimo" />
-        </div>
-    </div>
-</div>
-<div class="col-md-3"> 
-    <label for="">Cliente</label>
-    <div class="form-group"> 
-     <select id="select-cliente" class="form-control show-tick select-cliente"> 
-         <option value="">--Selecciona Cliente --</option> 
-     </select> 
- </div> 
-</div>
-</form>
+            <label for="">Cliente</label>
+            <div class="form-group"> 
+                <select id="select-cliente" class="form-control show-tick select-cliente" data-live-search="true"> 
+                   <option value="">--Selecciona Cliente --</option> 
+               </select> 
+           </div> 
+       </div>
+   </form>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-info waves-effect filtrar-boton">Filtrar</button>

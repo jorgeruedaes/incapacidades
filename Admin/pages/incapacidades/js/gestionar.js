@@ -39,36 +39,45 @@ $(function() {
 			{
 				where+= ' AND estado='+$('.select-estado option:selected').val()+' '; 
 			}
-			if ($('.select-tipo option:selected').val().length>0)
+			if ($('.select-tipo :selected').val().length>0)
 			{
-				where+= ' AND tipo='+$('.select-tipo option:selected').val()+' '; 
-			}
-			if ($('.select-eps option:selected').val().length>0)
-			{
-				where+= ' AND eps='+$('.select-eps option:selected').val()+' '; 
-			}
-			if ($('.select-ciudad option:selected').val().length>0)
-			{
-				where+= ' AND ciudad='+$('.select-ciudad option:selected').val()+' '; 
-			}
-			if ($('.select-empresa option:selected').val().length>0)
-			{
-				where+= ' AND cliente in (select id_clientes from tb_clientes where empresa='+$('.select-empresa option:selected').val()+') '; 
-			}
-			if ($('.select-cliente option:selected').val().length>0)
-			{
-				where+= ' AND cliente='+$('.select-cliente option:selected').val()+' '; 
-			}
-			if ($('.f-cedula').val().length>0)
-			{
-				where+= ' AND trabajador='+$('.f-cedula').val()+' '; 
-			}
+				var x =[];
+				where+= ' AND tipo in(' 
+					$('.select-tipo :selected').map(function(i, el) {
+						if ($(el).val().length>0){
+							x.push($(el).val());
+						}
+					});
+					where+=x.join();
 
-			return where;
-		},
-		Cargar : function()
-		{
-			var $demoMaskedInput = $('.demo-masked-input');
+					where+= ' )'
+}
+if ($('.select-eps option:selected').val().length>0)
+{
+	where+= ' AND eps='+$('.select-eps option:selected').val()+' '; 
+}
+if ($('.select-ciudad option:selected').val().length>0)
+{
+	where+= ' AND ciudad='+$('.select-ciudad option:selected').val()+' '; 
+}
+if ($('.select-empresa option:selected').val().length>0)
+{
+	where+= ' AND cliente in (select id_clientes from tb_clientes where empresa='+$('.select-empresa option:selected').val()+') '; 
+}
+if ($('.select-cliente option:selected').val().length>0)
+{
+	where+= ' AND cliente='+$('.select-cliente option:selected').val()+' '; 
+}
+if ($('.f-cedula').val().length>0)
+{
+	where+= ' AND trabajador='+$('.f-cedula').val()+' '; 
+}
+
+return where;
+},
+Cargar : function()
+{
+	var $demoMaskedInput = $('.demo-masked-input');
 
     //Date
     $demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
@@ -148,7 +157,9 @@ Tabla : function()
 		info:     true,
 		buttons: [
 		'csv', 'excel', 'pdf', 'print'
-		]
+		],
+		order: [[ 10, "desc" ]]
+
 	});
 
 },
@@ -169,6 +180,11 @@ enviarDatos: function () {
 				var resp = $.parseJSON(resp);
 				if (resp.salida === true && resp.mensaje === true) {
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
+
+					for (var i = 0; i < resp.datos.length; i++) {
+						total = parseInt(resp.datos[i].valor) + parseInt(total);
+					}					
+					resp.datos.push({"id_incapacidad":'',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"fecha_corte":'VALOR TOTAL',"cantidad":'',"valor":total,"estado":''})					
 
 					for (var i = 0; i < resp.datos.length; i++) {
 						t.row.add( [ 
