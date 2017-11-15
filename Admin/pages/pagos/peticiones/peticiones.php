@@ -11,15 +11,19 @@ if(isset($_SESSION['perfil']))
 // Agrega un partido al sitio.
 	if ($bandera === "guardar-pendiente") {
 
+		$json = json_encode($_POST['json']); 
 		$valorpago = $_POST['valor'];
 		$fechapago = $_POST['fecha'];
 		$estadopago = $_POST['estado'];
 		$epspago = $_POST['eps'];
 		$usuario = $_SESSION['id_usuarios'];
 
-		$id= Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario);
+		$id= Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$json);
+
 		if ($id!=0)
 		{
+
+			//guardo ahora las incapacidades
 			$resultado.='"mensaje":true,';
 			$resultado.='"idpago":'.$id.'';
 		} 

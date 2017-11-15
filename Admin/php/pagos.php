@@ -35,13 +35,49 @@ function Array_Get_Pagos()
 	return $datos;	
 }
 
-function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario)
+function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vector)
 {
 
 	global $conexion;
 	$query = mysqli_query($conexion,sprintf("INSERT INTO `tb_pagos`(`id_pagos`, `valor`, `descripcion`, `fecha_pago`, `fecha_creacion`, `estado`, `usuario`, `id_eps`)
-     VALUES (NULL,'%d','','%s',NOW(),'%s','%d','%d') ",escape($valorpago),escape($fechapago),escape($estadopago),escape($usuario),escape($epspago)));
-	return mysqli_insert_id($conexion);	
+     	VALUES (NULL,'%d','','%s',NOW(),'%s','%d','%d') ",escape($valorpago),escape($fechapago),escape($estadopago),escape($usuario),escape($epspago)));
+
+	$id = mysqli_insert_id($conexion); //idpago
+
+	//pregunto si creó el pago
+	if($id > 0)
+	{
+
+		$json = json_decode($vector);
+	    //a guardar la relacion entre pagos e incapacidades
+		    for ($i=0; $i < count($json) ; $i++) {
+
+		            if(Set_Pago_Incapacidad($id,$json[$i][0],$json[$i][1]))
+		            {
+		                 
+		            }   
+		            else
+		            {
+		                
+		            }
+		    }
+	}
+	else
+	{
+		$id=0;
+	}
+
+	return $id;
+}
+
+function Set_Pago_Incapacidad($idpago, $idincapacidad, $valor)
+{
+
+	$campeonatos = insertar(sprintf("INSERT INTO `tr_incapacidadesxpago`(`incapacidad`, `pago`, `valor`) 
+		VALUES ('%d','%d','%d')",
+		escape($idincapacidad),escape($idpago),escape($valor)));
+	return $campeonatos;	
+
 }
 
 /**

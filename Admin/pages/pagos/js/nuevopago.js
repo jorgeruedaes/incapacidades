@@ -57,8 +57,9 @@ $(function() {
 									valor: $(".payment-full-value").val(),
 									fecha: $(".payment-date").val(),
 									estado : "pendiente",
-									eps : $(".payment-eps option:selected").val()
-									//aqui deben viajar las incapacidades agregadas
+									eps : $(".payment-eps option:selected").val(),
+									json  : pagos.TomarDatos_Incapacidades(),
+									
 								},
 								success: function (resp) {
 
@@ -128,6 +129,26 @@ $(function() {
 				}
 			 
 		},
+		TomarDatos_Incapacidades : function ()
+		{
+			var array =[];
+			var objeto =[];
+
+			if($('#tabla-detalle-pago .valor-incapacidad').size() > 0)
+
+			{
+				$('#tabla-detalle-pago .valor-incapacidad').each(function(indice, elemento) {
+				  
+					var objeto =[];
+					objeto.push($(elemento).parent().find("td:nth-child(1)").text()); //idincapacidad
+					objeto.push($(elemento).text()); //valor
+					array.push(objeto);
+				 
+				}); 
+			}
+			
+			return array;
+		},
 		AgregarItem: function()
 		{
 			$('#tabla-incapacidades tbody').off('click').on('click', '.add-item', function () {
@@ -152,7 +173,7 @@ $(function() {
 				$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
 				$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
 				//agregamos valor
-				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td>' + money + '</td>')
+				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad">' + money + '</td>')
 				//agregamos boton eliminar
 				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
 				$('#tabla-detalle-pago tbody tr').each(function(fila) {
