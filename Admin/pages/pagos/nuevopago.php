@@ -188,7 +188,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
         <th>Días</th>
         <th>Fecha corte</th>
         <th>Tipo</th>
-        <th>Valor</th>
+        <th>Saldo</th>
         <th>Tomar vr. parcial</th>
         <th >Valor parcial</th>
         <th></th>

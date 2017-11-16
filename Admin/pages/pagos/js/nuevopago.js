@@ -32,7 +32,7 @@ $(function() {
 					$('#leftsidebar').css('width','0px');
 					$('.content').css('margin-left','10px');
 				}
-				 
+
 
 			});
 
@@ -49,11 +49,11 @@ $(function() {
 			}); 
 
 			$('.boton-pendiente').on("click", function(){
-			 
+
 				if(pagos.ValidarPendiente())
 				{
 
-				swal({title: "¿Está seguro que desea GUARDAR el pago como PENDIENTE?",
+					swal({title: "¿Está seguro que desea GUARDAR el pago como PENDIENTE?",
 						text: "",
 						type: "warning",
 						confirmButtonText: "Aceptar",
@@ -68,7 +68,7 @@ $(function() {
 								url: 'pages/pagos/peticiones/peticiones.php',
 								type: 'POST',
 								data: {
-									bandera: "guardar-pendiente",
+									bandera: "guardar-pago",
 									valor: $(".payment-full-value").val(),
 									fecha: $(".payment-date").val(),
 									estado : "pendiente",
@@ -78,7 +78,7 @@ $(function() {
 								},
 								success: function (resp) {
 
-									 var resp = $.parseJSON(resp);
+									var resp = $.parseJSON(resp);
 									if (resp.salida === true && resp.mensaje === true) {
 										swal({title: "Información",
 											text: "Se ha creado el pago No. " + resp.idpago + "  de manera exitosa!",
@@ -99,50 +99,129 @@ $(function() {
 								}
 							});
 						}
-						});
+					});
 				}
 
 			}); 
 
 			$('.boton-finalizar').on("click", function(){
 				
-				alert('finalizó');
+				if(pagos.ValidarFinalizado())
+				{
+
+					swal({title: "El valor total del pago y el valor sumado de las incapacidades tienen una diferencia de " + $('.payment-difference').text()  + ". Desea continuar y FINALIZAR el pago ?",
+						text: "",
+						type: "warning",
+						confirmButtonText: "Aceptar",
+						showCancelButton: true,
+						confirmButtonColor: "rgb(174, 222, 244)",
+
+						closeOnConfirm: false
+					}, function (isConfirm) {
+						if (isConfirm) {
+
+							$.ajax({
+								url: 'pages/pagos/peticiones/peticiones.php',
+								type: 'POST',
+								data: {
+									bandera: "guardar-pago",
+									valor: $(".payment-full-value").val(),
+									fecha: $(".payment-date").val(),
+									estado : "completado",
+									eps : $(".payment-eps option:selected").val(),
+									json  : pagos.TomarDatos_Incapacidades(),
+									
+								},
+								success: function (resp) {
+
+									var resp = $.parseJSON(resp);
+									if (resp.salida === true && resp.mensaje === true) {
+										swal({title: "Información",
+											text: "Se ha finalizado el pago No. " + resp.idpago + "  de manera exitosa!",
+											type: "success",
+											confirmButtonText: "Aceptar",
+											showCancelButton: false,
+											confirmButtonColor: "rgb(174, 222, 244)",
+											closeOnConfirm: false
+										}, function (isConfirm) {
+											if (isConfirm) {
+												window.location.reload();
+											}
+										});
+
+									} else {
+										swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
+									}
+								}
+							});
+						}
+					});
+				}
 				
 			}); 
 
 			$('.payment-full-value').on("change", function(){
 				
-				 var value = $(this).val();
-				 $('.payment-value-2').text(value);
-				 var difference = $(this).val() - $('.payment-total-value').text();
-				 $('.payment-difference').text(difference);
+				var value = $(this).val();
+				$('.payment-value-2').text(value);
+				var difference = $(this).val() - $('.payment-total-value').text();
+				$('.payment-difference').text(difference);
 				
 			});
 		},
 		ValidarPendiente : function()
 		{
-				if($('.payment-full-value').val() == "")
-				{
-					$('.payment-full-value').focus();
-					swal("Error", "Debe ingresar el valor del pago.", "error");
-					return false;
+			if($('.payment-full-value').val() == "")
+			{
+				$('.payment-full-value').focus();
+				swal("Error", "Debe ingresar el valor del pago.", "error");
+				return false;
 
-				} else if ($('.payment-date').val() == "")
-				{
+			} else if ($('.payment-date').val() == "")
+			{
 
-					$('.payment-date').focus();
-					swal("Error", "Debe ingresar la fecha del pago.", "error");
-					return false;
+				$('.payment-date').focus();
+				swal("Error", "Debe ingresar la fecha del pago.", "error");
+				return false;
 
-				} else if ($( ".payment-eps option:selected" ).val() == ""){
+			} else if ($( ".payment-eps option:selected" ).val() == ""){
 
-						$('.payment-eps').focus();
-						swal("Error", "Debe seleccionar la EPS del pago.", "error");	
-						return false;
-				}else {
-					return true;
-				}
-			 
+				$('.payment-eps').focus();
+				swal("Error", "Debe seleccionar la EPS del pago.", "error");	
+				return false;
+			} 
+			else {
+				return true;
+			}
+
+		},
+		ValidarFinalizado : function()
+		{
+			if($('.payment-full-value').val() == "")
+			{
+				$('.payment-full-value').focus();
+				swal("Error", "Debe ingresar el valor del pago.", "error");
+				return false;
+
+			} else if ($('.payment-date').val() == "")
+			{
+				$('.payment-date').focus();
+				swal("Error", "Debe ingresar la fecha del pago.", "error");
+				return false;
+
+			} else if ($( ".payment-eps option:selected" ).val() == ""){
+
+				$('.payment-eps').focus();
+				swal("Error", "Debe seleccionar la EPS del pago.", "error");	
+				return false;
+			} else if ($('#tabla-detalle-pago tbody').find('tr').size() == 0)
+			{
+				swal("Error", "Debe agregar alguna incapacidad a su pago.", "error");	
+				return false;
+			} else {
+				return true;
+			}
+
 		},
 		TomarDatos_Incapacidades : function ()
 		{
@@ -153,12 +232,15 @@ $(function() {
 
 			{
 				$('#tabla-detalle-pago .valor-incapacidad').each(function(indice, elemento) {
-				  
+
 					var objeto =[];
 					objeto.push($(elemento).parent().find("td:nth-child(1)").text()); //idincapacidad
 					objeto.push($(elemento).text()); //valor
+					objeto.push($(elemento).parent().find("td:nth-child(8) .btn-group").data('tipo-inc')); //tipo inc
+					objeto.push($(elemento).parent().find("td:nth-child(5)").text()); //fecha corte
+					objeto.push($(elemento).data('parcial')); //si es parcial o no
 					array.push(objeto);
-				 
+
 				}); 
 			}
 			
@@ -171,15 +253,17 @@ $(function() {
 				var bandera = false;
 				var bandera1 = false;
 				var bandera2 = false;
+				var isParcial = false;
 
 				var id = $(this).parent().data('id');
+				var tipoinc = $(this).parent().data('tipo-inc');
 
 				$('#tabla-detalle-pago tbody').find('.delete-item').parent().each(function() {
-				  
-				  if(id == $( this ).data('id'))
-				  {
-				  	 bandera = true;
-				  } 
+
+					if(id == $( this ).data('id'))
+					{
+						bandera = true;
+					} 
 				});
 
 				if(bandera == true)
@@ -188,77 +272,110 @@ $(function() {
 
 				}else
 				{
-				
-				var total = 0;
-				var money = 0;
 
-				var parent = $(this).parents('tr');
-				if(parent.find("td:nth-child(8)").find('input').is(':checked'))
-				{
-					money = parent.find("td:nth-child(9)").find('input').val();
+					var total = 0;
+					var money = 0;
 
-					if(money == "")
+					var parent = $(this).parents('tr');
+					if(parent.find("td:nth-child(8)").find('input').is(':checked'))
 					{
-						bandera1= true;
-					} 
-				}else
-				{
-					if(parent.find("td:nth-child(9)").find('input').val() != "")
+						money = parent.find("td:nth-child(9)").find('input').val();
+
+						if(money == "")
+						{
+							bandera1= true;
+						}else
+						{
+							isParcial = true;
+						} 
+					}else
 					{
-						bandera2= true;
+						if(parent.find("td:nth-child(9)").find('input').val() != "")
+						{
+							bandera2= true;
+						}
+						money = parent.find("td:nth-child(7)").text();
 					}
-					money = parent.find("td:nth-child(7)").text();
-				}
 
-				if(bandera1 == true)
-				{
-					swal("Importante!", "Debe digitar un valor parcial.", "info");
-				}else
-				{
-				
-					if(bandera2 == true)
-				{
-					swal("Importante!", "Debe remover el texto de la casilla valor parcial o seleccionar la opción 'Tomar vr. parcial'.", "info");
-				}else
-				{
+					if(bandera1 == true)
+					{
+						swal("Importante!", "Debe digitar un valor parcial.", "info");
+					}else
+					{
 
-				var row = $(this).parents('tr').prop('outerHTML');
-				$('#tabla-detalle-pago tbody').append(row);
+						if(bandera2 == true)
+						{
+							swal("Importante!", "Debe remover el texto de la casilla valor parcial o seleccionar la opción 'Tomar vr. parcial'.", "info");
+						}else
+						{
 
-				//eliminamos las dos ultimas columnas
-				$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-				$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-				$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-				$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-				//agregamos valor
-				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad">' + money + '</td>')
-				//agregamos boton eliminar
-				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
-				$('#tabla-detalle-pago tbody tr').each(function(fila) {
-					$this = $(this);
-					total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
-					
-				});
 
-				$('.payment-total-value').text("");
-				$('.payment-total-value').text(total);
-				var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
-				$('.payment-difference').text(difference);
+						if(isParcial == true)
+						{
+							if(money > parent.find("td:nth-child(7)").text())
+							{
+							   swal("Importante!", "El valor parcial no puede ser mayor al valor de la incapacidad.", "info");
+							}else
+							{
 
-				}
-				}
-				}
-			
-			});
+								var row = $(this).parents('tr').prop('outerHTML');
+							$('#tabla-detalle-pago tbody').append(row);
+
+							//eliminamos las dos ultimas columnas
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							//agregamos valor
+								$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad" data-parcial="'+isParcial+'">' + money + '</td>')
+							//agregamos boton eliminar
+							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-tipo-inc="'+ tipoinc +'" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
+							$('#tabla-detalle-pago tbody tr').each(function(fila) {
+								$this = $(this);
+								total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
+								
+							});
+
+							$('.payment-total-value').text("");
+							$('.payment-total-value').text(total);
+							var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
+							$('.payment-difference').text(difference);
+							}
+						}else{
+
+							var row = $(this).parents('tr').prop('outerHTML');
+							$('#tabla-detalle-pago tbody').append(row);
+
+							//eliminamos las dos ultimas columnas
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							//agregamos valor
+								$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad" data-parcial="'+isParcial+'">' + money + '</td>')
+							//agregamos boton eliminar
+							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-tipo-inc="'+ tipoinc +'" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
+							$('#tabla-detalle-pago tbody tr').each(function(fila) {
+								$this = $(this);
+								total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
+								
+							});
+
+							$('.payment-total-value').text("");
+							$('.payment-total-value').text(total);
+							var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
+							$('.payment-difference').text(difference);
+						}
+			}
+		}
+	}
+
+});
 
 			$('#tabla-detalle-pago tbody').off('click').on('click', '.delete-item', function () {
 
 				var total = 0;
 				var row = $(this).parents('tr').remove();
-				//$('#tabla-detalle-pago tbody').append(row);
-
-				//$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-				//$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
 				$('#tabla-detalle-pago tbody tr').each(function(fila) {
 					$this = $(this);
 					total += parseFloat($this.find("td:nth-child(5)").text()); //$this.find("td:nth-child(5)").text();
@@ -279,7 +396,7 @@ $(function() {
 			$('.content').css('margin-left','10px');
 			var $demoMaskedInput = $('.demo-masked-input');
 		    //Date
-    		$demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
+		    $demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
 		},
 		Tabla : function()
 		{
@@ -370,10 +487,10 @@ $(function() {
 									resp.datos[i].cantidad,
 									resp.datos[i].fecha_corte,
 									resp.datos[i].nombreincapacidad,
-									resp.datos[i].valor,
+									resp.datos[i].saldo,
 									'<div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12"><input type="checkbox" id="' + i + '"><label for="' + i + '"></label></div>',
 									'<div class="form-group"><div class="form-line"><input type="number" style="font-size:0.8em;width:65px" min="0" class="form-control payment-value" placeholder="$" /></div></div>',
-									'<div class="btn-group btn-group-xs" data-id="' + resp.datos[i].id_incapacidad + "-" + resp.datos[i].fecha_corte + "-" + resp.datos[i].tipoincapacidad +'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect add-item"><i class="material-icons">add</i></button></div>'
+									'<div class="btn-group btn-group-xs" data-tipo-inc="' + resp.datos[i].tipoincapacidad + '" data-id="' + resp.datos[i].id_incapacidad + "-" + resp.datos[i].fecha_corte + "-" + resp.datos[i].tipoincapacidad +'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect add-item"><i class="material-icons">add</i></button></div>'
 									]).draw( false );
 							}
 							$('#Modalnuevo').modal('hide');
@@ -384,14 +501,14 @@ $(function() {
 						pagos.Recargar();
 					}
 				});
-		});
-}
-};
-$(document).ready(function () {
+			});
+		}
+	};
+	$(document).ready(function () {
 
-	pagos.inicio();
+		pagos.inicio();
 
-});
+	});
 
 });
 

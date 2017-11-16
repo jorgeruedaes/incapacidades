@@ -135,6 +135,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 		$nombretrabajador = $data['fullname'];
 		$nombreincapacidad = $data['nombreincapacidad'];
 		$tipoincapacidad = $data['tipoincapacidad'];
+		$saldo = $data['saldo'];
 		$vector = array(
 			'id_incapacidad'=>"$id_incapacidad",
 			'ciudad'=>"$ciudad",
@@ -152,6 +153,7 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 			'nombretrabajador'=>"$nombretrabajador",
 			'nombreincapacidad'=>"$nombreincapacidad",
 			'tipoincapacidad'=>"$tipoincapacidad",
+			'saldo'=>"$saldo",
 
 			);
 		array_push($datos, $vector);

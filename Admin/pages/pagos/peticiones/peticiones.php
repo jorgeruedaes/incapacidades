@@ -9,7 +9,7 @@ if(isset($_SESSION['perfil']))
 	$bandera = $_POST['bandera'];
 
 // Agrega un partido al sitio.
-	if ($bandera === "guardar-pendiente") {
+	if ($bandera === "guardar-pago") {
 
 		$json = json_encode($_POST['json']); 
 		$valorpago = $_POST['valor'];

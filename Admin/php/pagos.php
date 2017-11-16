@@ -52,14 +52,13 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 	    //a guardar la relacion entre pagos e incapacidades
 		    for ($i=0; $i < count($json) ; $i++) {
 
-		            if(Set_Pago_Incapacidad($id,$json[$i][0],$json[$i][1]))
-		            {
-		                 
-		            }   
-		            else
-		            {
-		                
-		            }
+		           Set_Pago_Incapacidad($id,$json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
+		         
+		    }
+
+		     for ($i=0; $i < count($json) ; $i++) {
+
+		           Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
 		    }
 	}
 	else
@@ -70,16 +69,23 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 	return $id;
 }
 
-function Set_Pago_Incapacidad($idpago, $idincapacidad, $valor)
+function Set_Pago_Incapacidad($idpago, $idincapacidad, $valor,$tipoincapacidad,$fechacorte)
 {
 
-	$campeonatos = insertar(sprintf("INSERT INTO `tr_incapacidadesxpago`(`incapacidad`, `pago`, `valor`) 
-		VALUES ('%d','%d','%d')",
-		escape($idincapacidad),escape($idpago),escape($valor)));
+	$campeonatos = insertar(sprintf("INSERT INTO `tr_incapacidadesxpago`(`incapacidad`, `pago`, `valor`, `tipoincapacidad`, `fecha_corte`) 
+		VALUES ('%d','%d','%d','%d','%s')",
+		escape($idincapacidad),escape($idpago),escape($valor),escape($tipoincapacidad),escape($fechacorte)));
 	return $campeonatos;	
 
 }
 
+function Set_Saldo_Incapacidad($idincapacidad, $valor,$tipoincapacidad,$fechacorte)
+{
+
+	$campeonatos = modificar(sprintf("UPDATE `tb_incapacidades` SET `saldo`=`saldo` - '%d' WHERE id_incapacidad='%d' AND tipo='%d' AND fecha_corte='%s'",
+		escape($valor),escape($idincapacidad),escape($tipoincapacidad),escape($fechacorte)));
+	return $campeonatos;	
+}
 /**
  * [Set_Clubs description]
  * @param [type] $nombre    [description]
