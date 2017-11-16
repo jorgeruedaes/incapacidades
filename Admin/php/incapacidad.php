@@ -110,9 +110,12 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 {
 	//$clubs = consultar("SELECT * FROM tb_incapacidades ".$consulta.' ORDER BY fecha_corte ');	
 
+	//
 
-	$clubs = consultar("SELECT inc.*,  concat(tr.nombre, ' ', tr.apellido) as fullname FROM tb_incapacidades inc INNER JOIN tb_trabajadores tr ON tr.id_trabajadores = inc.trabajador ".$consulta." ORDER BY fecha_corte");
-
+	//$clubs = consultar("SELECT inc.*,  concat(tr.nombre, ' ', tr.apellido) as fullname FROM tb_incapacidades inc INNER JOIN tb_trabajadores tr ON tr.id_trabajadores = inc.trabajador ".$consulta." ORDER BY fecha_corte");
+	
+	$clubs = consultar("SELECT inc.*, concat(tr.nombre, ' ', tr.apellido) as fullname, ti.nombre as nombreincapacidad, ti.id_tipos as tipoincapacidad FROM tb_incapacidades inc INNER JOIN tb_trabajadores tr ON tr.id_trabajadores = inc.trabajador INNER JOIN tb_tipos_incapacidad ti ON ti.id_tipos = inc.tipo ".$consulta." ORDER BY fecha_corte");
+	
 
 	$datos = array();
 	while ($data = mysqli_fetch_array($clubs)) {
@@ -130,8 +133,8 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 		$valor = $data['valor'];
 		$eps = get_name_eps($data['eps']);
 		$nombretrabajador = $data['fullname'];
-
-
+		$nombreincapacidad = $data['nombreincapacidad'];
+		$tipoincapacidad = $data['tipoincapacidad'];
 		$vector = array(
 			'id_incapacidad'=>"$id_incapacidad",
 			'ciudad'=>"$ciudad",
@@ -147,6 +150,8 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 			'valor'=>"$valor",
 			'eps'=>"$eps",
 			'nombretrabajador'=>"$nombretrabajador",
+			'nombreincapacidad'=>"$nombreincapacidad",
+			'tipoincapacidad'=>"$tipoincapacidad",
 
 			);
 		array_push($datos, $vector);

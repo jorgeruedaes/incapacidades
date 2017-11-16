@@ -21,6 +21,21 @@ $(function() {
 
 			});
 
+			$('.boton-menu').on("click", function(){
+				if($('#leftsidebar').width() == 0)
+
+				{
+					$('#leftsidebar').css('width','300px');
+					$('.content').css('margin-left','300px');
+				}else
+				{
+					$('#leftsidebar').css('width','0px');
+					$('.content').css('margin-left','10px');
+				}
+				 
+
+			});
+
 			$('.go-back').on("click", function(){
 				
 				window.location.reload();
@@ -95,7 +110,7 @@ $(function() {
 				
 			}); 
 
-			$('.payment-value').on("change", function(){
+			$('.payment-full-value').on("change", function(){
 				
 				 var value = $(this).val();
 				 $('.payment-value-2').text(value);
@@ -153,17 +168,60 @@ $(function() {
 		{
 			$('#tabla-incapacidades tbody').off('click').on('click', '.add-item', function () {
 
+				var bandera = false;
+				var bandera1 = false;
+				var bandera2 = false;
+
+				var id = $(this).parent().data('id');
+
+				$('#tabla-detalle-pago tbody').find('.delete-item').parent().each(function() {
+				  
+				  if(id == $( this ).data('id'))
+				  {
+				  	 bandera = true;
+				  } 
+				});
+
+				if(bandera == true)
+				{
+					swal("Importante!", "No se puede agregar la incapacidad, ya existe.", "info");
+
+				}else
+				{
+				
 				var total = 0;
 				var money = 0;
 
 				var parent = $(this).parents('tr');
-				if(parent.find("td:nth-child(6)").find('input').is(':checked'))
+				if(parent.find("td:nth-child(8)").find('input').is(':checked'))
 				{
-					money = parent.find("td:nth-child(7)").find('input').val();
+					money = parent.find("td:nth-child(9)").find('input').val();
+
+					if(money == "")
+					{
+						bandera1= true;
+					} 
 				}else
 				{
-					money = parent.find("td:nth-child(5)").text();
+					if(parent.find("td:nth-child(9)").find('input').val() != "")
+					{
+						bandera2= true;
+					}
+					money = parent.find("td:nth-child(7)").text();
 				}
+
+				if(bandera1 == true)
+				{
+					swal("Importante!", "Debe digitar un valor parcial.", "info");
+				}else
+				{
+				
+					if(bandera2 == true)
+				{
+					swal("Importante!", "Debe remover el texto de la casilla valor parcial o seleccionar la opción 'Tomar vr. parcial'.", "info");
+				}else
+				{
+
 				var row = $(this).parents('tr').prop('outerHTML');
 				$('#tabla-detalle-pago tbody').append(row);
 
@@ -175,10 +233,10 @@ $(function() {
 				//agregamos valor
 				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad">' + money + '</td>')
 				//agregamos boton eliminar
-				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
+				$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
 				$('#tabla-detalle-pago tbody tr').each(function(fila) {
 					$this = $(this);
-					total += parseFloat($this.find("td:nth-child(5)").text()); //$this.find("td:nth-child(5)").text();
+					total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
 					
 				});
 
@@ -186,6 +244,11 @@ $(function() {
 				$('.payment-total-value').text(total);
 				var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
 				$('.payment-difference').text(difference);
+
+				}
+				}
+				}
+			
 			});
 
 			$('#tabla-detalle-pago tbody').off('click').on('click', '.delete-item', function () {
@@ -205,11 +268,15 @@ $(function() {
 				$('.payment-total-value').text(total);
 				var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
 				$('.payment-difference').text(difference);
+
+
 			});
 			
 		},
 		Cargar : function()
 		{
+			$('#leftsidebar').css('width','0px');
+			$('.content').css('margin-left','10px');
 			var $demoMaskedInput = $('.demo-masked-input');
 		    //Date
     		$demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
@@ -301,10 +368,12 @@ $(function() {
 									resp.datos[i].trabajador,
 									resp.datos[i].nombretrabajador,
 									resp.datos[i].cantidad,
+									resp.datos[i].fecha_corte,
+									resp.datos[i].nombreincapacidad,
 									resp.datos[i].valor,
 									'<div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12"><input type="checkbox" id="' + i + '"><label for="' + i + '"></label></div>',
 									'<div class="form-group"><div class="form-line"><input type="number" style="font-size:0.8em;width:65px" min="0" class="form-control payment-value" placeholder="$" /></div></div>',
-									'<div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect add-item"><i class="material-icons">add</i></button></div>'
+									'<div class="btn-group btn-group-xs" data-id="' + resp.datos[i].id_incapacidad + "-" + resp.datos[i].fecha_corte + "-" + resp.datos[i].tipoincapacidad +'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect add-item"><i class="material-icons">add</i></button></div>'
 									]).draw( false );
 							}
 							$('#Modalnuevo').modal('hide');

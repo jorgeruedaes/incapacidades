@@ -46,6 +46,9 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
         </div>
         <section class="intro">
           <row>
+           <div class="col-md-12" style="padding-left: 0px;padding-bottom: 8px;">
+           <button type="button" class="btn btn-success waves-effect boton-menu"><i class="material-icons">menu</i></button>
+          </div>
             <div class="col-lg-5 col-sm-12 left" id="caja-izq">
               <form>
                 <div class="col-md-12">
@@ -128,6 +131,8 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                 <th>Cédula</th>
                 <th>Empleado</th>
                 <th>Días</th>
+                <th>Fecha corte</th>
+                <th>Tipo</th>
                 <th>Valor</th>
                 <th></th>
               </tr>
@@ -181,8 +186,10 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
         <th>Cédula</th>
         <th>Empleado</th>
         <th>Días</th>
+        <th>Fecha corte</th>
+        <th>Tipo</th>
         <th>Valor</th>
-        <th>Tomar valor parcial</th>
+        <th>Tomar vr. parcial</th>
         <th >Valor parcial</th>
         <th></th>
       </tr>
