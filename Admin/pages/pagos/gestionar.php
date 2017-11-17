@@ -63,7 +63,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                   <th>Eps</th>
                   <th>Valor</th>
                   <th>Fecha Pago</th>
-                  <th>Período</th>
                   <th>Estado</th>
                   <th>Fecha Creación</th>
                   <th>Usuario Creación</th>

@@ -100,7 +100,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
          <div class="col-md-12">
                   <label for="">Eps</label>
                   <div class="form-group">
-                    <select class="form-control show-tick select-tipo payment-eps">
+                    <select class="form-control show-tick  payment-eps" id="payment-eps">
                       <option value="">--Selecciona eps --</option>
                       <?php
                       $vector = Array_Get_Eps(true);
@@ -358,7 +358,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                <div class="col-md-3">
                 <label for="">Eps</label>
                 <div class="form-group">
-                    <select class="form-control show-tick select-eps">
+                    <select class="form-control show-tick select-eps" id="eps-selected">
                         <option value="">--Selecciona Eps --</option>
                         <?php
                         $vector = Array_Get_Eps(true);

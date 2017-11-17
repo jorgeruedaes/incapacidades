@@ -19,7 +19,13 @@ $(function() {
 				$('.caja-nuevopago').show();
 				$('.caja-listadopago').hide();
 
-			});
+			}); 
+				
+			$('#payment-eps').on("change", function(){
+
+				 t.clear().draw();
+
+			}); 
 
 			$('.boton-menu').on("click", function(){
 				if($('#leftsidebar').width() == 0)
@@ -171,7 +177,26 @@ $(function() {
 		},
 		ValidarPendiente : function()
 		{
-			if($('.payment-full-value').val() == "")
+
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+
+			var yyyy = today.getFullYear();
+			if(dd<10){
+			    dd='0'+dd;
+			} 
+			if(mm<10){
+			    mm='0'+mm;
+			} 
+			var today = yyyy+'-'+mm+'-'+dd;
+
+			if($('.payment-date').val() > today)
+			{
+				swal("Error", "Debe ingresar una fecha de pago válida.", "error");
+				return false;
+
+			} else if($('.payment-full-value').val() == "")
 			{
 				$('.payment-full-value').focus();
 				swal("Error", "Debe ingresar el valor del pago.", "error");
@@ -197,7 +222,26 @@ $(function() {
 		},
 		ValidarFinalizado : function()
 		{
-			if($('.payment-full-value').val() == "")
+
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+
+			var yyyy = today.getFullYear();
+			if(dd<10){
+			    dd='0'+dd;
+			} 
+			if(mm<10){
+			    mm='0'+mm;
+			} 
+			var today = yyyy+'-'+mm+'-'+dd;
+
+			if($('.payment-date').val() > today)
+			{
+				swal("Error", "Debe ingresar una fecha de pago válida.", "error");
+				return false;
+
+			}else if($('.payment-full-value').val() == "")
 			{
 				$('.payment-full-value').focus();
 				swal("Error", "Debe ingresar el valor del pago.", "error");
@@ -394,9 +438,15 @@ $(function() {
 		{
 			$('#leftsidebar').css('width','0px');
 			$('.content').css('margin-left','10px');
+			 
 			var $demoMaskedInput = $('.demo-masked-input');
 		    //Date
 		    $demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
+
+		    $('#eps-selected').val($('#payment-eps').val());
+		    $('#eps-selected').change();
+		    $('#eps-selected').attr('disabled',true);
+		    $('#eps-selected').selectpicker("refresh");
 		},
 		Tabla : function()
 		{
@@ -407,12 +457,21 @@ $(function() {
 		cargarModal: function()
 		{
 			$('#open-filter').on("click", function(){
-				$('#Modalnuevo').modal('show'); 
-				pagos.Cargar();
-				pagos.enviarDatos();
+
+				if($('#payment-eps').val() == "")
+				{
+					swal("Error", "Debe seleccionar la EPS del pago.", "error");
+				}else
+				{
+					$('#Modalnuevo').modal('show'); 
+					pagos.Cargar();
+					pagos.enviarDatos();
+
+				}
+				
 			});
 		},
-		Filtrar : function()
+		FiltrarInc : function()
 		{
 			var where="WHERE 1=1 ";
 
@@ -440,9 +499,9 @@ $(function() {
 			{
 				where+= ' AND inc.tipo='+$('.select-tipo option:selected').val()+' '; 
 			}
-			if ($('.select-eps option:selected').val().length>0)
+			if ($('#eps-selected option:selected').val().length>0)
 			{
-				where+= ' AND inc.eps='+$('.select-eps option:selected').val()+' '; 
+				where+= ' AND inc.eps='+$('#eps-selected option:selected').val()+' '; 
 			}
 			if ($('.select-ciudad option:selected').val().length>0)
 			{
@@ -471,7 +530,7 @@ $(function() {
 					type: 'POST',
 					data: {
 						bandera: "filtrar",
-						where: pagos.Filtrar()
+						where: pagos.FiltrarInc()
 
 					},
 					success: function (resp) {
