@@ -52,19 +52,21 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 	    //a guardar la relacion entre pagos e incapacidades
 		    for ($i=0; $i < count($json) ; $i++) {
 
-		           Set_Pago_Incapacidad($id,$json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
-		         
+		        Set_Pago_Incapacidad($id,$json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
 		    }
 
 		    for ($i=0; $i < count($json) ; $i++) {
 
-		          Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
-
-
-  				$liquidada = 1;
+		        Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
+  				
+		    }
+		    for ($i=0; $i < count($json) ; $i++) {
+				
+				$liquidada = 1;
   				$entramite = 2;
+
   				$saldoinc = Get_Saldo_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
-  				$valorinc = Get_Valor_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+  				//$valorinc = Get_Valor_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
 
 		          if($saldoinc == 0)
 		          {
@@ -77,7 +79,7 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 		          	Set_Estado_Incapacidad($json[$i][0],$entramite,$json[$i][2],$json[$i][3]);
 
 		          }
-		    }
+		     }
 	}
 	else
 	{
@@ -108,16 +110,16 @@ function Set_Saldo_Incapacidad($idincapacidad, $valor,$tipoincapacidad,$fechacor
 
 function Get_Saldo_Incapacidad($idincapacidad,$tipoincapacidad,$fechacorte)
 {
-    $valor = mysqli_fetch_array(consultar("SELECT saldo FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte=$fechacorte AND tipo=$tipoincapacidad"));
+    $saldoincapacidad = mysqli_fetch_array(consultar("SELECT saldo FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte='$fechacorte' AND tipo=$tipoincapacidad"));
     
-    return $valor['saldo'];	
+    return $saldoincapacidad['saldo'];	
 }
 
 function Get_Valor_Incapacidad($idincapacidad,$tipoincapacidad,$fechacorte)
 {
-     $valor = mysqli_fetch_array(consultar("SELECT valor FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte=$fechacorte AND tipo=$tipoincapacidad"));
+     $valorincapacidad = mysqli_fetch_array(consultar("SELECT valor FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte=$fechacorte AND tipo=$tipoincapacidad"));
     
-    return $valor['valor'];	
+    return $valorincapacidad['valor'];	
 }
 
 function Set_Estado_Incapacidad($idincapacidad, $estado,$tipoincapacidad,$fechacorte)
