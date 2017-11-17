@@ -142,3 +142,34 @@ function Get_nombre_club($identificador)
     
     return $valor;
 }
+
+function Array_Get_PagosxFiltro($consulta)
+{
+	$clubs = consultar("SELECT pg.id_pagos, pg.valor, pg.fecha_pago, pg.fecha_creacion, pg.estado, ep.nombre as nombreeps, us.nombre_usuario as nombreusuario FROM tb_pagos pg INNER JOIN tb_eps ep ON ep.id_eps = pg.id_eps INNER JOIN tb_usuarios us ON us.id_usuario = pg.usuario ".$consulta." ORDER BY fecha_creacion");
+
+	$datos = array();
+	while ($data = mysqli_fetch_array($clubs)) {
+		$id_pago = $data['id_pagos'];
+		$valor = $data['valor'];
+		$eps = $data['nombreeps'];
+		$fechapago = $data['fecha_pago'];
+		$fechacreacion = $data['fecha_creacion'];
+		$estado =$data['estado'];
+		$usuario = $data['nombreusuario'];
+	
+		$vector = array(
+			'id_pago'=>"$id_pago",
+			'valor'=>"$valor",
+			'eps'=>"$eps",
+			'fechapago'=>"$fechapago",
+			'fechacreacion'=>"$fechacreacion",
+			'estado'=>"$estado",
+			'usuario'=>"$usuario",
+
+			);
+		array_push($datos, $vector);
+	}
+
+	return $datos;	
+
+}

@@ -33,8 +33,15 @@ if(isset($_SESSION['perfil']))
 
 	}
 	// Obtiene los datos de un partido.
-	else if($bandera === "get_datos") {
-
+	else if($bandera === "filtrar") {
+		$filtro = $_POST['where'];
+		$vector = Array_Get_PagosxFiltro($filtro);
+		if (!empty($vector)) {
+			$resultado.='"mensaje":true,';
+			$resultado.='"datos":'.json_encode($vector).'';
+		} else {
+			$resultado.='"mensaje":false';
+		}
 	}
 	 
 
