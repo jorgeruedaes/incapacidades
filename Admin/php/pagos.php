@@ -56,9 +56,27 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 		         
 		    }
 
-		     for ($i=0; $i < count($json) ; $i++) {
+		    for ($i=0; $i < count($json) ; $i++) {
 
-		           Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
+		          Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
+
+
+  				$liquidada = 1;
+  				$entramite = 2;
+  				$saldoinc = Get_Saldo_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+  				$valorinc = Get_Valor_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+
+		          if($saldoinc == 0)
+		          {
+		          	 //liquidada
+		          	Set_Estado_Incapacidad($json[$i][0],$liquidada,$json[$i][2],$json[$i][3]);
+
+		          } else 
+		          {	
+		          	//en tramite
+		          	Set_Estado_Incapacidad($json[$i][0],$entramite,$json[$i][2],$json[$i][3]);
+
+		          }
 		    }
 	}
 	else
@@ -84,7 +102,30 @@ function Set_Saldo_Incapacidad($idincapacidad, $valor,$tipoincapacidad,$fechacor
 
 	$campeonatos = modificar(sprintf("UPDATE `tb_incapacidades` SET `saldo`=`saldo` - '%d' WHERE id_incapacidad='%d' AND tipo='%d' AND fecha_corte='%s'",
 		escape($valor),escape($idincapacidad),escape($tipoincapacidad),escape($fechacorte)));
+
 	return $campeonatos;	
+}
+
+function Get_Saldo_Incapacidad($idincapacidad,$tipoincapacidad,$fechacorte)
+{
+    $valor = mysqli_fetch_array(consultar("SELECT saldo FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte=$fechacorte AND tipo=$tipoincapacidad"));
+    
+    return $valor['saldo'];	
+}
+
+function Get_Valor_Incapacidad($idincapacidad,$tipoincapacidad,$fechacorte)
+{
+     $valor = mysqli_fetch_array(consultar("SELECT valor FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte=$fechacorte AND tipo=$tipoincapacidad"));
+    
+    return $valor['valor'];	
+}
+
+function Set_Estado_Incapacidad($idincapacidad, $estado,$tipoincapacidad,$fechacorte)
+{
+
+	$campeonatos = modificar(sprintf("UPDATE `tb_incapacidades` SET `estado`='%d' WHERE id_incapacidad='%d' AND tipo='%d' AND fecha_corte='%s'",
+		escape($estado),escape($idincapacidad),escape($tipoincapacidad),escape($fechacorte)));
+	return $campeonatos;
 }
 /**
  * [Set_Clubs description]

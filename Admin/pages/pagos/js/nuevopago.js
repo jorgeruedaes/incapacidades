@@ -520,6 +520,7 @@ $(function() {
 				where+= ' AND inc.trabajador='+$('.f-cedula').val()+' '; 
 			}
 
+			where+= ' AND inc.estado !=1 '; 
 			return where;
 		},
 		enviarDatos: function () {
