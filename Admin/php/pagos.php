@@ -55,31 +55,34 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 		        Set_Pago_Incapacidad($id,$json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
 		    }
 
-		    for ($i=0; $i < count($json) ; $i++) {
+		    if($estadopago != "pendiente")
+		    {
+		    	for ($i=0; $i < count($json) ; $i++) {
 
 		        Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
   				
+		    	}
+			    for ($i=0; $i < count($json) ; $i++) {
+					
+					$liquidada = 1;
+	  				$entramite = 2;
+
+	  				$saldoinc = Get_Saldo_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+	  				//$valorinc = Get_Valor_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+
+			          if($saldoinc == 0)
+			          {
+			          	 //liquidada
+			          	Set_Estado_Incapacidad($json[$i][0],$liquidada,$json[$i][2],$json[$i][3]);
+
+			          } else 
+			          {	
+			          	//en tramite
+			          	Set_Estado_Incapacidad($json[$i][0],$entramite,$json[$i][2],$json[$i][3]);
+
+			          }
+			     }
 		    }
-		    for ($i=0; $i < count($json) ; $i++) {
-				
-				$liquidada = 1;
-  				$entramite = 2;
-
-  				$saldoinc = Get_Saldo_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
-  				//$valorinc = Get_Valor_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
-
-		          if($saldoinc == 0)
-		          {
-		          	 //liquidada
-		          	Set_Estado_Incapacidad($json[$i][0],$liquidada,$json[$i][2],$json[$i][3]);
-
-		          } else 
-		          {	
-		          	//en tramite
-		          	Set_Estado_Incapacidad($json[$i][0],$entramite,$json[$i][2],$json[$i][3]);
-
-		          }
-		     }
 	}
 	else
 	{
@@ -87,6 +90,62 @@ function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vec
 	}
 
 	return $id;
+}
+
+function Delete_Pago_Incapacidad($idpago)
+{
+    $valor  = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
+    return $valor;
+}
+function Set_nuevo_pago_editado($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vector,$idpago)
+{
+
+	//global $conexion;
+
+	//actualizamos el pago
+	$cambios = modificar(sprintf("UPDATE `tb_pagos` SET `valor`='%d',`fecha_pago`='%s',`id_eps`='%d',`estado`='%s' WHERE id_pagos='%d'",
+		escape($valorpago),escape($fechapago),escape($epspago),escape($estadopago),escape($idpago)));
+
+	//borramos relacion
+	Delete_Pago_Incapacidad($idpago);
+
+
+		$json = json_decode($vector);
+	    //a guardar la relacion entre pagos e incapacidades
+		    for ($i=0; $i < count($json) ; $i++) {
+
+		        Set_Pago_Incapacidad($idpago,$json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
+		    }
+
+		    if($estadopago != "pendiente")
+		    {
+		    	for ($i=0; $i < count($json) ; $i++) {
+
+		        Set_Saldo_Incapacidad($json[$i][0],$json[$i][1],$json[$i][2],$json[$i][3]);
+  				
+		    	}
+			    for ($i=0; $i < count($json) ; $i++) {
+					
+					$liquidada = 1;
+	  				$entramite = 2;
+
+	  				$saldoinc = Get_Saldo_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+	  				//$valorinc = Get_Valor_Incapacidad($json[$i][0],$json[$i][2],$json[$i][3]);
+
+			          if($saldoinc == 0)
+			          {
+			          	 //liquidada
+			          	Set_Estado_Incapacidad($json[$i][0],$liquidada,$json[$i][2],$json[$i][3]);
+
+			          } else 
+			          {	
+			          	//en tramite
+			          	Set_Estado_Incapacidad($json[$i][0],$entramite,$json[$i][2],$json[$i][3]);
+
+			          }
+			     }
+		    }
+	return $idpago;
 }
 
 function Set_Pago_Incapacidad($idpago, $idincapacidad, $valor,$tipoincapacidad,$fechacorte)
@@ -209,6 +268,61 @@ function Array_Get_PagosxFiltro($consulta)
 			'estado'=>"$estado",
 			'usuario'=>"$usuario",
 
+			);
+		array_push($datos, $vector);
+	}
+
+	return $datos;	
+
+}
+
+
+function Array_Get_DatosPago($idpago)
+{
+	$clubs = consultar("SELECT pg.valor, pg.fecha_pago, pg.id_eps FROM tb_pagos pg WHERE id_pagos = ".$idpago."");
+
+	$datos = array();
+	while ($data = mysqli_fetch_array($clubs)) {
+		$valor = $data['valor'];
+		$eps = $data['id_eps'];
+		$fechapago = $data['fecha_pago'];
+	
+		$vector = array(
+			'valor'=>"$valor",
+			'eps'=>"$eps",
+			'fechapago'=>"$fechapago",
+			);
+		array_push($datos, $vector);
+	}
+
+	return $datos;	
+
+}
+
+function Array_Get_IncapacidadesxPago($idpago)
+{
+	$clubs = consultar("SELECT incpago.valor, incpago.incapacidad, tp.id_tipos as tipoincapacidad, tp.nombre as nombreincapacidad, incpago.fecha_corte, inc.trabajador, concat(tr.nombre, ' ', tr.apellido) as fullname, inc.cantidad FROM `tr_incapacidadesxpago` incpago INNER JOIN tb_incapacidades inc ON inc.id_incapacidad = incpago.incapacidad INNER JOIN tb_trabajadores tr ON tr.id_trabajadores = inc.trabajador INNER JOIN tb_tipos_incapacidad tp ON tp.id_tipos = incpago.tipoincapacidad WHERE incpago.pago = ".$idpago." 
+		AND incpago.fecha_corte = inc.fecha_corte AND inc.tipo = incpago.tipoincapacidad");
+
+	$datos = array();
+	while ($data = mysqli_fetch_array($clubs)) {
+		$valor = $data['valor'];
+		$idincapacidad = $data['incapacidad'];
+		$tipoincapacidad = $data['tipoincapacidad'];
+		$nombreincapacidad = $data['nombreincapacidad'];
+		$cedula = $data['trabajador'];
+		$nombre = $data['fullname'];
+		$dias = $data['cantidad'];
+		$fechacorte = $data['fecha_corte'];
+		$vector = array(
+			'valor'=>"$valor",
+			'idincapacidad'=>"$idincapacidad",
+			'tipoincapacidad'=>"$tipoincapacidad",
+			'nombreincapacidad'=>"$nombreincapacidad",
+			'cedula'=>"$cedula",
+			'nombre'=>"$nombre",
+			'dias'=>"$dias",
+			'fechacorte'=>"$fechacorte",
 			);
 		array_push($datos, $vector);
 	}

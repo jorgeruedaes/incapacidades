@@ -32,6 +32,28 @@ if(isset($_SESSION['perfil']))
 		}
 
 	}
+	else if($bandera === "guardar-pago-editado") {
+
+		$json = json_encode($_POST['json']); 
+		$valorpago = $_POST['valor'];
+		$fechapago = $_POST['fecha'];
+		$estadopago = $_POST['estado'];
+		$epspago = $_POST['eps'];
+		$usuario = $_SESSION['id_usuarios'];
+		$idpago =  $_POST['idpago'];
+
+		$id= Set_nuevo_pago_editado($valorpago,$fechapago,$estadopago,$epspago,$usuario,$json,$idpago);
+
+		if ($id!=0)
+		{
+			//guardo ahora las incapacidades
+			$resultado.='"mensaje":true,';
+			$resultado.='"idpago":'.$id.'';
+		} 
+		else {
+			$resultado.='"mensaje":false';
+		}
+	}
 	// Obtiene los datos de un partido.
 	else if($bandera === "filtrar") {
 		$filtro = $_POST['where'];
@@ -43,7 +65,19 @@ if(isset($_SESSION['perfil']))
 			$resultado.='"mensaje":false';
 		}
 	}
-	 
+	else if($bandera === "editar-pago") {
+		$idpago = $_POST['id'];
+		$vector1 = Array_Get_DatosPago($idpago);
+		$vector2 = Array_Get_IncapacidadesxPago($idpago);
+		
+		if (!empty($vector1)) {
+			$resultado.='"mensaje":true,';
+			$resultado.='"datospago":'.json_encode($vector1).',';
+			$resultado.='"datosincapacidades":'.json_encode($vector2).'';
+		} else {
+			$resultado.='"mensaje":false';
+		}
+	}
 
 
 }

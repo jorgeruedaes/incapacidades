@@ -66,6 +66,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                         <th>Estado</th>
                                         <th>Fecha Creación</th>
                                         <th>Usuario Creación</th>
+                                        <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,7 +100,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                             <i class="material-icons">date_range</i>
                                         </span>
                                         <div class="form-line">
-                                            <input type="text" class="form-control date f-fechapago" placeholder="Desde Ej: 2017-07-30">
+                                            <input type="text" class="form-control date f-fechapago" placeholder="Ej: 2017-07-30">
                                         </div>
                                     </div>
                                 </div>

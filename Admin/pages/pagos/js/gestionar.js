@@ -6,6 +6,7 @@ $(function() {
 			pagos.AddClicks();
 			pagos.Cargar();
 			pagos.recargar();
+			pagos.Tabla();
 		},		
 		AddClicks: function()
 		{
@@ -13,9 +14,9 @@ $(function() {
 		},
 		recargar: function () 
 		{
-			pagos.Tabla();
 			pagos.enviarDatos();
 			pagos.cargarModal();
+			pagos.AgregarItem();
 		},
 		Tabla : function()
 		{
@@ -61,61 +62,89 @@ $(function() {
 
 		},
 		enviarDatos: function () {
-	$('.filtrar-boton').off('click').on('click', function () {
+			$('.filtrar-boton').off('click').on('click', function () {
 		
-		var total =0;
-		$.ajax({
-			url: 'pages/pagos/peticiones/peticiones.php',
-			type: 'POST',
-			data: {
-				bandera: "filtrar",
-				where: pagos.Filtrar()
+					var total =0;
+					$.ajax({
+						url: 'pages/pagos/peticiones/peticiones.php',
+						type: 'POST',
+						data: {
+							bandera: "filtrar",
+							where: pagos.Filtrar()
 
-			},
-			success: function (resp) {
+						},
+						success: function (resp) {
 
-				var resp = $.parseJSON(resp);
-				if (resp.salida === true && resp.mensaje === true) {
-					t.row($('#tabla-pagos').parents('tr') ).clear().draw();
+							var resp = $.parseJSON(resp);
+							if (resp.salida === true && resp.mensaje === true) {
+								t.row($('#tabla-pagos').parents('tr') ).clear().draw();
 
-					// for (var i = 0; i < resp.datos.length; i++) {
-					// 	total = parseInt(resp.datos[i].valor) + parseInt(total);
-					// }					
-					//resp.datos.push({"id_pago":'',"eps":'',"valor":'',"fechapago":'',"estado":'',"fechacreacion":'',"usuario":''})					
+								// for (var i = 0; i < resp.datos.length; i++) {
+								// 	total = parseInt(resp.datos[i].valor) + parseInt(total);
+								// }					
+								//resp.datos.push({"id_pago":'',"eps":'',"valor":'',"fechapago":'',"estado":'',"fechacreacion":'',"usuario":''})					
 
-					for (var i = 0; i < resp.datos.length; i++) {
-						t.row.add( [ 
-							resp.datos[i].id_pago,
-							resp.datos[i].eps,
-							resp.datos[i].valor,
-							resp.datos[i].fechapago,
-							resp.datos[i].estado,
-							resp.datos[i].fechacreacion,
-							resp.datos[i].usuario
+								for (var i = 0; i < resp.datos.length; i++) {
 
-							]).draw( false );
-					}
+									if(resp.datos[i].estado == 'pendiente')
+									{
+										t.row.add( [ 
+										resp.datos[i].id_pago,
+										resp.datos[i].eps,
+										resp.datos[i].valor,
+										resp.datos[i].fechapago,
+										resp.datos[i].estado,
+										resp.datos[i].fechacreacion,
+										resp.datos[i].usuario,
+										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i class="material-icons">edit</i></button></div>'
+										]).draw( false );
+									}else
+									{
+										t.row.add( [ 
+										resp.datos[i].id_pago,
+										resp.datos[i].eps,
+										resp.datos[i].valor,
+										resp.datos[i].fechapago,
+										resp.datos[i].estado,
+										resp.datos[i].fechacreacion,
+										resp.datos[i].usuario,
+										''
+										]).draw( false );
 
-					$('#Modalnuevo').modal('hide');
-				} else {
-					t.row($('#tabla-pagos').parents('tr') ).clear().draw();
-					swal("Importante!", "No se han encontrado registros para ese filtro, intenta nuevamente.", "info");
-				}
-			}
+									}
+								
+								}
+
+								$('#Modalnuevo').modal('hide');
+							} else {
+								t.row($('#tabla-pagos').parents('tr') ).clear().draw();
+								swal("Importante!", "No se han encontrado registros para ese filtro, intenta nuevamente.", "info");
+							}
+							pagos.recargar();
+						}
+					});
+			});
+	},
+	cargarModal: function()
+	{
+		$('.filtro').on("click", function(){
+			$('#Modalnuevo').modal('show'); 
+			pagos.Cargar();
+			pagos.enviarDatos();
 		});
-});
-},
-cargarModal: function()
-{
-	$('.filtro').on("click", function(){
-		$('#Modalnuevo').modal('show'); 
-		pagos.Cargar();
-		pagos.enviarDatos();
-	});
+	},
 
+		AgregarItem: function()
+		{
+			$('#tabla-pagos tbody').off('click').on('click', '.edit-item', function () {
 
+				//idpago
+				var id = $(this).parent().data('id');
+				window.location.href = "pages/pagos/editarpago.php?id="+id;  
 
-}
+			});
+				
+		},
 };
 $(document).ready(function () {
 
