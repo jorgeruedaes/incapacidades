@@ -66,6 +66,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                         <th>Fecha Inicial</th>
                                         <th>Fecha Final</th>
                                         <th>Fecha Corte</th>
+                                        <th>Saldo</th>
                                         <th>Días</th>
                                         <th>Valor</th>
                                         <th>Estado</th>

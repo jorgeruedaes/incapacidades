@@ -156,9 +156,9 @@ Tabla : function()
 		ordering: true,
 		info:     true,
 		buttons: [
-		'csv', 'excel', 'pdf', 'print'
+		'csv', 'excel',{ extend: 'pdfHtml5', orientation: 'landscape', pageSize: 'LEGAL' }, 'print'
 		],
-		order: [[ 10, "desc" ]]
+		order: [[ 11, "desc" ]]
 
 	});
 
@@ -167,6 +167,7 @@ enviarDatos: function () {
 	$('.filtrar-boton').off('click').on('click', function () {
 		
 		var total =0;
+		var saldo = 0;
 		$.ajax({
 			url: 'pages/incapacidades/peticiones/peticiones.php',
 			type: 'POST',
@@ -183,8 +184,10 @@ enviarDatos: function () {
 
 					for (var i = 0; i < resp.datos.length; i++) {
 						total = parseInt(resp.datos[i].valor) + parseInt(total);
+						saldo = parseInt(resp.datos[i].saldo) + parseInt(saldo);
+
 					}					
-					resp.datos.push({"id_incapacidad":'',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"fecha_corte":'VALOR TOTAL',"cantidad":'',"valor":total,"estado":''})					
+					resp.datos.push({"id_incapacidad":'',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"saldo":saldo,"fecha_corte":'SALDO TOTAL',"cantidad":'VALOR TOTAL',"valor":total,"estado":''})					
 
 					for (var i = 0; i < resp.datos.length; i++) {
 						t.row.add( [ 
@@ -196,6 +199,7 @@ enviarDatos: function () {
 							resp.datos[i].fecha_inicial,
 							resp.datos[i].fecha_final,
 							resp.datos[i].fecha_corte,
+							resp.datos[i].saldo,
 							resp.datos[i].cantidad,
 							resp.datos[i].valor,
 							resp.datos[i].estado 
