@@ -7,6 +7,7 @@ $(function() {
 			pagos.Cargar();
 			pagos.recargar();
 			pagos.Tabla();
+			$('.filtrar-boton').trigger('click');
 		},		
 		AddClicks: function()
 		{
@@ -21,15 +22,15 @@ $(function() {
 		Tabla : function()
 		{
 			t = $('#tabla-pagos').DataTable({
-				// dom: 'Bfrtip',
-				// searching: true,
-				// paging: false,
-				// ordering: true,
-				// info:     true,
-				// buttons: [
-				// 'csv', 'excel', 'pdf', 'print'
-				// ],
-				// order: [[ 10, "desc" ]]
+				dom: 'Bfrtip',
+				searching: true,
+				paging: false,
+				ordering: true,
+				info:     true,
+				buttons: [
+				'csv', 'excel', 'pdf', 'print'
+				],
+				order: [[ 7, "desc" ]]
 
 			});
 
@@ -79,11 +80,6 @@ $(function() {
 							if (resp.salida === true && resp.mensaje === true) {
 								t.row($('#tabla-pagos').parents('tr') ).clear().draw();
 
-								// for (var i = 0; i < resp.datos.length; i++) {
-								// 	total = parseInt(resp.datos[i].valor) + parseInt(total);
-								// }					
-								//resp.datos.push({"id_pago":'',"eps":'',"valor":'',"fechapago":'',"estado":'',"fechacreacion":'',"usuario":''})					
-
 								for (var i = 0; i < resp.datos.length; i++) {
 
 									if(resp.datos[i].estado == 'pendiente')
@@ -131,6 +127,12 @@ $(function() {
 			$('#Modalnuevo').modal('show'); 
 			pagos.Cargar();
 			pagos.enviarDatos();
+		});
+		$('.add-payment').on("click", function(){
+
+			pagos.Cargar();
+			pagos.enviarDatos();
+			window.location.href = "pages/pagos/nuevopago.php";  
 		});
 	},
 

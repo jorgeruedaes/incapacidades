@@ -51,8 +51,13 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                 <li><button type="button" class="btn bg-green 
                                     waves-effect filtro">
                                     <i class="material-icons">filter_list</i>
-                                </button></li>
-                                <li></li>
+                                </button>
+                                </li>
+                                <li><button type="button" class="btn bg-red 
+                                    waves-effect add-payment">
+                                    <i class="material-icons">add</i>
+                                </button>
+                                </li>
                             </ul>
                         </div>
                         <div class="body">

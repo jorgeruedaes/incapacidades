@@ -247,7 +247,7 @@ function Get_nombre_club($identificador)
 
 function Array_Get_PagosxFiltro($consulta)
 {
-	$clubs = consultar("SELECT pg.id_pagos, pg.valor, pg.fecha_pago, pg.fecha_creacion, pg.estado, ep.nombre as nombreeps, us.nombre_usuario as nombreusuario FROM tb_pagos pg INNER JOIN tb_eps ep ON ep.id_eps = pg.id_eps INNER JOIN tb_usuarios us ON us.id_usuario = pg.usuario ".$consulta." ORDER BY fecha_creacion");
+	$clubs = consultar("SELECT pg.id_pagos, pg.valor, pg.fecha_pago, pg.fecha_creacion, pg.estado, ep.nombre as nombreeps, us.nombre_usuario as nombreusuario FROM tb_pagos pg INNER JOIN tb_eps ep ON ep.id_eps = pg.id_eps INNER JOIN tb_usuarios us ON us.id_usuario = pg.usuario ".$consulta." ORDER BY pg.fecha_creacion DESC");
 
 	$datos = array();
 	while ($data = mysqli_fetch_array($clubs)) {

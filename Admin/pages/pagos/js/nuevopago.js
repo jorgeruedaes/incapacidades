@@ -95,7 +95,8 @@ $(function() {
 											closeOnConfirm: false
 										}, function (isConfirm) {
 											if (isConfirm) {
-												window.location.reload();
+												//window.location.reload();
+												window.location.href = "pages/pagos/gestionar.php";  
 											}
 										});
 
@@ -151,7 +152,8 @@ $(function() {
 											closeOnConfirm: false
 										}, function (isConfirm) {
 											if (isConfirm) {
-												window.location.reload();
+												//window.location.reload();
+												window.location.href = "pages/pagos/gestionar.php";  
 											}
 										});
 
@@ -422,7 +424,7 @@ $(function() {
 				var row = $(this).parents('tr').remove();
 				$('#tabla-detalle-pago tbody tr').each(function(fila) {
 					$this = $(this);
-					total += parseFloat($this.find("td:nth-child(5)").text()); //$this.find("td:nth-child(5)").text();
+					total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
 				});
 
 				$('.payment-total-value').text("");

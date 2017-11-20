@@ -96,7 +96,8 @@ $(function() {
 											closeOnConfirm: false
 										}, function (isConfirm) {
 											if (isConfirm) {
-												window.location.reload();
+												//window.location.reload();
+												window.location.href = "pages/pagos/gestionar.php";  
 											}
 										});
 
@@ -428,7 +429,7 @@ $(function() {
 				var row = $(this).parents('tr').remove();
 				$('#tabla-detalle-pago tbody tr').each(function(fila) {
 					$this = $(this);
-					total += parseFloat($this.find("td:nth-child(5)").text()); //$this.find("td:nth-child(5)").text();
+					total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
 				});
 
 				$('.payment-total-value').text("");
@@ -466,24 +467,13 @@ $(function() {
 								$('.payment-eps').change();
 
 							}
-							for (var i = 0; i < resp.datosincapacidades.length; i++) {
-							$('#tabla-detalle-pago tbody').find('tr').remove();
-							$('#tabla-detalle-pago tbody').append('<tr><td>'+resp.datosincapacidades[i].idincapacidad+'</td><td>'+resp.datosincapacidades[i].cedula+'</td><td>'+resp.datosincapacidades[i].nombre+'</td><td>'+resp.datosincapacidades[i].dias+'</td><td>'+resp.datosincapacidades[i].fechacorte+'</td><td>'+resp.datosincapacidades[i].nombreincapacidad+'</td><td><div class="valor-incapacidad">'+resp.datosincapacidades[i].valor+'</div></td><td><div class="btn-group btn-group-xs" data-tipo-inc="' + resp.datosincapacidades[i].tipoincapacidad + '" data-id="' + resp.datosincapacidades[i].idincapacidad + "-" + resp.datosincapacidades[i].fechacorte + "-" + resp.datosincapacidades[i].tipoincapacidad +'"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td></tr>');
-								}
-							// t1.row($('#tabla-detalle-pago').parents('tr') ).clear().draw();
-							// for (var i = 0; i < resp.datosincapacidades.length; i++) {
-							// 	t1.row.add( [ 
-							// 		resp.datosincapacidades[i].idincapacidad,
-							// 		resp.datosincapacidades[i].cedula,
-							// 		resp.datosincapacidades[i].nombre,
-							// 		resp.datosincapacidades[i].dias,
-							// 		resp.datosincapacidades[i].fechacorte,
-							// 		resp.datosincapacidades[i].nombreincapacidad,
-							// 		'<td><div class="valor-incapacidad">'+resp.datosincapacidades[i].valor+'</div></td>',
-							// 		'<td><div class="btn-group btn-group-xs" data-tipo-inc="' + resp.datosincapacidades[i].tipoincapacidad + '" data-id="' + resp.datosincapacidades[i].idincapacidad + "-" + resp.datosincapacidades[i].fechacorte + "-" + resp.datosincapacidades[i].tipoincapacidad +'"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>',
-							// 		]).draw( false );
-							// }
 
+							$('#tabla-detalle-pago tbody').find('tr').remove();
+
+							for (var i = 0; i < resp.datosincapacidades.length; i++) {
+							$('#tabla-detalle-pago tbody').append('<tr><td>'+resp.datosincapacidades[i].idincapacidad+'</td><td>'+resp.datosincapacidades[i].cedula+'</td><td>'+resp.datosincapacidades[i].nombre+'</td><td>'+resp.datosincapacidades[i].dias+'</td><td>'+resp.datosincapacidades[i].fechacorte+'</td><td>'+resp.datosincapacidades[i].nombreincapacidad+'</td><td class="valor-incapacidad">'+resp.datosincapacidades[i].valor+'</td><td><div class="btn-group btn-group-xs" data-tipo-inc="' + resp.datosincapacidades[i].tipoincapacidad + '" data-id="' + resp.datosincapacidades[i].idincapacidad + "-" + resp.datosincapacidades[i].fechacorte + "-" + resp.datosincapacidades[i].tipoincapacidad +'"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td></tr>');
+								}
+	
 							var total = 0;
 							$('#tabla-detalle-pago tbody tr').each(function(fila) {
 								$this = $(this);
