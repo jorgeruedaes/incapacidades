@@ -115,7 +115,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                     <td><?php echo $value['dias'] ?></td>
                     <td><?php echo $value['fechacorte'] ?></td>
                     <td><?php echo get_name_tipo($value['tipoincapacidad']); ?></td>
-                    <td><?php echo $value['valor'] ?></td>
+                    <td class="money-values"><?php echo $value['valor'] ?></td>
                   </tr>
 
                   <?php

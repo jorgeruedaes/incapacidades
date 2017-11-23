@@ -10,7 +10,7 @@ $(function() {
 		GetTotal: function()
 		{
 			var total = 0;
-			$('#tabla-detalle tr').find("td:nth-child(7)").each(function(indice, elemento) {
+			$('#tabla-detalle tr').find("td.money-values").each(function(indice, elemento) {
 
 				total += parseInt($(elemento).text());
 				$('#totalinc').text(total);
