@@ -10,7 +10,6 @@ $id_modulos ='76';
 $id = $_GET['id'];
 if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
   ?>
-  
   <section class="content">
     <div class="container-fluid">
       <div class="block-header">
@@ -129,7 +128,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                  <td></td>
                  <td></td>
                  <td align="right"><b>Valor total</b></td>
-                 <td align="right" id="totalinc"></td>
+                 <td align="left" id="totalinc"></td>
                </tr>
 
              </tbody>
