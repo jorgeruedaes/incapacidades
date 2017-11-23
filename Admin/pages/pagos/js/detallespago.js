@@ -8,10 +8,10 @@ $(function() {
 		},		
 		GetTotal: function()
 		{
-			var total = "";
+			var total = 0;
 			$('#tabla-detalle tr').find("td:nth-child(7)").each(function(indice, elemento) {
 
-				    total += $(elemento).text();
+				    total += parseFloat($(elemento).text());
 				    $('#totalinc').text(total);
 
 		    }); 
