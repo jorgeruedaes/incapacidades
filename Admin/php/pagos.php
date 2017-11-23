@@ -245,6 +245,15 @@ function Get_nombre_club($identificador)
     return $valor;
 }
 
+function Get_nombre_eps($identificador)
+{
+    $valor = mysqli_fetch_array(consultar("SELECT nombre 
+      FROM tb_eps WHERE id_eps=$identificador"));
+    $valor = $valor['nombre'];
+    
+    return $valor;
+}
+
 function Array_Get_PagosxFiltro($consulta)
 {
 	$clubs = consultar("SELECT pg.id_pagos, pg.valor, pg.fecha_pago, pg.fecha_creacion, pg.estado, ep.nombre as nombreeps, us.nombre_usuario as nombreusuario FROM tb_pagos pg INNER JOIN tb_eps ep ON ep.id_eps = pg.id_eps INNER JOIN tb_usuarios us ON us.id_usuario = pg.usuario ".$consulta." ORDER BY pg.fecha_creacion DESC");

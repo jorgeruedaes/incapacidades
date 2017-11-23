@@ -180,7 +180,7 @@ $(function() {
 
 		AgregarItem: function()
 		{
-			$('#tabla-pagos tbody').off('click').on('click', '.edit-item', function () {
+			$('#tabla-pagos tbody').on('click', '.edit-item', function () {
 
 				//idpago
 				var id = $(this).parent().data('id');
@@ -188,17 +188,19 @@ $(function() {
 
 			});
 
-
-		},
-		MostrarDetalles : function()
-		{
-			$('#tabla-pagos tbody').off('click').on('click', '.show-item', function () {
+			$('#tabla-pagos tbody').on('click', '.show-item', function () {
 
 				//idpago
 				var id = $(this).parent().data('id');
 				window.location.href = "pages/pagos/detallespago.php?id="+id;  
 
 			});
+
+
+		},
+		MostrarDetalles : function()
+		{
+			
 		}
 	};
 	$(document).ready(function () {

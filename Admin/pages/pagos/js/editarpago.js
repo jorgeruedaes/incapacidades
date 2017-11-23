@@ -54,6 +54,11 @@ $(function() {
 				
 			}); 
 
+			$('.boton-volver').on("click", function(){
+
+				 window.location.href = "pages/pagos/gestionar.php";
+
+			});
 			$('.boton-pendiente').on("click", function(){
 
 				if(pagos.ValidarPendiente())

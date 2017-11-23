@@ -162,6 +162,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
         <div class="col-md-8 col-md-offset-4">
           <!--<button type="button" class="btn btn-danger waves-effect boton-cancelar">Cancelar</button>-->
+          <button type="button" class="btn btn-warning waves-effect boton-volver">Volver</button>
           <button type="button" class="btn btn-info waves-effect boton-pendiente">Dejar pendiente</button>
           <button type="button" class="btn btn-success waves-effect boton-finalizar">Finalizar</button>
         </div>
