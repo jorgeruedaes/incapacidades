@@ -282,7 +282,7 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
                             </li>
                         </ul> -->
                         <!--</li>-->
-                        <!--    #END# Tasks --> 
+                        <!--    #END#i Tasks --> 
                     <!-- <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a>
                 </li> -->
             </ul>
@@ -295,13 +295,13 @@ $usuario = Array_Get_Usuario($_SESSION['id_usuarios']);
     <aside id="leftsidebar" class="sidebar">
         <!-- User Info -->
         <div class="user-info">
-            <div class="image">
+        <!--    <div class="image">
                 <img src="images/user.png" width="48" height="48" alt="User" />
-            </div>
+            </div>-->
+            <br><br><br>
             <div class="info-container">
-                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo String_Get_Nombre($usuario['id_usuarios']);?></div>
-                <div class="email"><?php echo $usuario['email'];?></div>
-                <div class="btn-group user-helper-dropdown">
+                <div class="name" data-toggle="dropdown" style="color: #2196f3; font-weight: 700;" aria-haspopup="true" aria-expanded="false"><?php echo String_Get_Nombre($usuario['id_usuarios']);?></div>
+                <div class="btn-group user-helper-dropdown" style="color: black;">
                     <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                     <ul class="dropdown-menu pull-right">
                         <li><a href="pages/usuarios/perfil.php"><i class="material-icons">person</i>Perfil</a>
