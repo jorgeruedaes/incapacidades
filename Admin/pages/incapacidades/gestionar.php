@@ -182,7 +182,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                     <select class="form-control show-tick select-estado">
                                         <option value="">--Selecciona Estado --</option>
                                         <?php
-                                        $vector = Array_Get_EstadosIncapacidad(true);
+                                        $vector = Array_Get_EstadosIncapacidad(false);
                                         foreach ($vector as $value)
                                         {
 
@@ -202,7 +202,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                             <select class="form-control show-tick select-tipo" multiple>
                                 <option selected="selected" value="">--Selecciona Tipo --</option>
                                 <?php
-                                $vector = Array_Get_TiposIncapacidad(true);
+                                $vector = Array_Get_TiposIncapacidad(false);
                                 foreach ($vector as $value)
                                 {
                                  ?>
@@ -219,7 +219,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                         <select class="form-control show-tick select-eps">
                             <option value="">--Selecciona Eps --</option>
                             <?php
-                            $vector = Array_Get_Eps(true);
+                            $vector = Array_Get_Eps(false);
                             foreach ($vector as $value)
                             {
 
@@ -237,7 +237,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                      <select class="form-control show-tick select-ciudad"> 
                          <option value="">--Selecciona Ciudad --</option>
                          <?php
-                         $vector = Array_Get_Ciudades(true);
+                         $vector = Array_Get_Ciudades(false);
                          foreach ($vector as $value)
                          {
 
@@ -255,7 +255,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                     <select  class="form-control show-tick select-empresa"  data-live-search="true"> 
                      <option value="">--Selecciona Empresa --</option>
                      <?php
-                     $vector = Array_Get_Empresas(true);
+                     $vector = Array_Get_Empresas(false);
                      foreach ($vector as $value)
                      {
 

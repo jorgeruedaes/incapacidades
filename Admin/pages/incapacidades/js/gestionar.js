@@ -37,7 +37,7 @@ $(function() {
 			}
 			if ($('.select-estado option:selected').val().length>0)
 			{
-				where+= ' AND estado='+$('.select-estado option:selected').val()+' '; 
+				where+= ' AND inc.estado='+$('.select-estado option:selected').val()+' '; 
 			}
 			if ($('.select-tipo :selected').val().length>0)
 			{

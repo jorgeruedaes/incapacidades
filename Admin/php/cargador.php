@@ -226,8 +226,8 @@ $usuario = $_SESSION['id_usuarios'];
 {
     if(insertar("INSERT INTO `tb_incapacidades`
 		(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,
-		 `fecha_creacion`, `fecha_corte`, `cantidad`, `valor`, `eps`, `usuario`)
-		  VALUES ('$incapacidad','$ciudad','$cedula','$cliente','$tipo','2', DATE_FORMAT('$fechainicial','%Y-%m-%d'),DATE_FORMAT('$fechafinal','%Y-%m-%d'),NOW(),DATE_FORMAT('$fechacorte','%Y-%m-%d'),'$cantidad','$valor','$eps','$usuario')"))
+		 `fecha_creacion`, `fecha_corte`, `cantidad`, `valor`, `eps`, `usuario`,`saldo`)
+		  VALUES ('$incapacidad','$ciudad','$cedula','$cliente','$tipo','2', DATE_FORMAT('$fechainicial','%Y-%m-%d'),DATE_FORMAT('$fechafinal','%Y-%m-%d'),NOW(),DATE_FORMAT('$fechacorte','%Y-%m-%d'),'$cantidad','$valor','$eps','$usuario','$valor')"))
 		  {
 		return true;  
 		  }

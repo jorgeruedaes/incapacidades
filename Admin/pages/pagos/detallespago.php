@@ -59,7 +59,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
             <div class="header" style="padding-bottom: 0px">
               <div class="row">
                 <div class="col-md-12" data-id="75" id="payment-title">
-                  <h3 class="grey-text">Detalles pago # <?php echo $id ?></h3>
+                  <h3 class="grey-text textodetalle">Detalles pago # <?php echo $id ?></h3>
                 </div>
               </div>
               <br>
@@ -68,7 +68,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                   <label for="">Valor pago</label>
                   <div class="form-group">
                     <div class="form-line">
-                      <input type="text" min="0" value="<?php echo $valorpago ?>" class="form-control payment-full-value" placeholder="$" disabled>
+                      <input type="text" min="0" value="<?php echo $valorpago ?>" class="form-control payment-full-value valorpago" placeholder="$" disabled>
                     </div>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                   <label for="">Eps</label>
                   <div class="form-group">
                     <div class="form-line">
-                      <input type="text" min="0" value="<?php echo $epspago ?>" class="form-control payment-full-value" placeholder="$" disabled>
+                      <input type="text" min="0" value="<?php echo $epspago ?>" class="form-control payment-full-value epspago" placeholder="$" disabled>
                     </div>
                   </div>
                 </div>
@@ -84,7 +84,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                   <label for="">Fecha pago</label>
                   <div class="form-group">
                     <div class="form-line">
-                      <input type="text" min="0" value="<?php echo $fechapago ?>" class="form-control payment-full-value" placeholder="$" disabled>
+                      <input type="text" min="0" value="<?php echo $fechapago ?>" class="form-control payment-full-value fechapago" placeholder="$" disabled>
                     </div>
                   </div>
                 </div>
