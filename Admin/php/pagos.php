@@ -50,12 +50,12 @@ function Delete_pago($idpago,$estado)
 
 			if(count($array) > 0)
 			{
-	 			for ($i=0; $i < count($array); $i++) {
+	 			for ($i=0; $i < count($array)-1; $i++) {
  
 			    	//restablezco el valor sumandolo a la incapacidad
 			    	//id, valor, tipo, fecha
-			    	consultar($array[0]);
-			        Set_Nuevo_Saldo_Incapacidad($array[$i][1],$array[$i][0],$array[$i][2],$array[$i][4]);
+			    	// ejemplo funcionando
+			        Set_Nuevo_Saldo_Incapacidad($array[$i]['incapacidad'],$array[$i]['valor'],$array[$i]['tipoincapacidad'],$array[$i]['fecha_corte']);
 			    }
 
 				for ($i=0; $i < count($array); $i++) {
@@ -395,7 +395,6 @@ function Array_Get_IncapacidadesxPago($idpago)
 			);
 		array_push($datos, $vector);
 	}
-
 	return $datos;	
 
 }
