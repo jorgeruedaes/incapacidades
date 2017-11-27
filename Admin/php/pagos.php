@@ -40,8 +40,8 @@ function Delete_pago($idpago,$estado)
 
 		if ($estado == "pendiente") {
 
-			//$eliminadorelacion = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
-			//$eliminado  = eliminar("DELETE FROM `tb_pagos` WHERE id_pagos= $idpago");
+			$eliminadorelacion = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
+			$eliminado  = eliminar("DELETE FROM `tb_pagos` WHERE id_pagos= $idpago");
 
 		} else if($estado == "completado") {
 		
@@ -50,12 +50,12 @@ function Delete_pago($idpago,$estado)
 
 			if(count($array) > 0)
 			{
-	 			for ($i=0; $i < count($array)-1; $i++) {
+	 			for ($i=0; $i < count($array); $i++) {
  
 			    	//restablezco el valor sumandolo a la incapacidad
 			    	//id, valor, tipo, fecha
 			    	// ejemplo funcionando
-			        Set_Nuevo_Saldo_Incapacidad($array[$i]['incapacidad'],$array[$i]['valor'],$array[$i]['tipoincapacidad'],$array[$i]['fecha_corte']);
+			        Set_Nuevo_Saldo_Incapacidad($array[$i]['idincapacidad'],$array[$i]['valor'],$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
 			    }
 
 				for ($i=0; $i < count($array); $i++) {
@@ -63,25 +63,25 @@ function Delete_pago($idpago,$estado)
 					$nueva = 6;
 		  			$entramite = 2;
 
-		  			$saldoinc = Get_Saldo_Incapacidad($array[$i][1],$array[$i][2],$array[$i][4]);
-		  			$valorinc = Get_Valor_Incapacidad($array[$i][1],$array[$i][2],$array[$i][4]);
+		  			$saldoinc = Get_Saldo_Incapacidad($array[$i]['idincapacidad'],$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
+		  			$valorinc = Get_Valor_Incapacidad($array[$i]['idincapacidad'],$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
 
 				          if($saldoinc == $valorinc)
 				          {
 				          	 //liquidada
-				          	Set_Estado_Incapacidad($array[$i][1],$nueva,$array[$i][2],$array[$i][4]);
+				          	Set_Estado_Incapacidad($array[$i]['idincapacidad'],$nueva,$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
 
 				          } else 
 				          {	
 				          	//en tramite
-				          	Set_Estado_Incapacidad($array[$i][1],$entramite,$array[$i][2],$array[$i][4]);
+				          	Set_Estado_Incapacidad($array[$i]['idincapacidad'],$entramite,$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
 
 				          }
 				 }
 			}
 		   	
-		   	//$eliminadorelacion = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
-		   	//$eliminado  = eliminar("DELETE FROM `tb_pagos` WHERE id_pagos= $idpago");
+		   	$eliminadorelacion = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
+		   	$eliminado  = eliminar("DELETE FROM `tb_pagos` WHERE id_pagos= $idpago");
 		}
 
 	 
@@ -236,7 +236,7 @@ function Get_Saldo_Incapacidad($idincapacidad,$tipoincapacidad,$fechacorte)
 
 function Get_Valor_Incapacidad($idincapacidad,$tipoincapacidad,$fechacorte)
 {
-     $valorincapacidad = mysqli_fetch_array(consultar("SELECT valor FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte=$fechacorte AND tipo=$tipoincapacidad"));
+     $valorincapacidad = mysqli_fetch_array(consultar("SELECT valor FROM `tb_incapacidades` WHERE id_incapacidad=$idincapacidad AND fecha_corte='$fechacorte' AND tipo=$tipoincapacidad"));
     
     return $valorincapacidad['valor'];	
 }
