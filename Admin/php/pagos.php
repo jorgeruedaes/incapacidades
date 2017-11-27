@@ -35,6 +35,59 @@ function Array_Get_Pagos()
 	return $datos;	
 }
 
+function Delete_pago($idpago,$estado)
+{
+
+		if ($estado == "pendiente") {
+
+			//$eliminadorelacion = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
+			//$eliminado  = eliminar("DELETE FROM `tb_pagos` WHERE id_pagos= $idpago");
+
+		} else if($estado == "completado") {
+		
+			//consulto las incapacidades del pago
+			$array = Array_Get_IncapacidadesxPago($idpago);
+
+			if(count($array) > 0)
+			{
+	 			for ($i=0; $i < count($array); $i++) {
+ 
+			    	//restablezco el valor sumandolo a la incapacidad
+			    	//id, valor, tipo, fecha
+			    	consultar($array[0]);
+			        Set_Nuevo_Saldo_Incapacidad($array[$i][1],$array[$i][0],$array[$i][2],$array[$i][4]);
+			    }
+
+				for ($i=0; $i < count($array); $i++) {
+						
+					$nueva = 6;
+		  			$entramite = 2;
+
+		  			$saldoinc = Get_Saldo_Incapacidad($array[$i][1],$array[$i][2],$array[$i][4]);
+		  			$valorinc = Get_Valor_Incapacidad($array[$i][1],$array[$i][2],$array[$i][4]);
+
+				          if($saldoinc == $valorinc)
+				          {
+				          	 //liquidada
+				          	Set_Estado_Incapacidad($array[$i][1],$nueva,$array[$i][2],$array[$i][4]);
+
+				          } else 
+				          {	
+				          	//en tramite
+				          	Set_Estado_Incapacidad($array[$i][1],$entramite,$array[$i][2],$array[$i][4]);
+
+				          }
+				 }
+			}
+		   	
+		   	//$eliminadorelacion = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
+		   	//$eliminado  = eliminar("DELETE FROM `tb_pagos` WHERE id_pagos= $idpago");
+		}
+
+	 
+
+	return $eliminado;
+}
 function Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vector)
 {
 
@@ -156,6 +209,13 @@ function Set_Pago_Incapacidad($idpago, $idincapacidad, $valor,$tipoincapacidad,$
 		escape($idincapacidad),escape($idpago),escape($valor),escape($tipoincapacidad),escape($fechacorte)));
 	return $campeonatos;	
 
+}
+function Set_Nuevo_Saldo_Incapacidad($idincapacidad, $valor,$tipoincapacidad,$fechacorte)
+{
+
+	$campeonatos = modificar(sprintf("UPDATE `tb_incapacidades` SET `saldo`=`saldo` + '%d' WHERE id_incapacidad='%d' AND tipo='%d' AND fecha_corte='%s'",
+		escape($valor),escape($idincapacidad),escape($tipoincapacidad),escape($fechacorte)));
+	return $campeonatos;	
 }
 
 function Set_Saldo_Incapacidad($idincapacidad, $valor,$tipoincapacidad,$fechacorte)

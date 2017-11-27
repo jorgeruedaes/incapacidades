@@ -22,10 +22,25 @@ if(isset($_SESSION['perfil']))
 
 		if ($id!=0)
 		{
-
 			//guardo ahora las incapacidades
 			$resultado.='"mensaje":true,';
 			$resultado.='"idpago":'.$id.'';
+		} 
+		else {
+			$resultado.='"mensaje":false';
+		}
+
+	}else if ($bandera === "borrar-pago") {
+
+		$idpago = $_POST['idpago'];
+		$estado = $_POST['estado'];
+
+		$id= Delete_pago($idpago,$estado);
+
+		if ($id!=0)
+		{
+			//guardo ahora las incapacidades
+			$resultado.='"mensaje":true';
 		} 
 		else {
 			$resultado.='"mensaje":false';

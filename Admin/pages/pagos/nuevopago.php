@@ -5,7 +5,7 @@ include('../../php/incapacidad.php');
 include('../../php/eps.php');
 include('../../php/ciudades.php');
 include('../../php/empresas.php');
-$id_modulos =Int_RutaModulo($_SERVER['REQUEST_URI']);
+$id_modulos ='76';
 
 if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
   ?>

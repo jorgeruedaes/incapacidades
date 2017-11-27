@@ -262,7 +262,7 @@ $(function() {
 				return false;
 			}else if ($('.payment-difference').text() != '0')
 			{
-				swal("Error","Para poder finalizar el pago , el valor total del pago y el valor sumado No deben tener diferenecia.", "error");	
+				swal("Error","Para poder finalizar el pago , el valor total del pago y el valor sumado No deben tener diferencia.", "error");	
 				return false;
 			} else if ($('#tabla-detalle-pago tbody').find('tr').size() == 0)
 			{

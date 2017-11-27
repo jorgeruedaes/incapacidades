@@ -146,7 +146,7 @@ $(function() {
 										resp.datos[i].estado,
 										resp.datos[i].fechacreacion,
 										resp.datos[i].usuario,
-										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i class="material-icons">edit</i></button></div>'
+										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i class="material-icons">edit</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
 										]).draw( false );
 								}else
 								{
@@ -158,7 +158,7 @@ $(function() {
 										resp.datos[i].estado,
 										resp.datos[i].fechacreacion,
 										resp.datos[i].usuario,
-										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class ="btn btn-primary waves-effect show-item"><i class="material-icons">library_books</i></button></div>'
+										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class ="btn btn-primary waves-effect show-item"><i class="material-icons">library_books</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
 										]).draw( false );
 
 								}
@@ -197,6 +197,59 @@ $(function() {
 				//idpago
 				var id = $(this).parent().data('id');
 				window.location.href = "pages/pagos/editarpago.php?id="+id;  
+
+			});
+
+			$('#tabla-pagos tbody').on('click', '.delete-item', function () {
+
+				//idpago
+				var id = $(this).parent().data('id');
+				var estado = $(this).parents('tr').find("td:nth-child(5)").text();
+				swal({title: "¿Está seguro que desea ELIMINAR el pago?",
+						text: "",
+						type: "warning",
+						confirmButtonText: "Aceptar",
+						showCancelButton: true,
+						confirmButtonColor: "rgb(174, 222, 244)",
+
+						closeOnConfirm: false
+					}, function (isConfirm) {
+						if (isConfirm) {
+
+							$.ajax({
+								url: 'pages/pagos/peticiones/peticiones.php',
+								type: 'POST',
+								data: {
+									bandera: "borrar-pago",
+									idpago: id,
+									estado: estado
+									
+								},
+								success: function (resp) {
+
+									var resp = $.parseJSON(resp);
+									if (resp.salida === true && resp.mensaje === true) {
+										swal({title: "Información",
+											text: "Se ha eliminado el pago de manera exitosa!",
+											type: "success",
+											confirmButtonText: "Aceptar",
+											showCancelButton: false,
+											confirmButtonColor: "rgb(174, 222, 244)",
+											closeOnConfirm: false
+										}, function (isConfirm) {
+											if (isConfirm) {
+												window.location.reload();
+												//window.location.href = "pages/pagos/gestionar.php";  
+											}
+										});
+
+									} else {
+										swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
+									}
+								}
+							});
+						}
+					});
 
 			});
 
