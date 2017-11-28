@@ -43,41 +43,41 @@ $(function() {
 			{
 				var x =[];
 				where+= ' AND tipo in(' 
-				$('.select-tipo :selected').map(function(i, el) {
-					if ($(el).val().length>0){
-						x.push($(el).val());
-					}
-				});
-				where+=x.join();
+					$('.select-tipo :selected').map(function(i, el) {
+						if ($(el).val().length>0){
+							x.push($(el).val());
+						}
+					});
+					where+=x.join();
 
-				where+= ' )'
-			}
-			if ($('.select-eps option:selected').val().length>0)
-			{
-				where+= ' AND eps='+$('.select-eps option:selected').val()+' '; 
-			}
-			if ($('.select-ciudad option:selected').val().length>0)
-			{
-				where+= ' AND ciudad='+$('.select-ciudad option:selected').val()+' '; 
-			}
-			if ($('.select-empresa option:selected').val().length>0)
-			{
-				where+= ' AND cliente in (select id_clientes from tb_clientes where empresa='+$('.select-empresa option:selected').val()+') '; 
-			}
-			if ($('.select-cliente option:selected').val().length>0)
-			{
-				where+= ' AND cliente='+$('.select-cliente option:selected').val()+' '; 
-			}
-			if ($('.f-cedula').val().length>0)
-			{
-				where+= ' AND trabajador='+$('.f-cedula').val()+' '; 
-			}
+					where+= ' )'
+}
+if ($('.select-eps option:selected').val().length>0)
+{
+	where+= ' AND eps='+$('.select-eps option:selected').val()+' '; 
+}
+if ($('.select-ciudad option:selected').val().length>0)
+{
+	where+= ' AND ciudad='+$('.select-ciudad option:selected').val()+' '; 
+}
+if ($('.select-empresa option:selected').val().length>0)
+{
+	where+= ' AND cliente in (select id_clientes from tb_clientes where empresa='+$('.select-empresa option:selected').val()+') '; 
+}
+if ($('.select-cliente option:selected').val().length>0)
+{
+	where+= ' AND cliente='+$('.select-cliente option:selected').val()+' '; 
+}
+if ($('.f-cedula').val().length>0)
+{
+	where+= ' AND trabajador='+$('.f-cedula').val()+' '; 
+}
 
-			return where;
-		},
-		Cargar : function()
-		{
-			var $demoMaskedInput = $('.demo-masked-input');
+return where;
+},
+Cargar : function()
+{
+	var $demoMaskedInput = $('.demo-masked-input');
 
     //Date
     $demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
@@ -186,6 +186,7 @@ enviarDatos: function () {
 		
 		var total =0;
 		var saldo = 0;
+		var totaldias =0;
 		$.ajax({
 			url: 'pages/incapacidades/peticiones/peticiones.php',
 			type: 'POST',
@@ -203,9 +204,11 @@ enviarDatos: function () {
 					for (var i = 0; i < resp.datos.length; i++) {
 						total = parseInt(resp.datos[i].valor) + parseInt(total);
 						saldo = parseInt(resp.datos[i].saldo) + parseInt(saldo);
+						totaldias = parseInt(resp.datos[i].cantidad) + parseInt(totaldias);
 
-					}					
-					resp.datos.push({"id_incapacidad":'',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"saldo":saldo,"fecha_corte":'SALDO TOTAL',"cantidad":'VALOR TOTAL',"valor":total,"estado":''})					
+					}	
+					// falta agregar los dias 				
+					resp.datos.push({"id_incapacidad":'TOTALES: ',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"saldo":total,"fecha_corte":'',"cantidad":totaldias,"valor":saldo,"estado":''})					
 
 					for (var i = 0; i < resp.datos.length; i++) {
 						t.row.add( [ 
@@ -217,9 +220,9 @@ enviarDatos: function () {
 							resp.datos[i].fecha_inicial,
 							resp.datos[i].fecha_final,
 							resp.datos[i].fecha_corte,
-							resp.datos[i].saldo,
 							resp.datos[i].cantidad,
 							resp.datos[i].valor,
+							resp.datos[i].saldo,
 							resp.datos[i].estado 
 
 							]).draw( false );
@@ -232,7 +235,7 @@ enviarDatos: function () {
 				}
 			}
 		});
-	});
+});
 },
 cargarModal: function()
 {

@@ -51,239 +51,243 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                     waves-effect filtro">
                                     <i class="material-icons">filter_list</i>
                                 </button></li>
-                                <li></li>
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover ">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Cedula</th>
-                                        <th>Nombre</th>
-                                        <th>Eps</th>
-                                        <th>Tipo</th>
-                                        <th>Fecha Inicial</th>
-                                        <th>Fecha Final</th>
-                                        <th>Fecha Corte</th>
-                                        <th>Saldo</th>
-                                        <th>Días</th>
-                                        <th>Valor</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                <li><button type="button" class="btn bg-red 
+                                    waves-effect add-payment">
+                                    <i class="material-icons">add</i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cedula</th>
+                                    <th>Nombre</th>
+                                    <th>Eps</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha Inicial</th>
+                                    <th>Fecha Final</th>
+                                    <th>Fecha Corte</th>
+                                    <th>Días</th>
+                                    <th>Valor</th>
+                                    <th>Saldo</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- JS ====================================================================================================================== -->
-    <!-- Modal Dialogs ====================================================================================================================== -->
-    <!-- Default Size -->
-    <div class="modal fade" id="Modalnuevo" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="defaultModalLabel">Filtro de Incapacidades</h4>
-                </div>
-                <div class="modal-body">
+<!-- JS ====================================================================================================================== -->
+<!-- Modal Dialogs ====================================================================================================================== -->
+<!-- Default Size -->
+<div class="modal fade" id="Modalnuevo" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Filtro de Incapacidades</h4>
+            </div>
+            <div class="modal-body">
 
-                    <div class="body">
-                        <form>
+                <div class="body">
+                    <form>
 
+                        <div class="col-md-3">
+                            <label for="">Codigo </label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" min="0" step="200" class="form-control f-codigo" placeholder="Codigo" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Rango de Codigos</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" min="0" step="200" class="form-control  f-codigodesde" placeholder="Codigo Desde" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">.</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" min="0" step="200" class="form-control f-codigohasta" placeholder="Codigo Hasta" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="demo-masked-input">
                             <div class="col-md-3">
-                                <label for="">Codigo </label>
+                                <label for="">Cedula</label>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="number" min="0" step="200" class="form-control f-codigo" placeholder="Codigo" />
+                                        <input type="number" min="0" step="200" class="form-control  f-cedula" placeholder="Documento" />
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-3">
-                                <label for="">Rango de Codigos</label>
-                                <div class="form-group">
+                                <b>Fecha de Corte</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
                                     <div class="form-line">
-                                        <input type="number" min="0" step="200" class="form-control  f-codigodesde" placeholder="Codigo Desde" />
+                                        <input type="text" class="form-control date f-fechacortedesde" placeholder="Desde Ej: 2017-07-30">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="">.</label>
-                                <div class="form-group">
+                                <b>.</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
                                     <div class="form-line">
-                                        <input type="number" min="0" step="200" class="form-control f-codigohasta" placeholder="Codigo Hasta" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="demo-masked-input">
-                                <div class="col-md-3">
-                                    <label for="">Cedula</label>
-                                    <div class="form-group">
-                                        <div class="form-line">
-                                            <input type="number" min="0" step="200" class="form-control  f-cedula" placeholder="Documento" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <b>Fecha de Corte</b>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
-                                        <div class="form-line">
-                                            <input type="text" class="form-control date f-fechacortedesde" placeholder="Desde Ej: 2017-07-30">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <b>.</b>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
-                                        <div class="form-line">
-                                            <input type="text" class="form-control date f-fechacortehasta" placeholder="Hasta Ej: 2017-07-30">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <b>Fecha inicial</b>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
-                                        <div class="form-line">
-                                            <input type="text" class="form-control date f-fechainicialdesde" placeholder="Desde Ej: 2017-07-30">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <b>.</b>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">date_range</i>
-                                        </span>
-                                        <div class="form-line">
-                                            <input type="text" class="form-control date f-fechainicialhasta" placeholder="Hasta Ej: 2017-07-30">
-                                        </div>
+                                        <input type="text" class="form-control date f-fechacortehasta" placeholder="Hasta Ej: 2017-07-30">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="">Estado</label>
-                                <div class="form-group">
-                                    <select class="form-control show-tick select-estado">
-                                        <option value="">--Selecciona Estado --</option>
-                                        <?php
-                                        $vector = Array_Get_EstadosIncapacidad(false);
-                                        foreach ($vector as $value)
-                                        {
+                                <b>Fecha inicial</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechainicialdesde" placeholder="Desde Ej: 2017-07-30">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>.</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechainicialhasta" placeholder="Hasta Ej: 2017-07-30">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Estado</label>
+                            <div class="form-group">
+                                <select class="form-control show-tick select-estado">
+                                    <option value="">--Selecciona Estado --</option>
+                                    <?php
+                                    $vector = Array_Get_EstadosIncapacidad(false);
+                                    foreach ($vector as $value)
+                                    {
 
-                                         ?>
-                                     }
-                                     <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
-                                     <?php
-                                 }
-                                 ?>
+                                       ?>
+                                   }
+                                   <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
+                                   <?php
+                               }
+                               ?>
 
-                             </select>
-                         </div>
-                     </div>
-                     <div class="col-md-3">
-                        <label for="">Tipo</label>
-                        <div class="form-group">
-                            <select class="form-control show-tick select-tipo" multiple>
-                                <option selected="selected" value="">--Selecciona Tipo --</option>
-                                <?php
-                                $vector = Array_Get_TiposIncapacidad(false);
-                                foreach ($vector as $value)
-                                {
-                                 ?>
-                                 <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
-                                 <?php
-                             }
-                             ?>
-                         </select>
-                     </div>
-                 </div>
-                 <div class="col-md-3">
-                    <label for="">Eps</label>
+                           </select>
+                       </div>
+                   </div>
+                   <div class="col-md-3">
+                    <label for="">Tipo</label>
                     <div class="form-group">
-                        <select class="form-control show-tick select-eps">
-                            <option value="">--Selecciona Eps --</option>
+                        <select class="form-control show-tick select-tipo" multiple>
+                            <option selected="selected" value="">--Selecciona Tipo --</option>
                             <?php
-                            $vector = Array_Get_Eps(false);
+                            $vector = Array_Get_TiposIncapacidad(false);
                             foreach ($vector as $value)
                             {
-
-                                ?>
-                                <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
-                                <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3"> 
-                    <label for="">Ciudad</label> 
-                    <div class="form-group">
-                     <select class="form-control show-tick select-ciudad"> 
-                         <option value="">--Selecciona Ciudad --</option>
-                         <?php
-                         $vector = Array_Get_Ciudades(false);
-                         foreach ($vector as $value)
-                         {
-
-                             ?>
-                             <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
-                             <?php
-                         }
-                         ?>
-                     </select> 
-                 </div> 
-             </div>
-             <div class="col-md-3"> 
-                <label for="">Empresa</label> 
+                               ?>
+                               <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
+                               <?php
+                           }
+                           ?>
+                       </select>
+                   </div>
+               </div>
+               <div class="col-md-3">
+                <label for="">Eps</label>
                 <div class="form-group">
-                    <select  class="form-control show-tick select-empresa"  data-live-search="true"> 
-                     <option value="">--Selecciona Empresa --</option>
-                     <?php
-                     $vector = Array_Get_Empresas(false);
-                     foreach ($vector as $value)
-                     {
+                    <select class="form-control show-tick select-eps">
+                        <option value="">--Selecciona Eps --</option>
+                        <?php
+                        $vector = Array_Get_Eps(false);
+                        foreach ($vector as $value)
+                        {
 
-                         ?>
-                         <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
-                         <?php
-                     }
-                     ?>
-                 </select> 
-             </div> 
-         </div>
-         <div class="col-md-5">
-            <label for="">Acronimo Cliente </label>
-            <div class="form-group">
-                <div class="form-line">
-                    <input type="text" class="form-control f-acronimo" placeholder="Acronimo" />
+                            ?>
+                            <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3"> 
-            <label for="">Cliente</label>
-            <div class="form-group"> 
-                <select id="select-cliente" class="form-control show-tick select-cliente" data-live-search="true"> 
-                   <option value="">--Selecciona Cliente --</option> 
+            <div class="col-md-3"> 
+                <label for="">Ciudad</label> 
+                <div class="form-group">
+                   <select class="form-control show-tick select-ciudad"> 
+                       <option value="">--Selecciona Ciudad --</option>
+                       <?php
+                       $vector = Array_Get_Ciudades(false);
+                       foreach ($vector as $value)
+                       {
+
+                           ?>
+                           <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
+                           <?php
+                       }
+                       ?>
+                   </select> 
+               </div> 
+           </div>
+           <div class="col-md-3"> 
+            <label for="">Empresa</label> 
+            <div class="form-group">
+                <select  class="form-control show-tick select-empresa"  data-live-search="true"> 
+                   <option value="">--Selecciona Empresa --</option>
+                   <?php
+                   $vector = Array_Get_Empresas(false);
+                   foreach ($vector as $value)
+                   {
+
+                       ?>
+                       <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
+                       <?php
+                   }
+                   ?>
                </select> 
            </div> 
        </div>
-   </form>
+       <div class="col-md-5">
+        <label for="">Acronimo Cliente </label>
+        <div class="form-group">
+            <div class="form-line">
+                <input type="text" class="form-control f-acronimo" placeholder="Acronimo" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"> 
+        <label for="">Cliente</label>
+        <div class="form-group"> 
+            <select id="select-cliente" class="form-control show-tick select-cliente" data-live-search="true"> 
+             <option value="">--Selecciona Cliente --</option> 
+         </select> 
+     </div> 
+ </div>
+</form>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-info waves-effect filtrar-boton">Filtrar</button>
@@ -293,6 +297,216 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 </div>
 </div>
 </div>
+
+<!-- Modal Crear Incapacidad -->
+<div class="modal fade" id="ModalIncapacidad" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="defaultModalLabel">Filtro de Incapacidades</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="body">
+                    <form>
+
+                        <div class="col-md-3">
+                            <label for="">Codigo </label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" min="0" step="200" class="form-control f-codigo" placeholder="Codigo" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Rango de Codigos</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" min="0" step="200" class="form-control  f-codigodesde" placeholder="Codigo Desde" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">.</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" min="0" step="200" class="form-control f-codigohasta" placeholder="Codigo Hasta" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="demo-masked-input">
+                            <div class="col-md-3">
+                                <label for="">Cedula</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="number" min="0" step="200" class="form-control  f-cedula" placeholder="Documento" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <b>Fecha de Corte</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechacortedesde" placeholder="Desde Ej: 2017-07-30">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>.</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechacortehasta" placeholder="Hasta Ej: 2017-07-30">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>Fecha inicial</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechainicialdesde" placeholder="Desde Ej: 2017-07-30">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <b>.</b>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">date_range</i>
+                                    </span>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control date f-fechainicialhasta" placeholder="Hasta Ej: 2017-07-30">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Estado</label>
+                            <div class="form-group">
+                                <select class="form-control show-tick select-estado">
+                                    <option value="">--Selecciona Estado --</option>
+                                    <?php
+                                    $vector = Array_Get_EstadosIncapacidad(false);
+                                    foreach ($vector as $value)
+                                    {
+
+                                       ?>
+                                   }
+                                   <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
+                                   <?php
+                               }
+                               ?>
+
+                           </select>
+                       </div>
+                   </div>
+                   <div class="col-md-3">
+                    <label for="">Tipo</label>
+                    <div class="form-group">
+                        <select class="form-control show-tick select-tipo" multiple>
+                            <option selected="selected" value="">--Selecciona Tipo --</option>
+                            <?php
+                            $vector = Array_Get_TiposIncapacidad(false);
+                            foreach ($vector as $value)
+                            {
+                               ?>
+                               <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
+                               <?php
+                           }
+                           ?>
+                       </select>
+                   </div>
+               </div>
+               <div class="col-md-3">
+                <label for="">Eps</label>
+                <div class="form-group">
+                    <select class="form-control show-tick select-eps">
+                        <option value="">--Selecciona Eps --</option>
+                        <?php
+                        $vector = Array_Get_Eps(false);
+                        foreach ($vector as $value)
+                        {
+
+                            ?>
+                            <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3"> 
+                <label for="">Ciudad</label> 
+                <div class="form-group">
+                   <select class="form-control show-tick select-ciudad"> 
+                       <option value="">--Selecciona Ciudad --</option>
+                       <?php
+                       $vector = Array_Get_Ciudades(false);
+                       foreach ($vector as $value)
+                       {
+
+                           ?>
+                           <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
+                           <?php
+                       }
+                       ?>
+                   </select> 
+               </div> 
+           </div>
+           <div class="col-md-3"> 
+            <label for="">Empresa</label> 
+            <div class="form-group">
+                <select  class="form-control show-tick select-empresa"  data-live-search="true"> 
+                   <option value="">--Selecciona Empresa --</option>
+                   <?php
+                   $vector = Array_Get_Empresas(false);
+                   foreach ($vector as $value)
+                   {
+
+                       ?>
+                       <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
+                       <?php
+                   }
+                   ?>
+               </select> 
+           </div> 
+       </div>
+       <div class="col-md-5">
+        <label for="">Acronimo Cliente </label>
+        <div class="form-group">
+            <div class="form-line">
+                <input type="text" class="form-control f-acronimo" placeholder="Acronimo" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3"> 
+        <label for="">Cliente</label>
+        <div class="form-group"> 
+            <select id="select-cliente" class="form-control show-tick select-cliente" data-live-search="true"> 
+             <option value="">--Selecciona Cliente --</option> 
+         </select> 
+     </div> 
+ </div>
+</form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-info waves-effect filtrar-boton">Filtrar</button>
+    <button type="button" class="btn btn-link  waves-effect" data-dismiss="modal">Cerrar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <!--  Js-principal -->
 <script src="pages/incapacidades/js/gestionar.js"></script>
 

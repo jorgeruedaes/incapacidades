@@ -201,43 +201,52 @@ function Insertar_Incapacidad(
 	$fechafinal,$cantidad)
 {
 
-$eps=	Codigo_Eps($eps)[1];
-$cliente = Codigo_Cliente($cliente)[1];
-$ciudad  = Codigo_Ciudad($ciudad)[1];
-$incapacidad = substr($incapacidad,5);
+	$eps=	Codigo_Eps($eps)[1];
+	$cliente = Codigo_Cliente($cliente)[1];
+	$ciudad  = Codigo_Ciudad($ciudad)[1];
+	$incapacidad = substr($incapacidad,5);
 
-$fechacorte = explode ("/",$fechacorte);
+	$fechacorte = explode ("/",$fechacorte);
 
-$date1 = date_create($fechacorte[2].'-'.$fechacorte[1].'-'.$fechacorte[0]);
-$fechacorte = date_format($date1, 'Y-m-d');
+	$date1 = date_create($fechacorte[2].'-'.$fechacorte[1].'-'.$fechacorte[0]);
+	$fechacorte = date_format($date1, 'Y-m-d');
 
-$fechainicial = explode ("/",$fechainicial);
-$date2 = date_create($fechainicial[2].'-'.$fechainicial[1].'-'.$fechainicial[0]);
-$fechainicial = date_format($date2, 'Y-m-d');
+	$fechainicial = explode ("/",$fechainicial);
+	$date2 = date_create($fechainicial[2].'-'.$fechainicial[1].'-'.$fechainicial[0]);
+	$fechainicial = date_format($date2, 'Y-m-d');
 
-$fechafinal = explode ("/",$fechafinal);
-$date3 = date_create($fechafinal[2].'-'.$fechafinal[1].'-'.$fechafinal[0]);
-$fechafinal = date_format($date3, 'Y-m-d');
+	$fechafinal = explode ("/",$fechafinal);
+	$date3 = date_create($fechafinal[2].'-'.$fechafinal[1].'-'.$fechafinal[0]);
+	$fechafinal = date_format($date3, 'Y-m-d');
+	$estado=2;
 
+	if ($valor == 0)
+	{
+		$estado = 4;
+	}
+	if ($tipo == 1151 or $tipo== 1161)
+	{
+		$estado = 3;
+	}
 
-$tipo =  (int )$tipo;
-$usuario = $_SESSION['id_usuarios'];
+	$tipo =  (int )$tipo;
+	$usuario = $_SESSION['id_usuarios'];
 
-{
-    if(insertar("INSERT INTO `tb_incapacidades`
-		(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,
-		 `fecha_creacion`, `fecha_corte`, `cantidad`, `valor`, `eps`, `usuario`,`saldo`)
-		  VALUES ('$incapacidad','$ciudad','$cedula','$cliente','$tipo','2', DATE_FORMAT('$fechainicial','%Y-%m-%d'),DATE_FORMAT('$fechafinal','%Y-%m-%d'),NOW(),DATE_FORMAT('$fechacorte','%Y-%m-%d'),'$cantidad','$valor','$eps','$usuario','$valor')"))
-		  {
-		return true;  
-		  }
-		  else
-		  {
-		      return false;
-		      error_log($incapacidad);
-		  }
+	{
+		if(insertar("INSERT INTO `tb_incapacidades`
+			(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,
+				`fecha_creacion`, `fecha_corte`, `cantidad`, `valor`, `eps`, `usuario`,`saldo`)
+			VALUES ('$incapacidad','$ciudad','$cedula','$cliente','$tipo','$estado', DATE_FORMAT('$fechainicial','%Y-%m-%d'),DATE_FORMAT('$fechafinal','%Y-%m-%d'),NOW(),DATE_FORMAT('$fechacorte','%Y-%m-%d'),'$cantidad','$valor','$eps','$usuario','$valor')"))
+		{
+			return true;  
+		}
+		else
+		{
+			return false;
+			error_log($incapacidad);
+		}
 
-} 
+	} 
 
 
 
@@ -975,7 +984,7 @@ function validate_A_Incapacidad($eps,//Listo
 		$resultado.=valida_Fecha($fechacorte)[1].'<br>';
 		$valor=false;
 	}
-	if(is_numeric($precio) and $precio>1000)
+	if(is_numeric($precio) and $precio>1000 or $tipo == 53)
 	{
 
 	}
