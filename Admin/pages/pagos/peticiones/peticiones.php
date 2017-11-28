@@ -69,6 +69,23 @@ if(isset($_SESSION['perfil']))
 			$resultado.='"mensaje":false';
 		}
 	}
+	else if($bandera === "reestablecer-pago") {
+
+		$json = json_encode($_POST['json']); 
+		$idpago =  $_POST['idpago'];
+
+		$id= Reestablecer_Pago($idpago);
+
+		if ($id!=0)
+		{
+			//guardo ahora las incapacidades
+			$resultado.='"mensaje":true,';
+			$resultado.='"idpago":'.$id.'';
+		} 
+		else {
+			$resultado.='"mensaje":false';
+		}
+	}
 	// Obtiene los datos de un partido.
 	else if($bandera === "filtrar") {
 		$filtro = $_POST['where'];

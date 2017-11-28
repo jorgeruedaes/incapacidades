@@ -7,6 +7,7 @@ include('../../php/ciudades.php');
 include('../../php/empresas.php');
 
 $idpago = $_GET['id'];
+$estadopago = $_GET['estado'];
 //$id_modulos =Int_RutaModulo($_SERVER['REQUEST_URI']);
 $id_modulos ='76';
 
@@ -54,7 +55,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
           </div>
             <div class="col-lg-5 col-sm-12 left" id="caja-izq">
               <form>
-                <div class="col-md-12" data-id="<?php echo $idpago ?>" id="payment-title">
+                <div class="col-md-12" data-id="<?php echo $idpago ?>" data-estado="<?php echo $estadopago ?>" id="payment-title">
                   <h3 class="grey-text">Editar pago # <?php echo $idpago ?></h3>
                 </div>
                 <div class="col-md-12">

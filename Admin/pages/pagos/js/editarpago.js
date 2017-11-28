@@ -159,7 +159,7 @@ $(function() {
 											closeOnConfirm: false
 										}, function (isConfirm) {
 											if (isConfirm) {
-												window.location.reload();
+												window.location.href = "pages/pagos/gestionar.php";  
 											}
 										});
 
@@ -528,9 +528,23 @@ Cargar : function()
 				
 			});
 
-			// t1 = $('#tabla-detalle-pago').DataTable({
-				
-			// });
+			//devolvemos todo a su estado natural
+			var estado = $('#payment-title').data('estado');
+
+			if(estado == "completado")
+				{
+ 							$.ajax({
+								url: 'pages/pagos/peticiones/peticiones.php',
+								type: 'POST',
+								data: {
+									bandera: "reestablecer-pago",
+									idpago: $("#payment-title").data('id'),
+								},
+								success: function (resp) {
+
+								}
+							});
+				}
 		},
 		cargarModal: function()
 		{

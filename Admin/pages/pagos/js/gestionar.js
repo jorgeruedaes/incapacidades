@@ -158,7 +158,7 @@ $(function() {
 										resp.datos[i].estado,
 										resp.datos[i].fechacreacion,
 										resp.datos[i].usuario,
-										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class ="btn btn-primary waves-effect show-item"><i class="material-icons">library_books</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
+										'<div class="btn-group btn-group-xs" data-id="'+resp.datos[i].id_pago+'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i class="material-icons">edit</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class ="btn btn-primary waves-effect show-item"><i class="material-icons">library_books</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons">delete</i></button></div>'
 										]).draw( false );
 
 								}
@@ -196,8 +196,28 @@ $(function() {
 
 				//idpago
 				var id = $(this).parent().data('id');
-				window.location.href = "pages/pagos/editarpago.php?id="+id;  
+				var estado = $(this).parents('tr').find("td:nth-child(5)").text();
 
+				if(estado == "completado")
+				{
+					swal({title: "Al editar un pago en estado Completado se perderán los datos anteriores. ¿Está seguro de EDITAR el pago?",
+							text: "",
+							type: "warning",
+							confirmButtonText: "Aceptar",
+							showCancelButton: true,
+							confirmButtonColor: "rgb(174, 222, 244)",
+
+							closeOnConfirm: false
+						}, function (isConfirm) {
+							if (isConfirm) {
+							
+								window.location.href = "pages/pagos/editarpago.php?id="+id + "&estado=" + estado;  
+
+							}
+					});
+				}else{
+					window.location.href = "pages/pagos/editarpago.php?id="+id + "&estado=" + estado;  
+				}
 			});
 
 			$('#tabla-pagos tbody').on('click', '.delete-item', function () {

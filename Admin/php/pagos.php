@@ -150,6 +150,43 @@ function Delete_Pago_Incapacidad($idpago)
     $valor  = eliminar("DELETE FROM `tr_incapacidadesxpago` WHERE pago=$idpago");
     return $valor;
 }
+
+function Reestablecer_Pago($idpago)
+{
+	$array = Array_Get_IncapacidadesxPago($idpago);
+
+			if(count($array) > 0)
+			{
+	 			for ($i=0; $i < count($array); $i++) {
+ 
+			    	//restablezco el valor sumandolo a la incapacidad
+			    	//id, valor, tipo, fecha
+			        Set_Nuevo_Saldo_Incapacidad($array[$i]['idincapacidad'],$array[$i]['valor'],$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
+			    }
+
+			    for ($i=0; $i < count($array); $i++) {
+						
+					$nueva = 6;
+		  			$entramite = 2;
+
+		  			$saldoinc = Get_Saldo_Incapacidad($array[$i]['idincapacidad'],$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
+		  			$valorinc = Get_Valor_Incapacidad($array[$i]['idincapacidad'],$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
+
+				          if($saldoinc == $valorinc)
+				          {
+				          	 //liquidada
+				          	Set_Estado_Incapacidad($array[$i]['idincapacidad'],$nueva,$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
+
+				          } else 
+				          {	
+				          	//en tramite
+				          	Set_Estado_Incapacidad($array[$i]['idincapacidad'],$entramite,$array[$i]['tipoincapacidad'],$array[$i]['fechacorte']);
+
+				          }
+				 }
+
+			}
+}
 function Set_nuevo_pago_editado($valorpago,$fechapago,$estadopago,$epspago,$usuario,$vector,$idpago)
 {
 
