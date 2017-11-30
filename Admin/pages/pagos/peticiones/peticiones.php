@@ -7,19 +7,15 @@ if(isset($_SESSION['perfil']))
 {
 	$resultado = '{"salida":true,';
 	$bandera = $_POST['bandera'];
-
 // Agrega un partido al sitio.
 	if ($bandera === "guardar-pago") {
-
 		$json = json_encode($_POST['json']); 
 		$valorpago = $_POST['valor'];
 		$fechapago = $_POST['fecha'];
 		$estadopago = $_POST['estado'];
 		$epspago = $_POST['eps'];
 		$usuario = $_SESSION['id_usuarios'];
-
 		$id= Set_nuevo_pago($valorpago,$fechapago,$estadopago,$epspago,$usuario,$json);
-
 		if ($id!=0)
 		{
 			//guardo ahora las incapacidades
@@ -29,14 +25,10 @@ if(isset($_SESSION['perfil']))
 		else {
 			$resultado.='"mensaje":false';
 		}
-
 	}else if ($bandera === "borrar-pago") {
-
 		$idpago = $_POST['idpago'];
 		$estado = $_POST['estado'];
-
 		$id= Delete_pago($idpago,$estado);
-
 		if ($id!=0)
 		{
 			//guardo ahora las incapacidades
@@ -45,10 +37,8 @@ if(isset($_SESSION['perfil']))
 		else {
 			$resultado.='"mensaje":false';
 		}
-
 	}
 	else if($bandera === "guardar-pago-editado") {
-
 		$json = json_encode($_POST['json']); 
 		$valorpago = $_POST['valor'];
 		$fechapago = $_POST['fecha'];
@@ -56,9 +46,7 @@ if(isset($_SESSION['perfil']))
 		$epspago = $_POST['eps'];
 		$usuario = $_SESSION['id_usuarios'];
 		$idpago =  $_POST['idpago'];
-
 		$id= Set_nuevo_pago_editado($valorpago,$fechapago,$estadopago,$epspago,$usuario,$json,$idpago);
-
 		if ($id!=0)
 		{
 			//guardo ahora las incapacidades
@@ -70,12 +58,9 @@ if(isset($_SESSION['perfil']))
 		}
 	}
 	else if($bandera === "reestablecer-pago") {
-
 		$json = json_encode($_POST['json']); 
 		$idpago =  $_POST['idpago'];
-
 		$id= Reestablecer_Pago($idpago);
-
 		if ($id!=0)
 		{
 			//guardo ahora las incapacidades
@@ -110,8 +95,6 @@ if(isset($_SESSION['perfil']))
 			$resultado.='"mensaje":false';
 		}
 	}
-
-
 }
 else
 {
@@ -119,5 +102,4 @@ else
 }
 $resultado.='}';
 echo ($resultado);
-
 ?>

@@ -5,12 +5,10 @@ include('../../php/incapacidad.php');
 include('../../php/eps.php');
 include('../../php/ciudades.php');
 include('../../php/empresas.php');
-
 $idpago = $_GET['id'];
 $estadopago = $_GET['estado'];
 //$id_modulos =Int_RutaModulo($_SERVER['REQUEST_URI']);
 $id_modulos ='76';
-
 if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
   ?>
 
@@ -71,7 +69,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                   $vector = Array_Get_Eps(true);
                   foreach ($vector as $value)
                   {
-
                    ?>
                  }
                  <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
@@ -110,7 +107,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                       $vector = Array_Get_Eps(true);
                       foreach ($vector as $value)
                       {
-
                        ?>
                      }
                      <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
@@ -330,7 +326,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                         $vector = Array_Get_EstadosIncapacidad(true);
                                         foreach ($vector as $value)
                                         {
-
                                            ?>
                                        }
                                        <option value="<?php echo $value['id_estados'] ?>"><?php echo $value['nombre'] ?></option>
@@ -350,7 +345,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                 $vector = Array_Get_TiposIncapacidad(true);
                                 foreach ($vector as $value)
                                 {
-
                                    ?>
                                }
                                <option value="<?php echo $value['id_tipos'] ?>"><?php echo $value['nombre'] ?></option>
@@ -369,7 +363,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                         $vector = Array_Get_Eps(true);
                         foreach ($vector as $value)
                         {
-
                             ?>
                         }
                         <option value="<?php echo $value['id_eps'] ?>"><?php echo $value['nombre'] ?></option>
@@ -388,7 +381,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                    $vector = Array_Get_Ciudades(true);
                    foreach ($vector as $value)
                    {
-
                        ?>
                    }
                    <option value="<?php echo $value['id_ciudades'] ?>"><?php echo $value['nombre'] ?></option>
@@ -407,7 +399,6 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
            $vector = Array_Get_Empresas(true);
            foreach ($vector as $value)
            {
-
                ?>
            }
            <option value="<?php echo $value['id_empresas'] ?>"><?php echo $value['nombre'] ?></option>
@@ -453,5 +444,3 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
   require("../sinpermiso.php");
 }
 ?>
-
-
