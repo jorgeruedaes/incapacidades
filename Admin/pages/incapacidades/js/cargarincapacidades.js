@@ -9,14 +9,7 @@ $(function() {
 			cargador.add();
 			cargador.close();
 			cargador.DropeZone();
-			cargador.DropeZone();
-			cargador.ModalImagen();
 		},
-		ModalImagen :function()
-		{	$('.ver-resultados').off('click').on('click', function () {
-			$('#mensaje').modal('show');
-		});
-	},
 		close : function()
 		{
 			$('.guardar-files').off('click').on('click', function () {	

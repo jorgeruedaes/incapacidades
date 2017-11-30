@@ -20,10 +20,10 @@ $(function() {
 				$('.caja-listadopago').hide();
 
 			}); 
-
+				
 			$('#payment-eps').on("change", function(){
 
-				t.clear().draw();
+				 t.clear().draw();
 
 			}); 
 
@@ -186,10 +186,10 @@ $(function() {
 
 			var yyyy = today.getFullYear();
 			if(dd<10){
-				dd='0'+dd;
+			    dd='0'+dd;
 			} 
 			if(mm<10){
-				mm='0'+mm;
+			    mm='0'+mm;
 			} 
 			var today = yyyy+'-'+mm+'-'+dd;
 
@@ -231,10 +231,10 @@ $(function() {
 
 			var yyyy = today.getFullYear();
 			if(dd<10){
-				dd='0'+dd;
+			    dd='0'+dd;
 			} 
 			if(mm<10){
-				mm='0'+mm;
+			    mm='0'+mm;
 			} 
 			var today = yyyy+'-'+mm+'-'+dd;
 
@@ -260,10 +260,6 @@ $(function() {
 				$('.payment-eps').focus();
 				swal("Error", "Debe seleccionar la EPS del pago.", "error");	
 				return false;
-			}else if ($('.payment-difference').text() != '0')
-			{
-				swal("Error","Para poder finalizar el pago , el valor total del pago y el valor sumado No deben tener diferencia.", "error");	
-				return false;
 			} else if ($('#tabla-detalle-pago tbody').find('tr').size() == 0)
 			{
 				swal("Error", "Debe agregar alguna incapacidad a su pago.", "error");	
@@ -271,7 +267,6 @@ $(function() {
 			} else {
 				return true;
 			}
-			
 
 		},
 		TomarDatos_Incapacidades : function ()
@@ -361,16 +356,16 @@ $(function() {
 						{
 
 
-							if(isParcial == true)
+						if(isParcial == true)
+						{
+							if(money > parent.find("td:nth-child(7)").text())
 							{
-								if(money > parent.find("td:nth-child(7)").text())
-								{
-									swal("Importante!", "El valor parcial no puede ser mayor al valor de la incapacidad.", "info");
-								}else
-								{
+							   swal("Importante!", "El valor parcial no puede ser mayor al valor de la incapacidad.", "info");
+							}else
+							{
 
-									var row = $(this).parents('tr').prop('outerHTML');
-									$('#tabla-detalle-pago tbody').append(row);
+								var row = $(this).parents('tr').prop('outerHTML');
+							$('#tabla-detalle-pago tbody').append(row);
 
 							//eliminamos las dos ultimas columnas
 							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
@@ -378,7 +373,32 @@ $(function() {
 							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
 							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
 							//agregamos valor
-							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad" data-parcial="'+isParcial+'">' + money + '</td>')
+								$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad" data-parcial="'+isParcial+'">' + money + '</td>')
+							//agregamos boton eliminar
+							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-tipo-inc="'+ tipoinc +'" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
+							$('#tabla-detalle-pago tbody tr').each(function(fila) {
+								$this = $(this);
+								total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
+								
+							});
+
+							$('.payment-total-value').text("");
+							$('.payment-total-value').text(total);
+							var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
+							$('.payment-difference').text(difference);
+							}
+						}else{
+
+							var row = $(this).parents('tr').prop('outerHTML');
+							$('#tabla-detalle-pago tbody').append(row);
+
+							//eliminamos las dos ultimas columnas
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
+							//agregamos valor
+								$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad" data-parcial="'+isParcial+'">' + money + '</td>')
 							//agregamos boton eliminar
 							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-tipo-inc="'+ tipoinc +'" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
 							$('#tabla-detalle-pago tbody tr').each(function(fila) {
@@ -392,61 +412,36 @@ $(function() {
 							var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
 							$('.payment-difference').text(difference);
 						}
-					}else{
-
-						var row = $(this).parents('tr').prop('outerHTML');
-						$('#tabla-detalle-pago tbody').append(row);
-
-							//eliminamos las dos ultimas columnas
-							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();
-							//agregamos valor
-							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td class="valor-incapacidad" data-parcial="'+isParcial+'">' + money + '</td>')
-							//agregamos boton eliminar
-							$('#tabla-detalle-pago tbody').find("tr:last").find('td:last').after('<td><div class="btn-group btn-group-xs" data-tipo-inc="'+ tipoinc +'" data-id="' + id + '"  role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect delete-item"><i class="material-icons">delete</i></button></div></td>')
-							$('#tabla-detalle-pago tbody tr').each(function(fila) {
-								$this = $(this);
-								total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
-								
-							});
-
-							$('.payment-total-value').text("");
-							$('.payment-total-value').text(total);
-							var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
-							$('.payment-difference').text(difference);
-						}
-					}
-				}
 			}
-
-		});
-
-$('#tabla-detalle-pago tbody').off('click').on('click', '.delete-item', function () {
-
-	var total = 0;
-	var row = $(this).parents('tr').remove();
-	$('#tabla-detalle-pago tbody tr').each(function(fila) {
-		$this = $(this);
-					total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
-				});
-
-	$('.payment-total-value').text("");
-	$('.payment-total-value').text(total);
-	var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
-	$('.payment-difference').text(difference);
-
+		}
+	}
 
 });
 
-},
-Cargar : function()
-{
-	$('#leftsidebar').css('width','0px');
-	$('.content').css('margin-left','10px');
+			$('#tabla-detalle-pago tbody').off('click').on('click', '.delete-item', function () {
 
-	var $demoMaskedInput = $('.demo-masked-input');
+				var total = 0;
+				var row = $(this).parents('tr').remove();
+				$('#tabla-detalle-pago tbody tr').each(function(fila) {
+					$this = $(this);
+					total += parseFloat($this.find("td:nth-child(7)").text()); //$this.find("td:nth-child(5)").text();
+				});
+
+				$('.payment-total-value').text("");
+				$('.payment-total-value').text(total);
+				var difference = $('.payment-value-2').text() - $('.payment-total-value').text();
+				$('.payment-difference').text(difference);
+
+
+			});
+			
+		},
+		Cargar : function()
+		{
+			$('#leftsidebar').css('width','0px');
+			$('.content').css('margin-left','10px');
+			 
+			var $demoMaskedInput = $('.demo-masked-input');
 		    //Date
 		    $demoMaskedInput.find('.date').inputmask('yyyy-mm-dd', { placeholder: '____-__-__' });
 
@@ -556,7 +551,7 @@ Cargar : function()
 									resp.datos[i].nombreincapacidad,
 									resp.datos[i].saldo,
 									'<div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12"><input type="checkbox" id="' + i + '"><label for="' + i + '"></label></div>',
-									'<div class="form-group"><div class="form-line"><input type="number" style="font-size:1.2em;width:65px" min="0" class="form-control payment-value" placeholder="$" /></div></div>',
+									'<div class="form-group"><div class="form-line"><input type="number" style="font-size:0.8em;width:65px" min="0" class="form-control payment-value" placeholder="$" /></div></div>',
 									'<div class="btn-group btn-group-xs" data-tipo-inc="' + resp.datos[i].tipoincapacidad + '" data-id="' + resp.datos[i].id_incapacidad + "-" + resp.datos[i].fecha_corte + "-" + resp.datos[i].tipoincapacidad +'" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect add-item"><i class="material-icons">add</i></button></div>'
 									]).draw( false );
 							}
