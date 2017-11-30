@@ -164,4 +164,57 @@ function Array_Get_IncapcidadesxFiltro($consulta)
 }
 
 
+function Guardar_Incapacidad($vector,$usuario)
+{
+	global $conexion;
+
+	$json = json_decode($vector);
+
+		    for ($i=0; $i < count($json) ; $i++) {
+
+		    	$tipo = $json[$i][4];
+		    	
+
+		    	if($tipo == "53")
+
+		    	{
+		    		$estado = "4"; //180 dias
+		    	}
+		    	else if($tipo == "1151" || $tipo == "1161")
+
+		    	{
+		    		$estado = "3"; //empresa
+		    	}
+		   		else{
+		   			$estado = "6"; //pendiente
+		   		}	 
+
+		   		break;
+
+		    }
+
+
+	for ($i=0; $i < count($json) ; $i++) {
+
+		$ciudad = $json[$i][2];
+		$trabajador = $json[$i][0];
+		$cliente = $json[$i][1];
+		$fechainicial = $json[$i][6];
+		$fechafinal = $json[$i][7];
+		$fechacorte = $json[$i][8];
+		$cantidad = $json[$i][9];
+		$valor = $json[$i][5];
+		$eps = $json[$i][3];
+		$saldo = $json[$i][5];
+		$idincapacidad = $json[$i][10];
+		break;
+	}
+
+	$query = insertar(sprintf("INSERT INTO `tb_incapacidades`(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,`fecha_creacion`, `fecha_corte`, `cantidad`, `valor`,`eps`, `usuario`, `saldo`)
+     		VALUES ('%d','%d','%d','%d','%d','%d','%s','%s',NOW(),'%s','%d','%d','%d','%d','%d') ",escape($idincapacidad),escape($ciudad),escape($trabajador),escape($cliente),escape($tipo),escape($estado),escape($fechainicial),escape($fechafinal),escape($fechacorte),escape($cantidad),escape($valor),escape($eps),escape($usuario),escape($saldo)));
+	
+	return $query;
+}
+
+
 

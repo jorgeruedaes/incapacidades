@@ -52,14 +52,14 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                     <i class="material-icons">filter_list</i>
                                 </button></li>
                                 <li><button type="button" class="btn bg-red 
-                                    waves-effect add-payment">
+                                    waves-effect add-incapacidad">
                                     <i class="material-icons">add</i>
                                 </button>
                             </li>
                         </ul>
                     </div>
                     <div class="body">
-                        <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover ">
+                        <table  id="tabla-incapacidades" class="table table-bordered table-striped table-hover " style="font-size:0.8em">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -74,6 +74,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
                                     <th>Valor</th>
                                     <th>Saldo</th>
                                     <th>Estado</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>

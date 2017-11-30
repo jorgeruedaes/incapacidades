@@ -88,6 +88,25 @@ if(isset($_SESSION['perfil']))
 		}
 
 	}
+	else if ($bandera === "nueva-incapacidad")
+	{
+
+		$json = json_encode($_POST['json']); 
+		$usuario = $_SESSION['id_usuarios'];
+
+		$id= Guardar_Incapacidad($json,$usuario);
+		if ($id!=0)
+		{
+			//guardo ahora las incapacidades
+			$resultado.='"mensaje":true,';
+			$resultado.='"idincapacidad":'.$id.'';
+		} 
+		else {
+			$resultado.='"mensaje":false';
+			$resultado.='"idincapacidad":'.$id.'';
+		}
+
+	}
 	else if ($bandera === "get_detalles_partido")
 	{
 		$partido = $_POST['partido'];

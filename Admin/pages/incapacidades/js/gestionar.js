@@ -208,10 +208,13 @@ enviarDatos: function () {
 
 					}	
 					// falta agregar los dias 				
-					resp.datos.push({"id_incapacidad":'TOTALES: ',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"saldo":total,"fecha_corte":'',"cantidad":totaldias,"valor":saldo,"estado":''})					
+					resp.datos.push({"id_incapacidad":'TOTALES: ',"trabajador":'',"nombretrabajador":'',"eps":'',"tipo":'',"fecha_inicial":'',"fecha_final":'',"saldo":saldo,"fecha_corte":'',"cantidad":totaldias,"valor":total,"estado":''})					
 
 					for (var i = 0; i < resp.datos.length; i++) {
-						t.row.add( [ 
+
+						if(resp.datos[i].estado == "PENDIENTE" || resp.datos[i].estado=="CORRESPONDE A EMPRESA" || resp.datos[i].estado=="MAS DE 180 DIAS")
+						{
+							t.row.add( [ 
 							resp.datos[i].id_incapacidad,
 							resp.datos[i].trabajador,
 							resp.datos[i].nombretrabajador,
@@ -223,9 +226,34 @@ enviarDatos: function () {
 							resp.datos[i].cantidad,
 							resp.datos[i].valor,
 							resp.datos[i].saldo,
-							resp.datos[i].estado 
+							resp.datos[i].estado,
+							'<div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i style="font-size:15px" class="material-icons">edit</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons" style="font-size:15px">delete</i></button></div>'
+									
 
 							]).draw( false );
+
+						}else
+						{
+							t.row.add( [ 
+							resp.datos[i].id_incapacidad,
+							resp.datos[i].trabajador,
+							resp.datos[i].nombretrabajador,
+							resp.datos[i].eps,
+							resp.datos[i].tipo,
+							resp.datos[i].fecha_inicial,
+							resp.datos[i].fecha_final,
+							resp.datos[i].fecha_corte,
+							resp.datos[i].cantidad,
+							resp.datos[i].valor,
+							resp.datos[i].saldo,
+							resp.datos[i].estado,
+							''
+
+
+							]).draw( false );
+
+						}
+						
 					}
 
 					$('#Modalnuevo').modal('hide');
@@ -245,6 +273,11 @@ cargarModal: function()
 		incapacidades.enviarDatos();
 	});
 
+	$('.add-incapacidad').on("click", function(){
+		incapacidades.Cargar();
+		incapacidades.enviarDatos();
+		window.location.href = "pages/incapacidades/nuevo.php";  
+	});
 
 
 }
