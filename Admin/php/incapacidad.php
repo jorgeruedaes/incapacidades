@@ -210,8 +210,10 @@ function Guardar_Incapacidad($vector,$usuario)
 		break;
 	}
 
-	$query = insertar(sprintf("INSERT INTO `tb_incapacidades`(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,`fecha_creacion`, `fecha_corte`, `cantidad`, `valor`,`eps`, `usuario`, `saldo`)
+	
+		$query = insertar(sprintf("INSERT INTO `tb_incapacidades`(`id_incapacidad`, `ciudad`, `trabajador`, `cliente`, `tipo`, `estado`, `fecha_inicial`, `fecha_final`,`fecha_creacion`, `fecha_corte`, `cantidad`, `valor`,`eps`, `usuario`, `saldo`)
      		VALUES ('%d','%d','%d','%d','%d','%d','%s','%s',NOW(),'%s','%d','%d','%d','%d','%d') ",escape($idincapacidad),escape($ciudad),escape($trabajador),escape($cliente),escape($tipo),escape($estado),escape($fechainicial),escape($fechafinal),escape($fechacorte),escape($cantidad),escape($valor),escape($eps),escape($usuario),escape($saldo)));
+	
 	
 	return $query;
 }
@@ -267,6 +269,8 @@ function Guardar_Incapacidad_Editada($vector,$usuario,$tipoviejo,$fechacorteviej
 		$idincapacidad = $json[$i][10];
 		break;
 	}
+
+
 	//actualizamos el pago
 	$cambios = modificar(sprintf("UPDATE `tb_incapacidades` SET `ciudad`='%d',`trabajador`='%d',`cliente`='%d',`tipo`='%d' ,`estado`='%d',`fecha_inicial`='%s',`fecha_final`='%s',`fecha_corte`='%s',`cantidad`='%d',`valor`='%d',`eps`='%d',`usuario`='%d',`saldo`='%d' WHERE id_incapacidad='%d' AND tipo='%d' AND fecha_corte='%s'",
 		escape($ciudad),escape($trabajador),escape($cliente),escape($tipo),escape($estado),escape($fechainicial),escape($fechafinal),escape($fechacorte),escape($cantidad),escape($valor),escape($eps),escape($usuario),escape($valor),escape($idincapacidad),escape($tipoviejo),escape($fechacortevieja)));

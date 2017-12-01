@@ -102,8 +102,8 @@ if(isset($_SESSION['perfil']))
 			$resultado.='"idincapacidad":'.$id.'';
 		} 
 		else {
-			$resultado.='"mensaje":false';
-			$resultado.='"idincapacidad":'.$id.'';
+			$resultado.='"mensaje":false,';
+			$resultado.='"idincapacidad":0';
 		}
 
 	} else if ($bandera === "guardar-incapacidad-editada")
@@ -121,8 +121,8 @@ if(isset($_SESSION['perfil']))
 			$resultado.='"idincapacidad":'.$id.'';
 		} 
 		else {
-			$resultado.='"mensaje":false';
-			$resultado.='"idincapacidad":'.$id.'';
+			$resultado.='"mensaje":false,';
+			$resultado.='"idincapacidad":0';
 		}
 
 	}else if($bandera === "editar-incapacidad") {
