@@ -106,6 +106,55 @@ if(isset($_SESSION['perfil']))
 			$resultado.='"idincapacidad":'.$id.'';
 		}
 
+	} else if ($bandera === "guardar-incapacidad-editada")
+	{
+		$json = json_encode($_POST['json']); 
+		$tipoviejo = $_POST['tipo'];
+		$fechacortevieja = $_POST['fechacorte'];
+		$usuario = $_SESSION['id_usuarios'];
+
+		$id= Guardar_Incapacidad_Editada($json,$usuario,$tipoviejo,$fechacortevieja);
+		if ($id!=0)
+		{
+			//guardo ahora las incapacidades
+			$resultado.='"mensaje":true,';
+			$resultado.='"idincapacidad":'.$id.'';
+		} 
+		else {
+			$resultado.='"mensaje":false';
+			$resultado.='"idincapacidad":'.$id.'';
+		}
+
+	}else if($bandera === "editar-incapacidad") {
+		$idincapacidad = $_POST['id'];
+		$tipo = $_POST['tipo'];
+		$fechacorte = $_POST['fechacorte'];
+
+		$vector1 = Array_Get_DatosIncapacidad($idincapacidad,$tipo,$fechacorte);
+		
+		if (!empty($vector1)) {
+			$resultado.='"mensaje":true,';
+			$resultado.='"datosincapacidad":'.json_encode($vector1).'';
+		} else {
+			$resultado.='"mensaje":false';
+		}
+	}
+	else if ($bandera === "eliminar-incapacidad")
+	{
+		$idincapacidad = $_POST['idincapacidad'];
+		$tipo = $_POST['tipo'];
+		$fechacorte = $_POST['fechacorte'];
+
+		$id= Delete_Incapacidad($idincapacidad,$tipo,$fechacorte);
+		if ($id!=0)
+		{
+			//guardo ahora las incapacidades
+			$resultado.='"mensaje":true';
+		} 
+		else {
+			$resultado.='"mensaje":false';
+		}
+
 	}
 	else if ($bandera === "get_detalles_partido")
 	{

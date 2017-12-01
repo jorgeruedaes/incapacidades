@@ -216,5 +216,96 @@ function Guardar_Incapacidad($vector,$usuario)
 	return $query;
 }
 
+function Delete_Incapacidad($idincapacidad,$tipo,$fechacorte)
+{
+	
+	$eliminado  = eliminar("DELETE FROM `tb_incapacidades` WHERE id_incapacidad= $idincapacidad AND tipo=$tipo AND fecha_corte = '$fechacorte'");
+	 
+	return $eliminado;
+}
+
+function Guardar_Incapacidad_Editada($vector,$usuario,$tipoviejo,$fechacortevieja)
+{
+		$json = json_decode($vector);
+
+		    for ($i=0; $i < count($json) ; $i++) {
+
+		    	$tipo = $json[$i][4];
+		    	
+
+		    	if($tipo == "53")
+
+		    	{
+		    		$estado = "4"; //180 dias
+		    	}
+		    	else if($tipo == "1151" || $tipo == "1161")
+
+		    	{
+		    		$estado = "3"; //empresa
+		    	}
+		   		else{
+		   			$estado = "6"; //pendiente
+		   		}	 
+
+		   		break;
+
+		    }
 
 
+	for ($i=0; $i < count($json) ; $i++) {
+
+		$ciudad = $json[$i][2];
+		$trabajador = $json[$i][0];
+		$cliente = $json[$i][1];
+		$fechainicial = $json[$i][6];
+		$fechafinal = $json[$i][7];
+		$fechacorte = $json[$i][8];
+		$cantidad = $json[$i][9];
+		$valor = $json[$i][5];
+		$eps = $json[$i][3];
+		$saldo = $json[$i][5];
+		$idincapacidad = $json[$i][10];
+		break;
+	}
+	//actualizamos el pago
+	$cambios = modificar(sprintf("UPDATE `tb_incapacidades` SET `ciudad`='%d',`trabajador`='%d',`cliente`='%d',`tipo`='%d' ,`estado`='%d',`fecha_inicial`='%s',`fecha_final`='%s',`fecha_corte`='%s',`cantidad`='%d',`valor`='%d',`eps`='%d',`usuario`='%d',`saldo`='%d' WHERE id_incapacidad='%d' AND tipo='%d' AND fecha_corte='%s'",
+		escape($ciudad),escape($trabajador),escape($cliente),escape($tipo),escape($estado),escape($fechainicial),escape($fechafinal),escape($fechacorte),escape($cantidad),escape($valor),escape($eps),escape($usuario),escape($valor),escape($idincapacidad),escape($tipoviejo),escape($fechacortevieja)));
+	//borramos relacion
+
+	return $cambios;
+}
+
+function Array_Get_DatosIncapacidad($idincapacidad,$tipo,$fechacorte)
+{
+	$clubs = consultar("SELECT * FROM tb_incapacidades WHERE id_incapacidad = ".$idincapacidad." AND tipo = ".$tipo." AND fecha_corte= '".$fechacorte."'");
+	$datos = array();
+	while ($data = mysqli_fetch_array($clubs)) {
+		$idincapacidad = $data['id_incapacidad'];
+		$trabajador = $data['trabajador'];
+		$cliente = $data['cliente'];
+		$ciudad = $data['ciudad'];
+		$eps = $data['eps'];
+		$tipo = $data['tipo'];
+		$valor = $data['valor'];
+		$fechainicial = $data['fecha_inicial'];
+		$fechafinal = $data['fecha_final'];
+		$fechacorte = $data['fecha_corte'];
+		$dias = $data['cantidad'];
+	
+		$vector = array(
+			'idincapacidad'=>"$idincapacidad",
+			'trabajador'=>"$trabajador",
+			'cliente'=>"$cliente",
+			'ciudad'=>"$ciudad",
+			'eps'=>"$eps",
+			'tipo'=>"$tipo",
+			'valor'=>"$valor",
+			'fechainicial'=>"$fechainicial",
+			'fechafinal'=>"$fechafinal",
+			'fechacorte'=>"$fechacorte",
+			'dias'=>"$dias",
+			);
+		array_push($datos, $vector);
+	}
+	return $datos;	
+}

@@ -11,6 +11,7 @@ $(function() {
 			incapacidades.Tabla();
 			incapacidades.SeleccionEmpresa();
 			incapacidades.BuscarCliente();
+			incapacidades.AgregarItem();
 			incapacidades.cargarModal();
 
 
@@ -109,6 +110,76 @@ BuscarCliente : function()
 		incapacidades.BuscarCliente();
 	});
 
+
+},
+AgregarItem: function()
+
+{
+
+	$('#tabla-incapacidades tbody').on('click', '.delete-item', function () {
+
+				//idpago
+				var id = $(this).parent().data('id');
+				var tipo = $(this).parent().data('tipo');
+				var fechacorte = $(this).parent().data('corte');
+		
+				swal({title: "¿Está seguro que desea ELIMINAR la INCAPACIDAD?",
+						text: "",
+						type: "warning",
+						confirmButtonText: "Aceptar",
+						showCancelButton: true,
+						confirmButtonColor: "rgb(174, 222, 244)",
+
+						closeOnConfirm: false
+					}, function (isConfirm) {
+						if (isConfirm) {
+
+							$.ajax({
+								url: 'pages/incapacidades/peticiones/peticiones.php',
+								type: 'POST',
+								data: {
+									bandera: "eliminar-incapacidad",
+									idincapacidad: id,
+									tipo: tipo,
+									fechacorte: fechacorte,
+									
+								},
+								success: function (resp) {
+
+									var resp = $.parseJSON(resp);
+									if (resp.salida === true && resp.mensaje === true) {
+										swal({title: "Información",
+											text: "Se ha eliminado la incapacidad de manera exitosa!",
+											type: "success",
+											confirmButtonText: "Aceptar",
+											showCancelButton: false,
+											confirmButtonColor: "rgb(174, 222, 244)",
+											closeOnConfirm: false
+										}, function (isConfirm) {
+											if (isConfirm) {
+												window.location.reload();
+												//window.location.href = "pages/pagos/gestionar.php";  
+											}
+										});
+
+									} else {
+										swal("", "Ha ocurrido un error, intenta nuevamente.", "error");
+									}
+								}
+							});
+						}
+					});
+
+			});
+$('#tabla-incapacidades tbody').on('click', '.edit-item', function () {
+
+	//idpago
+	var id = $(this).parent().data('id');
+	var tipo = $(this).parent().data('tipo');
+	var fechacorte = $(this).parent().data('corte');
+			 
+		window.location.href = "pages/incapacidades/editarincapacidad.php?id="+id + "&tipo=" + tipo + "&corte=" + fechacorte;  
+	});
 
 },
 SeleccionEmpresa : function()
@@ -227,9 +298,7 @@ enviarDatos: function () {
 							resp.datos[i].valor,
 							resp.datos[i].saldo,
 							resp.datos[i].estado,
-							'<div class="btn-group btn-group-xs" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i style="font-size:15px" class="material-icons">edit</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons" style="font-size:15px">delete</i></button></div>'
-									
-
+							'<div class="btn-group btn-group-xs" data-corte="'+resp.datos[i].fecha_corte+'" data-tipo = "'+ resp.datos[i].tipoincapacidad +'" data-id="'+ resp.datos[i].id_incapacidad + '" role="group" aria-label="Small button group"><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-success waves-effect edit-item"><i style="font-size:15px" class="material-icons">edit</i></button><button data-nivel="1" data-nombre="Administrador" data-id="1" type="button" class="btn btn-danger waves-effect delete-item"><i class="material-icons" style="font-size:15px">delete</i></button></div>'
 							]).draw( false );
 
 						}else
@@ -253,7 +322,6 @@ enviarDatos: function () {
 							]).draw( false );
 
 						}
-						
 					}
 
 					$('#Modalnuevo').modal('hide');
@@ -261,6 +329,8 @@ enviarDatos: function () {
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
 					swal("Importante!", "No se han encontrado registros para ese filtro, intenta nuevamente.", "info");
 				}
+						incapacidades.AgregarItem();
+
 			}
 		});
 });
