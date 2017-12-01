@@ -63,6 +63,11 @@ function insertar($query)
 
 	
 }
+function Console($query)
+{
+ Set_Sesion($_SESSION['Id'],'Log',$query);
+	return true;
+}
 /**
  * [Boolean_consultaVacia Ayuda establecer si una consulta tiene resultados]
  * @param [type] $consulta [Consulta SQL]

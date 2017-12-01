@@ -202,11 +202,13 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
             </div>
           </div>
         </div>
-        <div class="col-md-4 demo-masked-input">
-        <b>DÍAS</b>
-          <div class="form-line">
-              <input type="text" disabled="disabled" id="daysincapacidad"/>
+         <div class="col-md-4 demo-masked-input ">
+          <label for="">DÍAS </label>
+          <div class="form-group">
+            <div class="form-line">
+              <input class="form-control" type="text" disabled="disabled" id="daysincapacidad" />
             </div>
+          </div>
         </div>
         <div class="col-md-2 col-md-offset-10">
           <button type="button" class="btn btn-success waves-effect boton-finalizar">Guardar</button>
