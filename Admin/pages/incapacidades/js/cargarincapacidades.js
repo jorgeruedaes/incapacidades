@@ -67,7 +67,7 @@ $(function() {
 							$('.respuesta').html('');
 							$('.respuesta').html(resp.datos);
 							swal("Importante!", "Ha ocurrido un error en los datos que intentas subir revisa los resultados e intenta nuevamente.", "error");
-
+		cargador.ModalImagen();
 						}
 						
 					});
