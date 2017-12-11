@@ -5,7 +5,7 @@
 function Array_Get_Trabajadores()
 {
 
-	$clubs = consultar("SELECT `id_trabajadores`, `nombre`, `apellido` FROM  `tb_trabajadores`  order by nombre ");	
+	$clubs = consultar("SELECT `id_trabajadores`, `nombre`, `apellido` FROM  `tb_trabajadores`  order by apellido ");	
 
 
 	$datos = array();

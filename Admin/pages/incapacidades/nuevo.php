@@ -77,7 +77,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 
                        ?>
                      }
-                     <option value="<?php echo $value['id_trabajadores'] ?>"><?php echo $value['nombre'] . " " .  $value['apellido']  ?></option>
+                     <option value="<?php echo $value['id_trabajadores'] ?>"><?php echo $value['apellido'] . " " .  $value['nombre']  ?></option>
                      <?php
                    }
                    ?>
@@ -206,7 +206,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
           <label for="">DÍAS </label>
           <div class="form-group">
             <div class="form-line">
-              <input class="form-control" type="text" disabled="disabled" id="daysincapacidad" />
+              <input class="form-control" type="text" id="daysincapacidad" />
             </div>
           </div>
         </div>

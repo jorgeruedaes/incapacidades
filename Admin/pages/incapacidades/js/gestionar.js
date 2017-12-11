@@ -254,7 +254,7 @@ Tabla : function()
 },
 enviarDatos: function () {
 	$('.filtrar-boton').off('click').on('click', function () {
-		
+		 $('body').css( "cursor", "wait" );
 		var total =0;
 		var saldo = 0;
 		var totaldias =0;
@@ -325,7 +325,9 @@ enviarDatos: function () {
 					}
 
 					$('#Modalnuevo').modal('hide');
+					 $('body').css( "cursor", "auto" );
 				} else {
+					 $('body').css( "cursor", "auto" );
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
 					swal("Importante!", "No se han encontrado registros para ese filtro, intenta nuevamente.", "info");
 				}

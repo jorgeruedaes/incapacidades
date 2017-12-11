@@ -208,7 +208,7 @@ if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
         <div class="col-md-4 demo-masked-input">
         <b>DÍAS</b>
           <div class="form-line">
-              <input type="text" disabled="disabled" id="daysincapacidad"/>
+              <input type="text"  id="daysincapacidad"/>
             </div>
         </div>
         <div class="col-md-2 col-md-offset-10">

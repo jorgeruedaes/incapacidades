@@ -218,7 +218,7 @@ function Insertar_Incapacidad(
 	$fechafinal = explode ("/",$fechafinal);
 	$date3 = date_create($fechafinal[2].'-'.$fechafinal[1].'-'.$fechafinal[0]);
 	$fechafinal = date_format($date3, 'Y-m-d');
-	$estado=2;
+	$estado=6;
 
 	if ($valor == 0)
 	{
@@ -268,7 +268,7 @@ function Codigo_Equipo($NombreEquipo,$torneo)
 
 function Codigo_Cliente($cliente)
 {
-//	$cliente =  utf8_encode($cliente);
+	$cliente =  utf8_encode($cliente);
 	$cliente =  str_replace(' ','',$cliente); 
 	$valor = mysqli_fetch_array(consultar("SELECT id_clientes FROM tb_clientes WHERE ( REPLACE(nombre,' ','')='$cliente' or REPLACE(nombre,' ','') like '%$cliente%')  and estado='activo' "));
 
@@ -788,12 +788,12 @@ function valida_Existencia($NombreEquipo1,$NombreEquipo2,$Numero_Fecha)
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 }
-function valida_Existencia_Incapacidad($incapacidad,$tipo)
+function valida_Existencia_Incapacidad($incapacidad,$tipo,$fechacorte)
 {
 
 	$incapacidad = substr($incapacidad,5);
 	$tipo = (int) $tipo;
-	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'   and  tipo='$tipo' ";
+	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'   and  tipo='$tipo' AND fechacorte='$fechacorte' ";
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 
@@ -812,7 +812,7 @@ function valida_Existencia_Trabajador($cedula,$nombre,$apellido)
 	{
 		$query = insertar(sprintf("INSERT INTO `tb_trabajadores`(`id_trabajadores`, `nombre`, `apellido`)
 			VALUES ('%d','%s','%s')",
-			escape($cedula),escape($nombre),escape($apellido)));
+			escape($cedula),escape(utf8_encode($nombre)),escape($apellido)));
 		return $query;	
 	}
 
@@ -1041,7 +1041,7 @@ function validate_A_Incapacidad($eps,//Listo
 		$valor=false;
 	}
 
-	if(valida_Existencia_Incapacidad($incapacidad,$tipo))
+	if(valida_Existencia_Incapacidad($incapacidad,$tipo,$fechacorte))
 	{
 		$resultado.='Ya Existe!. <br>';
 		$valor=false;

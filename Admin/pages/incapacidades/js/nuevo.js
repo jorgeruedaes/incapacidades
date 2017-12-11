@@ -182,7 +182,7 @@ $(function() {
 		},
 		ValidarFinalizado : function()
 		{
-			 
+
 			if($( "#select-worker option:selected" ).val() == "")
 			{
 				swal("Error", "Debe seleccionar el trabajador.", "error");
@@ -235,16 +235,10 @@ $(function() {
 				swal("Error", "Debe ingresar la fecha de corte.", "error");
 				return false;
 
-			} else if ($('.incapacidad-number').val() == "")
+			}else
 			{
-				$('.incapacidad-number').focus();
-				swal("Error", "Debe ingresar el numero de incapacidad.", "error");
-				return false;
-
-			} else {
-				return true;
+				return true;	
 			}
-			
 
 		},
 		TomarDatos_Incapacidades : function ()
@@ -252,7 +246,7 @@ $(function() {
 			var array =[];
 			var objeto =[];
 
-					var objeto =[];
+			var objeto =[];
 					objeto.push($( "#select-worker option:selected" ).val()); //trabajador
 					objeto.push($( "#select-customer option:selected" ).val()); //cliente
 					objeto.push($( "#select-city option:selected" ).val()); //ciudad
@@ -266,83 +260,83 @@ $(function() {
 					objeto.push($('.incapacidad-number').val()); //id incapacidad
 					array.push(objeto);
 
-			
-			return array;
-		},
-		AgregarItem: function()
-		{
-			$('#tabla-incapacidades tbody').off('click').on('click', '.add-item', function () {
 
-				var bandera = false;
-				var bandera1 = false;
-				var bandera2 = false;
-				var isParcial = false;
-
-				var id = $(this).parent().data('id');
-				var tipoinc = $(this).parent().data('tipo-inc');
-
-				$('#tabla-detalle-pago tbody').find('.delete-item').parent().each(function() {
-
-					if(id == $( this ).data('id'))
-					{
-						bandera = true;
-					} 
-				});
-
-				if(bandera == true)
+					return array;
+				},
+				AgregarItem: function()
 				{
-					swal("Importante!", "No se puede agregar la incapacidad, ya existe.", "info");
+					$('#tabla-incapacidades tbody').off('click').on('click', '.add-item', function () {
 
-				}else
-				{
+						var bandera = false;
+						var bandera1 = false;
+						var bandera2 = false;
+						var isParcial = false;
 
-					var total = 0;
-					var money = 0;
+						var id = $(this).parent().data('id');
+						var tipoinc = $(this).parent().data('tipo-inc');
 
-					var parent = $(this).parents('tr');
-					if(parent.find("td:nth-child(8)").find('input').is(':checked'))
-					{
-						money = parent.find("td:nth-child(9)").find('input').val();
+						$('#tabla-detalle-pago tbody').find('.delete-item').parent().each(function() {
 
-						if(money == "")
-						{
-							bandera1= true;
-						}else
-						{
-							isParcial = true;
-						} 
-					}else
-					{
-						if(parent.find("td:nth-child(9)").find('input').val() != "")
-						{
-							bandera2= true;
-						}
-						money = parent.find("td:nth-child(7)").text();
-					}
-
-					if(bandera1 == true)
-					{
-						swal("Importante!", "Debe digitar un valor parcial.", "info");
-					}else
-					{
-
-						if(bandera2 == true)
-						{
-							swal("Importante!", "Debe remover el texto de la casilla valor parcial o seleccionar la opción 'Tomar vr. parcial'.", "info");
-						}else
-						{
-
-
-							if(isParcial == true)
+							if(id == $( this ).data('id'))
 							{
-								if(money > parent.find("td:nth-child(7)").text())
+								bandera = true;
+							} 
+						});
+
+						if(bandera == true)
+						{
+							swal("Importante!", "No se puede agregar la incapacidad, ya existe.", "info");
+
+						}else
+						{
+
+							var total = 0;
+							var money = 0;
+
+							var parent = $(this).parents('tr');
+							if(parent.find("td:nth-child(8)").find('input').is(':checked'))
+							{
+								money = parent.find("td:nth-child(9)").find('input').val();
+
+								if(money == "")
 								{
-									swal("Importante!", "El valor parcial no puede ser mayor al valor de la incapacidad.", "info");
+									bandera1= true;
+								}else
+								{
+									isParcial = true;
+								} 
+							}else
+							{
+								if(parent.find("td:nth-child(9)").find('input').val() != "")
+								{
+									bandera2= true;
+								}
+								money = parent.find("td:nth-child(7)").text();
+							}
+
+							if(bandera1 == true)
+							{
+								swal("Importante!", "Debe digitar un valor parcial.", "info");
+							}else
+							{
+
+								if(bandera2 == true)
+								{
+									swal("Importante!", "Debe remover el texto de la casilla valor parcial o seleccionar la opción 'Tomar vr. parcial'.", "info");
 								}else
 								{
 
-									var row = $(this).parents('tr').prop('outerHTML');
-									$('#tabla-detalle-pago tbody').append(row);
+
+									if(isParcial == true)
+									{
+										if(money > parent.find("td:nth-child(7)").text())
+										{
+											swal("Importante!", "El valor parcial no puede ser mayor al valor de la incapacidad.", "info");
+										}else
+										{
+
+											var row = $(this).parents('tr').prop('outerHTML');
+											$('#tabla-detalle-pago tbody').append(row);
 
 							//eliminamos las dos ultimas columnas
 							$('#tabla-detalle-pago tbody').find("tr:last").find("td:last").remove();

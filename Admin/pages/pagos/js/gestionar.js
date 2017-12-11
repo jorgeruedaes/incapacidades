@@ -95,7 +95,7 @@ $(function() {
 
 			if ($('.f-fechapago').val().length>0)
 			{
-				where+= ' AND pg.fecha_pago = "'+('.f-fechapago').val()+'"'; 
+				where+= ' AND pg.fecha_pago = "'+$('.f-fechapago').val()+'"'; 
 			}
 			if ($('.select-estado option:selected').val().length>0)
 			{
