@@ -58,7 +58,7 @@ $(function() {
 					var date1 = $('#initial-date').val().split('-');
 					var datefinal1 = new Date(date1[0], date1[1]-1, date1[2]);
 
-					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24));
+					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24) + 1);
 					$('#daysincapacidad').val(diff);
 				}
 			}); 
@@ -74,7 +74,7 @@ $(function() {
 					var date1 = $('#initial-date').val().split('-');
 					var datefinal1 = new Date(date1[0], date1[1]-1, date1[2]);
 
-					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24));
+					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24) + 1);
 					$('#daysincapacidad').val(diff);
 
 				}
