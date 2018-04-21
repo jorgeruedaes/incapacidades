@@ -1,0 +1,4 @@
+[24-Oct-2017 10:11:15 America/Bogota] PHP Notice:  A session had already been started - ignoring session_start() in /home/torneosy/public_html/Admin/php/peticiones.php on line 123
+[24-Oct-2017 13:24:22 America/Bogota] PHP Notice:  A session had already been started - ignoring session_start() in /home/torneosy/public_html/Admin/php/peticiones.php on line 123
+[24-Oct-2017 19:53:12 America/Bogota] PHP Notice:  A session had already been started - ignoring session_start() in /home/torneosy/public_html/Admin/php/peticiones.php on line 123
+[24-Oct-2017 21:01:16 America/Bogota] PHP Notice:  A session had already been started - ignoring session_start() in /home/torneosy/public_html/Admin/php/peticiones.php on line 123

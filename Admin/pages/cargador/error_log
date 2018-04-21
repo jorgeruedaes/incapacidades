@@ -1,0 +1,1 @@
+[23-Oct-2017 16:59:39 America/Bogota] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/torneosy/public_html/Admin/pages/menuinicial.php:101) in /home/torneosy/public_html/Admin/php/cargador.php on line 3

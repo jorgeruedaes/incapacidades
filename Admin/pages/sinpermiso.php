@@ -1,5 +1,5 @@
-<?php
-require('../php/configuracion.php');
+﻿<?php
+//require('../php/configuracion.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,7 +42,7 @@ require('../php/configuracion.php');
                         </div>
                         <div class="body">
                             <div class="alert alert-warning" role="alert">
-                            Usted <strong>NO</strong> esta autorizado para ingresar a esta area, haga click <strong><a href="../pages/administracion.php" class="alert-link">Aqui</a></strong> para ir a un lugar permitido.
+                            Usted <strong>NO</strong> esta autorizado para ingresar a esta area, haga click <strong><a href="/Incapacidades/Admin/pages/administracion.php" class="alert-link">Aqui</a></strong> para ir a un lugar permitido.
                             </div>
       
                         </div>

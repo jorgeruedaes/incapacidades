@@ -84,7 +84,7 @@ $(function() {
 								},
 								success: function (resp) {
 
-									var resp = $.parseJSON(resp);
+									var resp = $.parseJSON(jQuery.trim(resp));;
 									if (resp.salida === true && resp.mensaje === true) {
 										swal({title: "Información",
 											text: "Se ha creado el pago No. " + resp.idpago + "  de manera exitosa!",
@@ -141,7 +141,7 @@ $(function() {
 								},
 								success: function (resp) {
 
-									var resp = $.parseJSON(resp);
+									var resp = $.parseJSON(jQuery.trim(resp));;
 									if (resp.salida === true && resp.mensaje === true) {
 										swal({title: "Información",
 											text: "Se ha finalizado el pago No. " + resp.idpago + "  de manera exitosa!",
@@ -543,7 +543,7 @@ Cargar : function()
 					},
 					success: function (resp) {
 
-						var resp = $.parseJSON(resp);
+						var resp = $.parseJSON(jQuery.trim(resp));;
 						if (resp.salida === true && resp.mensaje === true) {
 							t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
 							for (var i = 0; i < resp.datos.length; i++) {

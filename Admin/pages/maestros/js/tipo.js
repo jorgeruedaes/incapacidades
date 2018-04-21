@@ -96,7 +96,7 @@ $(function() {
 					},
 					success: function (resp) {
 
-						var resp = $.parseJSON(resp);
+						var resp = $.parseJSON(jQuery.trim(resp));;
 						if (resp.salida === true && resp.mensaje === true) {
 							swal({title: "Información",
 								text: "El tipo de incapacidad se ha creado exitosamente!.",
@@ -137,7 +137,7 @@ enviarDatos: function () {
 				},
 				success: function (resp) {
 
-					var resp = $.parseJSON(resp);
+					var resp = $.parseJSON(jQuery.trim(resp));;
 					if (resp.salida === true && resp.mensaje === true) {
 						swal({title: "Información",
 							text: "El tipo de incapacidad se ha modificado exitosamente!",

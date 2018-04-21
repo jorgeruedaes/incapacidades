@@ -26,7 +26,7 @@ $(function() {
 					},
 					success: function (resp) {
 
-						var resp = $.parseJSON(resp);
+						var resp = $.parseJSON(jQuery.trim(resp));;
 						if (resp.salida === true && resp.mensaje === true) {
 							swal({title: "",
 								text: "El usuario se ha modificado exitosamente!",
@@ -85,7 +85,7 @@ $(function() {
 				},
 				success: function (resp) {
 
-					var resp = $.parseJSON(resp);
+					var resp = $.parseJSON(jQuery.trim(resp));;
 					if (resp.salida === true && resp.mensaje === true) {
 						swal({
 							title: "",

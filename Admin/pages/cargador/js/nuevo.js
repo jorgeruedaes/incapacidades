@@ -49,7 +49,7 @@ $(function() {
 					},
 					success: function (resp) {
 
-						var resp = $.parseJSON(resp);
+						var resp = $.parseJSON(jQuery.trim(resp));;
 						if (resp.salida === true && resp.mensaje === true) {
 							swal({title: "Información",
 								text: "La carpeta se ha creado exitosamente!.",
@@ -120,7 +120,7 @@ $(function() {
 						},
 						success: function (resp) {
 
-							var resp = $.parseJSON(resp);
+							var resp = $.parseJSON(jQuery.trim(resp));;
 							if (resp.salida === true && resp.mensaje === true) {
 								swal({title: "Información",
 									text: "El archivo se ha eliminado exitosamente!.",
@@ -179,7 +179,7 @@ Nuevo : function ()
 			},
 			success: function (resp) {
 
-				var resp = $.parseJSON(resp);
+				var resp = $.parseJSON(jQuery.trim(resp));;
 				if (resp.salida === true && resp.mensaje === true) {
 					swal({title: "Información",
 						text: "El comunicado se ha creado exitosamente!.",
@@ -219,7 +219,7 @@ enviarDatos: function () {
 			},
 			success: function (resp) {
 
-				var resp = $.parseJSON(resp);
+				var resp = $.parseJSON(jQuery.trim(resp));;
 				if (resp.salida === true && resp.mensaje === true) {
 					swal({title: "Información",
 						text: "El comunicado  se ha modificado exitosamente!",

@@ -1,4 +1,4 @@
-//	var Creador = '<?php echo $usuario['id_cargador']; ?>'
+﻿//	var Creador = '<?php echo $usuario['id_cargador']; ?>'
 $(function() {
 	var goblal='';
 	var cargador = {
@@ -43,7 +43,7 @@ $(function() {
 						formData.append("bandera",bandera);
 					});
 					this.on("success", function(file, responseText) {
-						var resp = $.parseJSON(responseText);
+						var resp = $.parseJSON(jQuery.trim(responseText));
 						if (resp.salida === true && resp.mensaje === true) {
 							$('#nuevaarchivos').modal('hide');
 							swal({title: "Información",

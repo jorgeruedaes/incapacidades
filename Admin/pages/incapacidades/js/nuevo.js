@@ -1,4 +1,4 @@
-//	var Creador = '<?php echo $usuario['id_incapacidades']; ?>'
+﻿//	var Creador = '<?php echo $usuario['id_incapacidades']; ?>'
 $(function() {
 	var t ='';
 	var incapacidades = {
@@ -49,7 +49,7 @@ $(function() {
 					var date1 = $('#initial-date').val().split('-');
 					var datefinal1 = new Date(date1[0], date1[1]-1, date1[2]);
 
-					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24) + 1);
+					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24));
 					$('#daysincapacidad').val(diff);
 				}
 			}); 
@@ -65,7 +65,7 @@ $(function() {
 					var date1 = $('#initial-date').val().split('-');
 					var datefinal1 = new Date(date1[0], date1[1]-1, date1[2]);
 
-					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24) + 1);
+					var diff = Math.round((datefinal2-datefinal1)/(1000*60*60*24));
 					$('#daysincapacidad').val(diff);
 
 				}
@@ -97,8 +97,9 @@ $(function() {
 									
 								},
 								success: function (resp) {
+									//var resp = JSON.stringify(resp);
 
-									var resp = $.parseJSON(resp);
+									 resp = $.parseJSON(jQuery.trim(resp));
 									if (resp.salida === true && resp.mensaje === true) {
 										swal({title: "Información",
 											text: "Se ha creado la incapacidad No. " + $('.incapacidad-number').val() + "  de manera exitosa!",
@@ -507,7 +508,7 @@ Cargar : function()
 					},
 					success: function (resp) {
 
-						var resp = $.parseJSON(resp);
+						var resp = $.parseJSON(jQuery.trim(resp));;
 						if (resp.salida === true && resp.mensaje === true) {
 							t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
 							for (var i = 0; i < resp.datos.length; i++) {

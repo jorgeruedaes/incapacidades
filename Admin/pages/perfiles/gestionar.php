@@ -1,7 +1,9 @@
-<?php  
+﻿<?php  
 $ubicacion ="../";
 include("../menuinicial.php");
 $id_modulos=Int_RutaModulo($_SERVER['REQUEST_URI']);
+echo $id_modulos;
+echo "server ".$_SERVER['REQUEST_URI'];
 if(Boolean_Get_Modulo_Permiso($id_modulos,$_SESSION['perfil'])){
 	?>
 	<section class="content">

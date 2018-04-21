@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 header("Content-Type: text/html;charset=utf-8");
 /**
@@ -436,7 +436,7 @@ function validaEps($eps)
 	}
 	else
 	{
-		$resultado= "La EPS no es válida  o no existe : ".$ciudad." ".", Intenta nuevamente";
+		$resultado= "La EPS no es válida  o no existe : ".$eps." ".", Intenta nuevamente";
 		$valor =false;
 
 	}
@@ -793,7 +793,7 @@ function valida_Existencia_Incapacidad($incapacidad,$tipo,$fechacorte)
 
 	$incapacidad = substr($incapacidad,5);
 	$tipo = (int) $tipo;
-	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'   and  tipo='$tipo' AND fechacorte='$fechacorte' ";
+	$query = " SELECT * FROM tb_incapacidades where id_incapacidad='$incapacidad'   and  tipo='$tipo' AND fecha_corte='$fechacorte' ";
 	$valor = consultar($query);
 	return mysqli_num_rows($valor)>0;
 

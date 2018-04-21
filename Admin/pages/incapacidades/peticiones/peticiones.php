@@ -5,7 +5,7 @@ Require_once('../../../php/clientes.php');
 Require_once('../../../php/incapacidad.php');
 if(isset($_SESSION['perfil']))
 {
-	$resultado = '{"salida":true,';
+	$resultado ='{"salida":true,';
 	$bandera = $_POST['bandera'];
 
 // Agrega un partido al sitio.

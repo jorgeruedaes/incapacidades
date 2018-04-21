@@ -1,4 +1,4 @@
-//	var Creador = '<?php echo $usuario['id_incapacidades']; ?>'
+﻿//	var Creador = '<?php echo $usuario['id_incapacidades']; ?>'
 $(function() {
 	var t ='';
 	var incapacidades = {
@@ -146,7 +146,7 @@ AgregarItem: function()
 								},
 								success: function (resp) {
 
-									var resp = $.parseJSON(resp);
+									var resp = $.parseJSON(jQuery.trim(resp));;
 									if (resp.salida === true && resp.mensaje === true) {
 										swal({title: "Información",
 											text: "Se ha eliminado la incapacidad de manera exitosa!",
@@ -196,7 +196,7 @@ SeleccionEmpresa : function()
 			success: function (resp) {
 
 
-				var resp = $.parseJSON(resp);
+				var resp = $.parseJSON(jQuery.trim(resp));;
 				if (resp.salida === true && resp.mensaje === true) {
 					$('#select-cliente').html('').selectpicker('refresh');
 					$('.f-acronimo').val('');
@@ -268,7 +268,7 @@ enviarDatos: function () {
 			},
 			success: function (resp) {
 
-				var resp = $.parseJSON(resp);
+				var resp = $.parseJSON(jQuery.trim(resp));
 				if (resp.salida === true && resp.mensaje === true) {
 					t.row($('#tabla-incapacidades').parents('tr') ).clear().draw();
 

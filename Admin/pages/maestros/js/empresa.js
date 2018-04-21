@@ -107,7 +107,7 @@ $(function() {
 						},
 						success: function (resp) {
 
-							var resp = $.parseJSON(resp);
+							var resp = $.parseJSON(jQuery.trim(resp));;
 							if (resp.salida === true && resp.mensaje === true) {
 								swal({title: "Información",
 									text: "La Empresa se ha creado exitosamente!.",
@@ -149,7 +149,7 @@ $(function() {
 						},
 						success: function (resp) {
 
-							var resp = $.parseJSON(resp);
+							var resp = $.parseJSON(jQuery.trim(resp));;
 							if (resp.salida === true && resp.mensaje === true) {
 								swal({title: "Información",
 									text: "La empresa se ha modificado exitosamente!",
